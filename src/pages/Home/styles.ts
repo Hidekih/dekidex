@@ -42,7 +42,7 @@ export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
   background-color: ${Themes.gray};
 `
 
-export const PokeInfoContainer = styled(RectButton)`
+export const PokeInfoContainer = styled.View`
   width: 100%;
   flex-direction: row;
   background: ${Themes.white};

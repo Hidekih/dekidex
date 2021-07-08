@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Colors from '../styles/colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { Home } from '../pages/Home';
-import Favotires from '../pages/TabTwoScreen';
+import { Favorites } from '../pages/Favorites';
 import { BottomTabParamList } from '../utils/types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -49,7 +49,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={Favotires}
+        component={Favorites}
         options={{
           tabBarLabel: ({ focused, color }) => (
             <>

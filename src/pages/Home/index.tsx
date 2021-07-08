@@ -17,7 +17,6 @@ import {
   Content, 
   PokeListContainer,
   PokeList,
-
   PokeInfoContainer,
   PokeImage,
   PokeData,
@@ -38,7 +37,7 @@ type PokeApiRequest = {
   ];
 }
 
-function createAvatarLink(id: string) {
+export function createAvatarLink(id: string) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 } 
 
@@ -67,7 +66,7 @@ export function Home() {
         });
 
         setPokemons(formatedData);
-      })
+      });
   }, []);
 
   const fetchData = useCallback(async(distance: number) => {
@@ -128,33 +127,39 @@ export function Home() {
                 fetchData(distanceFromEnd);
               }}
               renderItem={( { item: pokemon } ) => (
-                <PokeInfoContainer onPress={() => handleSelectPokemon(pokemon.url)} key={pokemon.id}>
-                  <PokeImage 
-                    height={100} 
-                    width={100} 
-                    source={{ uri: pokemon.avatar }}
-                  />
-                  <PokeData>
-                    <PokeBasics>
-                      <PokeName>
-                        {captalize(pokemon.name)}
-                      </PokeName>
-                      <PokeNumber>
-                        {'#'}
-                        <BoldText>{pokemon.id}</BoldText>
-                      </PokeNumber>
-                    </PokeBasics>
-                    <ImageContainer>
-                      <Image 
-                        source={pokeballImg} 
-                        height={45}
-                        width={45}
-                        resizeMode="contain"
-                        style={{ height: 45, width: 45 }}
-                      />   
-                    </ImageContainer>
-                  </PokeData>     
-                </PokeInfoContainer>
+                <TouchableOpacity 
+                  activeOpacity={0.5}
+                  onPress={() => handleSelectPokemon(pokemon.url)} 
+                  key={pokemon.id}
+                >
+                  <PokeInfoContainer>
+                    <PokeImage 
+                      height={100} 
+                      width={100} 
+                      source={{ uri: pokemon.avatar }}
+                    />
+                    <PokeData>
+                      <PokeBasics>
+                        <PokeName>
+                          {captalize(pokemon.name)}
+                        </PokeName>
+                        <PokeNumber>
+                          {'#'}
+                          <BoldText>{pokemon.id}</BoldText>
+                        </PokeNumber>
+                      </PokeBasics>
+                      <ImageContainer>
+                        <Image 
+                          source={pokeballImg} 
+                          height={45}
+                          width={45}
+                          resizeMode="contain"
+                          style={{ height: 45, width: 45 }}
+                        />   
+                      </ImageContainer>
+                    </PokeData>     
+                  </PokeInfoContainer>
+                </TouchableOpacity>
               )}
               ListFooterComponent={(
                 isLoading 

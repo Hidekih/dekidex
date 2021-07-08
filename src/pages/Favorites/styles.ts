@@ -1,7 +1,7 @@
 import { FlatList, Platform, StatusBar, Image } from 'react-native';
 import styled from 'styled-components/native';
 import Themes from '../../styles/themes';
-import { Pokemon } from '../../utils/types';
+// import { Pokemon } from '../../utils/types';
 
 export const Container = styled.View`
   flex: 1;
@@ -43,11 +43,14 @@ export const PokeList = styled(FlatList as new () => FlatList)`
 `;
 
 export const PokeInfoContainer = styled.View`
-  flex: 1;
   width: 100%;
-  border-radius: 8px;
   flex-direction: row;
+  background: ${Themes.white};
+  border-bottom-color: ${Themes.black};
+
   overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 4px;
 `;
 
 export const PokeImage = styled(Image)`
@@ -57,19 +60,26 @@ export const PokeImage = styled(Image)`
 `;
 
 export const PokeData = styled.View`
-  background: ${Themes.white};
+  flex: 1;
+  justify-content: space-between;
+  padding: 16px;
+  padding-bottom: 16px;
 `;
 
 export const PokeBasicsContainer = styled.View`
-
+  flex-direction: row;
+  justify-content:space-between;
 `;
 
 export const PokeName = styled.Text`
-
+  font-weight: bold;
+  font-size: 20px;
+  color: ${Themes.black};
 `;
 
 export const PokeNumber = styled.Text`
-
+  font-size: 20px;
+  color: ${Themes.black};
 `;
 
 export const BoldText = styled.Text`
@@ -77,17 +87,26 @@ export const BoldText = styled.Text`
 `;
 
 export const PokeTypesContainer = styled.View`
-
+  flex-direction: row;
+  justify-content: center;
 `;
 
 type TypeBadgeProps = {
-  color: string;
+  typeColor: string;
 }
 
 export const TypeBadge = styled.View<TypeBadgeProps>`
-
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 24px;
+  border-radius: 4px;
+  margin: 0 8px;
+  background: ${props => Themes.type[props.typeColor] };
 `;
 
 export const BadgeTitle = styled.Text`
-
+  font-size: 18px;
+  font-weight: 700;
+  color: ${Themes.white};
 `;
