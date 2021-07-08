@@ -14,6 +14,38 @@ export type PokemonData = {
   weight: number;
 }
 
+export type ThemesColor = {
+  orange: string;
+  black: string;
+  grayLight: string;
+  gray: string;
+  white: string;
+  type: {
+    [key: string]: string;
+  };
+}
+
+// export type pokemonTypeColors = {
+//   bug: string;
+//   dark: string;
+//   dragon: string;
+//   eletric: string;
+//   fairy: string;
+//   fight: string;
+//   fire: string;
+//   flying: string;
+//   ghost: string;
+//   grass: string;
+//   ground: string;
+//   ice: string;
+//   normal: string;
+//   poison: string;
+//   psychc: string;
+//   rock: string;
+//   steel: string;
+//   water: string;
+// }
+
 export type PokemonListed = {
   id: string;
   name: string;
@@ -24,17 +56,5 @@ export type PokemonListed = {
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
-};
-
-export type BottomTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
-};
-
-export type TabOneParamList = {
-  TabOneScreen: undefined;
-};
-
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+  Pokemon: undefined;
 };

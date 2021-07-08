@@ -1,7 +1,7 @@
 import { FlatList, Platform, StatusBar, Image } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import Themes from '../../styles/themes';
+import Colors from '../../styles/colors';
 import { PokemonListed } from '../../utils/types';
 
 export const Container = styled.View`
@@ -14,49 +14,51 @@ export const Header = styled.View`
   height: 56px;
   align-items: center;
   justify-content: center;
-  background: ${Themes.black};
+  background: ${Colors.black};
 `;
 
 export const HeaderTitle = styled.Text`
   font-size: 24px;
   font-weight: bold;
-  color: ${Themes.white};
+  color: ${Colors.white};
 `;
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Themes.orange};
-  padding: 16px;
+  background: ${Colors.orange};
+  padding: 24px 16px 16px 16px;
 `;
 
 export const PokeListContainer = styled.View`
   flex: 1;
   border-radius: 8px;
   border-width: 4px;
-  border-color: ${Themes.black};
+  border-color: ${Colors.black};
   overflow: hidden;
 `; 
 
 export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
   flex: 1;
-  background-color: ${Themes.gray};
+  background-color: ${Colors.gray};
 `
 
-export const PokeInfoContainer = styled.View`
+export const ButtonCover = styled.View`
+  border-radius: 8px; 
+  overflow: hidden;
+  margin-bottom: 4px;
+`;
+
+export const PokeInfoButton = styled(RectButton)`
   width: 100%;
   flex-direction: row;
-  background: ${Themes.white};
-  border-bottom-color: ${Themes.black};
-
-  overflow: hidden;
-  border-radius: 8px;
-  margin-bottom: 4px;
+  background: ${Colors.white};
+  border-bottom-color: ${Colors.black};
 `;
 
 export const PokeImage = styled(Image)`
   width: 100px;
   height: 100px;
-  background: ${Themes.grayLight};
+  background: ${Colors.grayLight};
 `;
 
 export const PokeData = styled.View`
@@ -79,12 +81,12 @@ export const PokeBasics = styled.View`
 export const PokeName = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  color: ${Themes.black};
+  color: ${Colors.black};
 `;
 
 export const PokeNumber = styled.Text`
   font-size: 20px;
-  color: ${Themes.black};
+  color: ${Colors.black};
 `;
 
 export const BoldText = styled.Text`

@@ -1,25 +1,11 @@
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
+import { ThemesColor } from "../utils/types";
 
 export default {
-  light: {
-    text: '#000', 
-    background: '#E8603C',
-    tint: '#EEEEEC',
-    tabIconDefault: '#EEEEEC',
-    tabIconSelected: tintColorLight,
-    tabFocused: '#3F3D3C',
-    tabDefault: '#7A7776',
-  },
-  dark: {
-    text: '#fff',
-    background: '#E8603C',
-    tint: '#EEEEEC',
-    tabIconDefault: '#EEEEEC',
-    tabIconSelected: tintColorDark,
-    tabFocused: '#3F3D3C',
-    tabDefault: '#7A7776',
-  },
+  orange: '#E8603C',
+  black: '#3F3D3C',
+  grayLight: '#D4D4D2',
+  gray: '#7A7776',
+  white: '#EEEEEC',
   type: {
     bug: '#ADBD21',
     dark: '#735A4A',
@@ -40,4 +26,4 @@ export default {
     steel: '#ADADC6',
     water: '#399CFF',
   }
-};
+} as ThemesColor;

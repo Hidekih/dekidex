@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ActivityIndicator, Image } from 'react-native';
 import axios from 'axios';
 
-import Themes from '../../styles/themes';
+import Colors from '../../styles/colors';
 import { captalize } from '../../utils/captalize';
 import { formatPokedexNumber } from '../../utils/formatPokedexNumber';
 import pokeApi from '../../services/pokeapi';
@@ -17,7 +17,8 @@ import {
   Content, 
   PokeListContainer,
   PokeList,
-  PokeInfoContainer,
+  ButtonCover,
+  PokeInfoButton,
   PokeImage,
   PokeData,
   ImageContainer,
@@ -26,8 +27,9 @@ import {
   PokeNumber,
   BoldText,
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
-type PokeApiRequest = {
+type PokeApiResponse = {
   next: string;
   results: [
     { 
@@ -46,9 +48,11 @@ export function Home() {
   const [ pokemons, setPokemons ] = useState<PokemonListed[]>([]);
   const [ isLoading, setIsLoading ]= useState(false);
   const [ loadedAll, setLoadedAll ]= useState(false);
+
+  const { navigate } = useNavigation();
   
   useEffect(() => {
-    pokeApi.get<PokeApiRequest>('/pokemon')
+    pokeApi.get<PokeApiResponse>('/pokemon')
       .then(response => {
         setNextUri(response.data.next);
         
@@ -66,7 +70,8 @@ export function Home() {
         });
 
         setPokemons(formatedData);
-      });
+      })
+      .catch(err => console.error(err));
   }, []);
 
   const fetchData = useCallback(async(distance: number) => {
@@ -80,35 +85,38 @@ export function Home() {
 
     setIsLoading(true);
 
-    axios.get<PokeApiRequest>(nextUri)
-      .then(response => {
-        setNextUri(response.data.next);
+    try {
+      const response = await axios.get<PokeApiResponse>(nextUri);
+      setNextUri(response.data.next);
 
-        if (response.data.results.length < 20) {
-          setLoadedAll(true);
+      if (response.data.results.length < 20) {
+        setLoadedAll(true);
+      }
+
+      const formatedData = response.data.results.map<PokemonListed>(pokemon => {
+        const separetedUrl = pokemon.url.split('pokemon/');
+        const [ ,id ] = separetedUrl;
+        const pokedexNumber = id.replace('/','');
+
+        return {
+          id: formatPokedexNumber(pokedexNumber),
+          name: captalize(pokemon.name),
+          avatar: createAvatarLink(pokedexNumber),
+          url: pokemon.url,
         }
+      });
 
-        const formatedData = response.data.results.map<PokemonListed>(poke => {
-          const separetedUrl = poke.url.split('pokemon/');
-          const [ ,id ] = separetedUrl;
-          const pokedexNumber = id.replace('/','');
+      setPokemons(state => [ ...state, ...formatedData ]);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  },[nextUri]);
 
-          return {
-            id: formatPokedexNumber(pokedexNumber),
-            name: captalize(poke.name),
-            avatar: createAvatarLink(pokedexNumber),
-            url: poke.url,
-          }
-        });
-
-        setPokemons([ ...pokemons, ...formatedData ]);
-        setIsLoading(false);
-      })
-  },[nextUri, pokemons]);
-
-  const handleSelectPokemon = useCallback(async(url: string) => {
-    console.log('Navegar para outra página')
-  }, []);
+  const handleSelectPokemon = useCallback((url: string) => {
+    navigate('Pokemon', { url });
+  }, [navigate]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -127,12 +135,11 @@ export function Home() {
                 fetchData(distanceFromEnd);
               }}
               renderItem={( { item: pokemon } ) => (
-                <TouchableOpacity 
-                  activeOpacity={0.5}
-                  onPress={() => handleSelectPokemon(pokemon.url)} 
-                  key={pokemon.id}
-                >
-                  <PokeInfoContainer>
+                <ButtonCover key={pokemon.id}>
+                  <PokeInfoButton
+                    onPress={() => handleSelectPokemon(pokemon.url)} 
+                    
+                  >
                     <PokeImage 
                       height={100} 
                       width={100} 
@@ -158,15 +165,15 @@ export function Home() {
                         />   
                       </ImageContainer>
                     </PokeData>     
-                  </PokeInfoContainer>
-                </TouchableOpacity>
+                  </PokeInfoButton>
+                </ButtonCover>
               )}
               ListFooterComponent={(
                 isLoading 
                   ? <ActivityIndicator 
                       style={{ marginVertical: 8 }} 
                       size="large" 
-                      color={Themes.white} 
+                      color={Colors.white} 
                     />
                   : <></>
               )}

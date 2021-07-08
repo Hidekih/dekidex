@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import Themes from '../../styles/themes';
+import Themes from '../../styles/colors';
 
 import { 
   Container, 
