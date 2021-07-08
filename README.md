@@ -1,4 +1,9 @@
+# App Pokedex
+
+<img src="./public/capa.png">
+
 # About
+
 [en] Pokedex made in React Native + Expo CLI, using pokeapi!
 [pt-BR] Pokedex desenvolvida com React Native + Expo CLI, consumindo a pokeapi!
 
