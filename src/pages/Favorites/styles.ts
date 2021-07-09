@@ -28,19 +28,20 @@ export const Content = styled.View`
   padding: 24px 16px 16px 16px;
 `;
 
-export const PokeListContainer = styled.View`
+export const PokeList = styled.ScrollView`
   flex: 1;
   border-radius: 8px;
   border-width: 4px;
   border-color: ${Colors.black};
   overflow: hidden;
+  background: ${Colors.gray};
 `; 
 
 // export const PokeList = styled(FlatList as new () => FlatList<Pokemon>)`
-export const PokeList = styled(FlatList as new () => FlatList)`
-  flex: 1;
-  background-color: ${Colors.gray};
-`;
+// export const PokeList = styled.ScrollView`
+//   flex: 1;
+//   background-color: ${Colors.gray};
+// `;
 
 export const PokeInfoContainer = styled.View`
   width: 100%;

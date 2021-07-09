@@ -138,7 +138,6 @@ export function Home() {
                 <ButtonCover key={pokemon.id}>
                   <PokeInfoButton
                     onPress={() => handleSelectPokemon(pokemon.url)} 
-                    
                   >
                     <PokeImage 
                       height={100} 

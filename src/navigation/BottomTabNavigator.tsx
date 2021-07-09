@@ -23,17 +23,17 @@ export default function BottomTabNavigator() {
           flexDirection: "row", 
           alignItems: 'center', 
           justifyContent: 'center' ,
-          
         },
         style: {
           borderTopWidth: 2,
           borderTopColor: Colors.black,
+          height: 54
         }
-      }}>
+      }}
+    >
       <BottomTab.Screen
         name="Home"
         component={Home}
-        
         options={{
           tabBarLabel: ({ focused, color }) => (
             <>

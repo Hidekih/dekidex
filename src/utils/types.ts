@@ -1,9 +1,8 @@
 export type PokemonData = {
+  id: string;
   name: string;
-  sprites: {
-    back_default: string;
-    front_default: string;
-  }
+  back_default: string;
+  front_default: string;
   types: [
     {
       slot: number;

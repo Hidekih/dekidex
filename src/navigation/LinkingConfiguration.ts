@@ -8,17 +8,18 @@ export default {
         screens: {
           Home: {
             screens: {
-              TabOneScreen: 'home',
+              Home: 'Home',
             },
           },
           Favorites: {
             screens: {
-              TabTwoScreen: 'favorites',
+              Favorites: 'Favorites',
             },
           },
         },
       },
       NotFound: '*',
+      Pokemon: 'Pokemon'
     },
   },
 };
