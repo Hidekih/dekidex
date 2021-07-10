@@ -6,7 +6,7 @@ import { PokemonListed } from '../../utils/types';
 
 export const Container = styled.View`
   flex: 1;
-  padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px;
+  /* padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px; */
 `;
 
 export const Header = styled.View`
@@ -31,7 +31,7 @@ export const Content = styled.View`
 
 export const PokeListContainer = styled.View`
   flex: 1;
-  border-radius: 8px;
+  border-radius: 12px;
   border-width: 4px;
   border-color: ${Colors.black};
   overflow: hidden;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import Themes from '../../styles/colors';
+import Colors from '../../styles/colors';
 import { PokemonData } from '../../utils/types';
 
 import { 
@@ -23,7 +23,8 @@ import {
 } from './styles';
 
 export function Favorites() {
-  const [ pokemons, setPokemons ] = useState<PokemonData[]>([])
+  const [ pokemons, setPokemons ] = useState<PokemonData[]>([]);
+  
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container>
@@ -82,7 +83,7 @@ export function Favorites() {
                     </PokeBasicsContainer>
                     <PokeTypesContainer>
                       
-                        <TypeBadge typeColor={'psychc'}>
+                        <TypeBadge typeColor={'psychic'}>
                           <BadgeTitle>
                             {'Psychc'}
                           </BadgeTitle>

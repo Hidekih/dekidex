@@ -1,16 +1,30 @@
 export type PokemonData = {
   id: string;
+  pokedexNumber: string;
+  ability: string;
   name: string;
   back_default: string;
   front_default: string;
   types: [
     {
-      slot: number;
+      slot: string;
       type: string;
     }
   ];
   height: number;
   weight: number;
+}
+
+export type FavoritedPokemon = {
+  id: string;
+  url: string;
+  name: string;
+  types: [
+    {
+      slot: string;
+      type: string;
+    }
+  ];
 }
 
 export type ThemesColor = {
@@ -24,27 +38,6 @@ export type ThemesColor = {
   };
 }
 
-// export type pokemonTypeColors = {
-//   bug: string;
-//   dark: string;
-//   dragon: string;
-//   eletric: string;
-//   fairy: string;
-//   fight: string;
-//   fire: string;
-//   flying: string;
-//   ghost: string;
-//   grass: string;
-//   ground: string;
-//   ice: string;
-//   normal: string;
-//   poison: string;
-//   psychc: string;
-//   rock: string;
-//   steel: string;
-//   water: string;
-// }
-
 export type PokemonListed = {
   id: string;
   name: string;
@@ -57,3 +50,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   Pokemon: undefined;
 };
+
+export type TypeBadgeProps = {
+  typeColor: string;
+}

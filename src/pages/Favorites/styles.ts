@@ -1,11 +1,11 @@
-import { FlatList, Platform, StatusBar, Image } from 'react-native';
+import { Platform, StatusBar, Image } from 'react-native';
 import styled from 'styled-components/native';
 import Colors from '../../styles/colors';
-// import { Pokemon } from '../../utils/types';
 
 export const Container = styled.View`
   flex: 1;
-  padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px;
+  background: ${Colors.black};
+  /* padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px; */
 `;
 
 export const Header = styled.View`
@@ -103,7 +103,7 @@ export const TypeBadge = styled.View<TypeBadgeProps>`
   height: 24px;
   border-radius: 4px;
   margin: 0 8px;
-  background: ${props => Colors.type[props.typeColor] };
+  background: ${props => Colors.type[props.typeColor] || '#000'};
 `;
 
 export const BadgeTitle = styled.Text`

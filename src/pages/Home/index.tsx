@@ -106,80 +106,80 @@ export function Home() {
         }
       });
 
-      setPokemons(state => [ ...state, ...formatedData ]);
+      setPokemons([...pokemons, ...formatedData ]);
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
     }
-  },[nextUri]);
+  },[pokemons, nextUri]);
 
   const handleSelectPokemon = useCallback((url: string) => {
     navigate('Pokemon', { url });
   }, [navigate]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Container>
-        <Header>
-          <HeaderTitle>Pokedex</HeaderTitle>
-        </Header>
-        
-        <Content>
-          <PokeListContainer>
-            <PokeList
-              data={pokemons} 
-              keyExtractor={data => String(data.id)}
-              showsVerticalScrollIndicator={false}
-              onEndReached={({ distanceFromEnd }) => {
-                fetchData(distanceFromEnd);
-              }}
-              renderItem={( { item: pokemon } ) => (
-                <ButtonCover key={pokemon.id}>
-                  <PokeInfoButton
-                    onPress={() => handleSelectPokemon(pokemon.url)} 
-                  >
-                    <PokeImage 
-                      height={100} 
-                      width={100} 
-                      source={{ uri: pokemon.avatar }}
-                    />
-                    <PokeData>
-                      <PokeBasics>
-                        <PokeName>
-                          {captalize(pokemon.name)}
-                        </PokeName>
-                        <PokeNumber>
-                          {'#'}
-                          <BoldText>{pokemon.id}</BoldText>
-                        </PokeNumber>
-                      </PokeBasics>
-                      <ImageContainer>
-                        <Image 
-                          source={pokeballImg} 
-                          height={45}
-                          width={45}
-                          resizeMode="contain"
-                          style={{ height: 45, width: 45 }}
-                        />   
-                      </ImageContainer>
-                    </PokeData>     
-                  </PokeInfoButton>
-                </ButtonCover>
-              )}
-              ListFooterComponent={(
-                isLoading 
-                  ? <ActivityIndicator 
-                      style={{ marginVertical: 8 }} 
-                      size="large" 
-                      color={Colors.white} 
-                    />
-                  : <></>
-              )}
-            />
-          </PokeListContainer>
-        </Content>
-      </Container>
-    </SafeAreaView>
+    // <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black}}>
+    <Container>
+      <Header>
+        <HeaderTitle>Pokedex</HeaderTitle>
+      </Header>
+      
+      <Content>
+        <PokeListContainer>
+          <PokeList
+            data={pokemons} 
+            keyExtractor={data => String(data.id)}
+            showsVerticalScrollIndicator={false}
+            onEndReached={({ distanceFromEnd }) => {
+              fetchData(distanceFromEnd);
+            }}
+            renderItem={( { item: pokemon } ) => (
+              <ButtonCover key={pokemon.id}>
+                <PokeInfoButton
+                  onPress={() => handleSelectPokemon(pokemon.url)} 
+                >
+                  <PokeImage 
+                    height={100} 
+                    width={100} 
+                    source={{ uri: pokemon.avatar }}
+                  />
+                  <PokeData>
+                    <PokeBasics>
+                      <PokeName>
+                        {captalize(pokemon.name)}
+                      </PokeName>
+                      <PokeNumber>
+                        {'#'}
+                        <BoldText>{pokemon.id}</BoldText>
+                      </PokeNumber>
+                    </PokeBasics>
+                    <ImageContainer>
+                      <Image 
+                        source={pokeballImg} 
+                        height={45}
+                        width={45}
+                        resizeMode="contain"
+                        style={{ height: 45, width: 45 }}
+                      />   
+                    </ImageContainer>
+                  </PokeData>     
+                </PokeInfoButton>
+              </ButtonCover>
+            )}
+            ListFooterComponent={(
+              isLoading 
+                ? <ActivityIndicator 
+                    style={{ marginVertical: 8 }} 
+                    size="large" 
+                    color={Colors.white} 
+                  />
+                : <></>
+            )}
+          />
+        </PokeListContainer>
+      </Content>
+    </Container>
+    // </SafeAreaView>
   )
 }

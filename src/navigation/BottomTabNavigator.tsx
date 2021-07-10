@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -14,10 +14,10 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{ 
-        inactiveTintColor: Colors.grayLight,
+        inactiveTintColor: Colors.gray,
         activeTintColor: Colors.white, 
         activeBackgroundColor: Colors.black,
-        inactiveBackgroundColor: Colors.gray,
+        inactiveBackgroundColor: Colors.black,
         tabStyle: { 
           flex: 1, 
           flexDirection: "row", 
@@ -27,7 +27,7 @@ export default function BottomTabNavigator() {
         style: {
           borderTopWidth: 2,
           borderTopColor: Colors.black,
-          height: 54
+          height: 54,
         }
       }}
     >
