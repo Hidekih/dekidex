@@ -44,5 +44,9 @@
     "jest-expo": "~41.0.0-beta.0",
     "typescript": "~4.0.0"
   },
-  "private": true
+  "private": true,
+  "android": {
+    "package": "com.hidekih.ourpokedex",
+    "versionCode": 1
+  }
 }
