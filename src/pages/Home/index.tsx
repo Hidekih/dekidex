@@ -126,7 +126,7 @@ export function Home() {
       </Header>
       
       <Content>
-        <PokeListContainer>
+        <PokeListContainer style={{elevation: 3}}>
           <PokeList
             data={pokemons} 
             keyExtractor={data => String(data.id)}

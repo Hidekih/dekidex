@@ -35,6 +35,7 @@ export const PokeListContainer = styled.View`
   border-width: 4px;
   border-color: ${Colors.black};
   overflow: hidden;
+  margin-top: -24px;
 `; 
 
 export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
@@ -43,7 +44,7 @@ export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
 `
 
 export const ButtonCover = styled.View`
-  border-radius: 8px; 
+  border-radius: 12px; 
   overflow: hidden;
   margin-bottom: 4px;
 `;
@@ -51,7 +52,7 @@ export const ButtonCover = styled.View`
 export const PokeInfoButton = styled(RectButton)`
   width: 100%;
   flex-direction: row;
-  background: ${Colors.white};
+  background: ${Colors.grayLight};
   border-bottom-color: ${Colors.black};
 `;
 
@@ -62,6 +63,7 @@ export const PokeImage = styled(Image)`
 `;
 
 export const PokeData = styled.View`
+border-radius: 12px; background: ${Colors.white};
   flex: 1;
   flex-direction: row;
   justify-content: space-between;

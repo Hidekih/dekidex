@@ -144,7 +144,7 @@ export function Pokemon() {
         setPokemon(parsedData);
         console.log('Fetch');
       })
-        .catch(err => console.error(err))
+        .catch(_ => { return })
         .finally(() => setIsFetching(false));
   }
 
@@ -153,6 +153,10 @@ export function Pokemon() {
   }, [goBack]);
 
   const handleNextPokemon = useCallback(() => {
+    if ((Number(pokemon.id) + 1) >= 10000){
+      return;
+    }
+
     const newUrl = createPokemonUrl(Number(pokemon.id) + 1);
     console.log(newUrl);
     fetchData(newUrl);
@@ -166,6 +170,11 @@ export function Pokemon() {
     const newUrl = createPokemonUrl(Number(pokemon.id) - 1);
     fetchData(newUrl);
   }, [pokemon.id]);
+
+  const handleFavorited = useCallback((id: string) => {
+    // addFavotire(id);
+    setIsFavorited(!isFavorited);
+  }, [isFavorited]);
 
   if (isFetching || !pokemon.name) {
     return (
@@ -191,7 +200,7 @@ export function Pokemon() {
             <Ionicons name="arrow-back" size={32} color={Colors.white} />
           </IconButtonContainer>
           <HeaderTitle>{pokemon.name}</HeaderTitle>
-          <IconButtonContainer onPress={() => console.log('Favorited!')}>
+          <IconButtonContainer onPress={() => handleFavorited(pokemon.id)}>
             { isFavorited ? (
               <Ionicons name="md-heart-sharp" size={32} color={Colors.white} />
             ): (
@@ -271,19 +280,19 @@ export function Pokemon() {
 
           <SwitchController>
             <IconButtonContainer onPress={handlePreviousPokemon} >
-              <Ionicons name="ios-chevron-back" size={40} color={Colors.grayLight}/>
-              <SwitchControllerText>
+              <Ionicons name="ios-chevron-back" size={44} color={Colors.grayLight}/>
+              {/* <SwitchControllerText>
                 Previous
-              </SwitchControllerText>
+              </SwitchControllerText> */}
             </IconButtonContainer>
 
             {/* <ActivityIndicator size="large" color={Colors.white} /> */}
 
             <IconButtonContainer onPress={handleNextPokemon} >
-              <SwitchControllerText>
+              {/* <SwitchControllerText>
                 Next
-              </SwitchControllerText>
-              <Ionicons name="ios-chevron-forward" size={40} color={Colors.grayLight} />
+              </SwitchControllerText> */}
+              <Ionicons name="ios-chevron-forward" size={44} color={Colors.grayLight} />
             </IconButtonContainer>
           </SwitchController>
         </Content>
