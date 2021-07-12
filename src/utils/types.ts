@@ -28,11 +28,13 @@ export type FavoritedPokemon = {
 }
 
 export type ThemesColor = {
-  orange: string;
-  black: string;
-  grayLight: string;
-  gray: string;
-  white: string;
+  background: {
+    "0": string;
+    "5": string;
+    "9": string;
+  }
+  title: string;
+  subtilte: string;
   type: {
     [key: string]: string;
   };

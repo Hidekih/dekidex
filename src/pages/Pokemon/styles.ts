@@ -6,7 +6,7 @@ import { TypeBadgeProps } from '../../utils/types';
 
 export const Container = styled.View`
   flex: 1;
-  background: ${Colors.black};
+  background: ${Colors.background[9]};
   /* padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px; */
 `; 
 
@@ -19,7 +19,7 @@ export const Header = styled.View`
   padding: 0 16px;
 `;
 
-export const IconButtonContainer = styled.TouchableOpacity` 
+export const IconButtonContainer = styled.TouchableOpacity`   
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -30,40 +30,28 @@ export const HeaderTitle = styled.Text`
   font-size: 22px;
   font-weight: bold;
   text-align: center;
-  color: ${Colors.white};
+  color: ${Colors.title};
 `;
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Colors.orange};
+  background: ${Colors.background[9]};
   padding: 24px 16px 16px 16px;
 `;
 
 export const RowDivider = styled.View`
   width: 100%;
   height: 2px;
-  background: ${Colors.black};
+  background: ${Colors.background[9]};
 `;
 
 export const PokeDataDisplay = styled.View`
-  border-radius: 8px;
+  border-radius: 12px;
   border-width: 4px;
-  border-color: ${Colors.black};
+  border-color: ${Colors.background[9]};
 
   overflow: hidden;
-  background: ${Colors.grayLight};
-`;
-
-export const PokedexNumber = styled.Text`
-  margin-top: 8px;
-  font-size: 18px;
-  color: ${Colors.black};
-  text-align: center;
-  text-decoration: underline;
-`;
-
-export const TextBold = styled.Text`
-  font-weight: 700;
+  background: ${Colors.background[5]};
 `;
 
 export const PokemonAvatarContainer = styled.View`
@@ -78,7 +66,7 @@ export const PokeImage = styled(Image)`
 
 export const DataTitle = styled.Text`
   font-size: 18px;
-  color: ${Colors.black};
+  color: ${Colors.title};
   font-weight: 700;
 `;
 
@@ -91,14 +79,13 @@ export const DataValueContainer = styled.View`
 
 export const DataValue = styled.Text`
   font-size: 16px;
-  color: ${Colors.black};
+  color: ${Colors.title};
   font-weight: 400;
 `;
 
 export const PokemonInfoContainer = styled.View`
-  background: ${Colors.white};
+  background: ${Colors.background[5]};
   padding: 0 16px;
-  background: ${Colors.white};
 `;
 
 export const PokemonRowContainer = styled.View`
@@ -126,7 +113,7 @@ export const TypeBadge = styled.View<TypeBadgeProps>`
   justify-content: center;
   width: 80px;
   height: 24px;
-  border-radius: 4px;
+  border-radius: 8px;
   margin: 0 8px;
   background: ${props => Colors.type[props.typeColor] || '#000'};
 `;
@@ -135,7 +122,7 @@ export const BadgeTitle = styled.Text<TypeBadgeProps>`
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.8px;
-  color: ${Colors.white};
+  color: ${Colors.title};
 `;
 
 export const SwitchController = styled.View`
@@ -147,7 +134,7 @@ export const SwitchController = styled.View`
   margin-top: 40px;
   padding: 0 8px;
 
-  background: ${Colors.black};
+  background: ${Colors.background[5]};
   border-radius: 8px;
   
   overflow: hidden;
@@ -157,5 +144,5 @@ export const SwitchControllerText = styled.Text`
   margin: 0 4px;
   font-size: 18px;
   font-weight: 700;
-  color: ${Colors.grayLight};
+  color: ${Colors.title};
 `;

@@ -18,8 +18,6 @@ import {
   PokeDataDisplay,
   PokemonAvatarContainer,
   PokeImage,
-  PokedexNumber,
-  TextBold,
   DataTitle,
   DataValueContainer,
   DataValue,
@@ -133,7 +131,7 @@ export function Pokemon() {
           back_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id.trim()}.png`,
           height: response.data.height,
           weight: response.data.weight,
-          types: response.data.types.map(data =>{
+          types: response.data.types.map(data => {
             return {
               slot: String(data.slot),
               type: data.type.name.toLowerCase(),
@@ -193,18 +191,18 @@ export function Pokemon() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black }} >
+    <SafeAreaView style={{ flex: 1 }} >
       <Container>
         <Header>
           <IconButtonContainer onPress={handleGoBack}>
-            <Ionicons name="arrow-back" size={32} color={Colors.white} />
+            <Ionicons name="arrow-back" size={32} color={Colors.title} />
           </IconButtonContainer>
-          <HeaderTitle>{pokemon.name}</HeaderTitle>
+          <HeaderTitle>{`${pokemon.name} #${pokemon.pokedexNumber}`}</HeaderTitle>
           <IconButtonContainer onPress={() => handleFavorited(pokemon.id)}>
             { isFavorited ? (
-              <Ionicons name="md-heart-sharp" size={32} color={Colors.white} />
+              <Ionicons name="md-heart-sharp" size={32} color={Colors.title} />
             ): (
-              <Ionicons name="md-heart-outline" size={32} color={Colors.white} />
+              <Ionicons name="md-heart-outline" size={32} color={Colors.title} />
             )}
           </IconButtonContainer>
         </Header>
@@ -212,10 +210,6 @@ export function Pokemon() {
         <Content>
 
           <PokeDataDisplay>
-            <PokedexNumber>
-              #
-              <TextBold>{pokemon.pokedexNumber}</TextBold>
-            </PokedexNumber>
             <PokemonAvatarContainer>
               <PokeImage 
                 resizeMode='cover'
@@ -280,19 +274,19 @@ export function Pokemon() {
 
           <SwitchController>
             <IconButtonContainer onPress={handlePreviousPokemon} >
-              <Ionicons name="ios-chevron-back" size={44} color={Colors.grayLight}/>
+              <Ionicons name="ios-chevron-back" size={44} color={Colors.title}/>
               {/* <SwitchControllerText>
                 Previous
               </SwitchControllerText> */}
             </IconButtonContainer>
 
-            {/* <ActivityIndicator size="large" color={Colors.white} /> */}
+            {/* <ActivityIndicator size="large" color={Colors.title} /> */}
 
             <IconButtonContainer onPress={handleNextPokemon} >
               {/* <SwitchControllerText>
                 Next
               </SwitchControllerText> */}
-              <Ionicons name="ios-chevron-forward" size={44} color={Colors.grayLight} />
+              <Ionicons name="ios-chevron-forward" size={44} color={Colors.title} />
             </IconButtonContainer>
           </SwitchController>
         </Content>

@@ -4,7 +4,7 @@ import Colors from '../../styles/colors';
 
 export const Container = styled.View`
   flex: 1;
-  background: ${Colors.black};
+  background: ${Colors.background[9]};
   /* padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px; */
 `;
 
@@ -13,18 +13,18 @@ export const Header = styled.View`
   height: 56px;
   align-items: center;
   justify-content: center;
-  background: ${Colors.black};
+  background: ${Colors.background[9]};
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
-  color: ${Colors.white};
+  color: ${Colors.title};
 `;
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Colors.orange};
+  background: ${Colors.background[9]};
   padding: 24px 16px 16px 16px;
 `;
 
@@ -32,9 +32,8 @@ export const PokeList = styled.ScrollView`
   flex: 1;
   border-radius: 8px;
   border-width: 4px;
-  border-color: ${Colors.black};
+  border-color: ${Colors.background[9]};
   overflow: hidden;
-  background: ${Colors.gray};
 `; 
 
 // export const PokeList = styled(FlatList as new () => FlatList<Pokemon>)`
@@ -44,20 +43,26 @@ export const PokeList = styled.ScrollView`
 // `;
 
 export const PokeInfoContainer = styled.View`
-  width: 100%;
+  position: relative;
   flex-direction: row;
-  background: ${Colors.white};
-  border-bottom-color: ${Colors.black};
-
-  overflow: hidden;
+  width: 100%;
   border-radius: 8px;
   margin-bottom: 4px;
+
+  overflow: hidden;
+`;
+
+export const GradientBackground = styled.View`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 `;
 
 export const PokeImage = styled(Image)`
   width: 100px;
   height: 100px;
-  background: ${Colors.grayLight};
 `;
 
 export const PokeData = styled.View`
@@ -75,12 +80,12 @@ export const PokeBasicsContainer = styled.View`
 export const PokeName = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  color: ${Colors.black};
+  color: ${Colors.subtilte};
 `;
 
 export const PokeNumber = styled.Text`
   font-size: 20px;
-  color: ${Colors.black};
+  color: ${Colors.subtilte};
 `;
 
 export const BoldText = styled.Text`
@@ -102,12 +107,12 @@ export const TypeBadge = styled.View<TypeBadgeProps>`
   width: 80px;
   height: 24px;
   border-radius: 4px;
-  margin: 0 8px;
+  margin: 0 12px;
   background: ${props => Colors.type[props.typeColor] || '#000'};
 `;
 
 export const BadgeTitle = styled.Text`
   font-size: 18px;
   font-weight: 700;
-  color: ${Colors.white};
+  color: ${Colors.title};
 `;

@@ -126,7 +126,7 @@ export function Home() {
       </Header>
       
       <Content>
-        <PokeListContainer style={{elevation: 3}}>
+        <PokeListContainer>
           <PokeList
             data={pokemons} 
             keyExtractor={data => String(data.id)}
@@ -172,7 +172,7 @@ export function Home() {
                 ? <ActivityIndicator 
                     style={{ marginVertical: 8 }} 
                     size="large" 
-                    color={Colors.white} 
+                    color={Colors.title} 
                   />
                 : <></>
             )}

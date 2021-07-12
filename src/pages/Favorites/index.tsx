@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Colors from '../../styles/colors';
 import { PokemonData } from '../../utils/types';
 
@@ -11,6 +11,7 @@ import {
   PokeList,
   
   PokeInfoContainer,
+  GradientBackground,
   PokeImage,
   PokeData,
   PokeBasicsContainer,
@@ -19,89 +20,93 @@ import {
   BoldText,
   PokeTypesContainer,
   TypeBadge,
-  BadgeTitle
+  BadgeTitle,
+
 } from './styles';
 
 export function Favorites() {
   const [ pokemons, setPokemons ] = useState<PokemonData[]>([]);
   
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Container>
-        <Header>
-          <HeaderTitle>Favorites</HeaderTitle>
-        </Header>
+    <Container>
+      <Header>
+        <HeaderTitle>Favorites</HeaderTitle>
+      </Header>
+      
+      <Content>
         
-        <Content>
-          
-            <PokeList
-              showsVerticalScrollIndicator={false}
-            >
-              {/* <PokeInfoContainer>
+          <PokeList
+            showsVerticalScrollIndicator={false}
+          >
+            {/* <PokeInfoContainer>
+              <PokeImage 
+                height={100} 
+                width={100} 
+                source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon}.png` }}
+              />
+              <PokeData>
+                <PokeBasicsContainer>    
+                  <PokeName>
+                    {pokemon === 251 ? 'Celebi' : 'Flygon' }
+                  </PokeName>
+                  <PokeNumber>
+                    {'#'}
+                    <BoldText>{pokemon}</BoldText>
+                  </PokeNumber>
+                </PokeBasicsContainer>
+                <PokeTypesContainer>
+                  { true && ['grass','poison'].map(type => (
+                    <TypeBadge key={type} typeColor={'grass'}>
+                      <BadgeTitle>
+                        {'Sla'}
+                      </BadgeTitle>
+                    </TypeBadge>
+                  )) }
+                </PokeTypesContainer>
+              </PokeData>                
+            </PokeInfoContainer> */}
+
+              <PokeInfoContainer>
+                <GradientBackground 
+                  style={{ 
+                    backgroundColor: Colors.type['grass'],
+                  }}
+                />
                 <PokeImage 
                   height={100} 
                   width={100} 
-                  source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon}.png` }}
+                  source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png` }}
                 />
                 <PokeData>
                   <PokeBasicsContainer>    
                     <PokeName>
-                      {pokemon === 251 ? 'Celebi' : 'Flygon' }
+                      {'Celebi' }
                     </PokeName>
                     <PokeNumber>
                       {'#'}
-                      <BoldText>{pokemon}</BoldText>
+                      <BoldText>{'251'}</BoldText>
                     </PokeNumber>
                   </PokeBasicsContainer>
                   <PokeTypesContainer>
-                    { true && ['grass','poison'].map(type => (
-                      <TypeBadge key={type} typeColor={'grass'}>
+                    
+                      <TypeBadge typeColor={'psychic'}>
                         <BadgeTitle>
-                          {'Sla'}
+                          {'Psychc'}
                         </BadgeTitle>
                       </TypeBadge>
-                    )) }
+                      <TypeBadge typeColor={'grass'}>
+                        <BadgeTitle>
+                          {'Grass'}
+                        </BadgeTitle>
+                      </TypeBadge>
+                    
                   </PokeTypesContainer>
                 </PokeData>                
-              </PokeInfoContainer> */}
-
-                <PokeInfoContainer>
-                  <PokeImage 
-                    height={100} 
-                    width={100} 
-                    source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png` }}
-                  />
-                  <PokeData>
-                    <PokeBasicsContainer>    
-                      <PokeName>
-                        {'Celebi' }
-                      </PokeName>
-                      <PokeNumber>
-                        {'#'}
-                        <BoldText>{'251'}</BoldText>
-                      </PokeNumber>
-                    </PokeBasicsContainer>
-                    <PokeTypesContainer>
-                      
-                        <TypeBadge typeColor={'psychic'}>
-                          <BadgeTitle>
-                            {'Psychc'}
-                          </BadgeTitle>
-                        </TypeBadge>
-                        <TypeBadge typeColor={'grass'}>
-                          <BadgeTitle>
-                            {'Grass'}
-                          </BadgeTitle>
-                        </TypeBadge>
-                      
-                    </PokeTypesContainer>
-                  </PokeData>                
-                </PokeInfoContainer>
-                
-              </PokeList>
-          
-        </Content>
-      </Container>
-    </SafeAreaView>
+              </PokeInfoContainer>
+              
+            </PokeList>
+        
+      </Content>
+    </Container>
   )
 }
