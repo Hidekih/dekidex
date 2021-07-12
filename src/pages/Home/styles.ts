@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { FlatList, Platform, StatusBar, Image } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
@@ -29,10 +30,19 @@ export const Content = styled.View`
 `;
 
 export const PokeListContainer = styled.View`
+  position: relative;
   flex: 1;
   border-radius: 12px;
   overflow: hidden;
 `; 
+
+export const GradientBottom = styled(LinearGradient)`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 16px;
+`;
 
 export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
   flex: 1;

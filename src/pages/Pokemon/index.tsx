@@ -7,6 +7,7 @@ import axios from 'axios';
 import { captalize } from '../../utils/captalize';
 import { PokemonData } from '../../utils/types';
 import Colors from '../../styles/colors';
+import { findOne, save, remove } from '../../storage/favorites';
 
 import { 
   Container, 
@@ -17,6 +18,7 @@ import {
   RowDivider,
   PokeDataDisplay,
   PokemonAvatarContainer,
+  GradientBackground,
   PokeImage,
   DataTitle,
   DataValueContainer,
@@ -101,11 +103,14 @@ export function Pokemon() {
               slot: String(data.slot),
               type: data.type.name.toLowerCase(),
             }
-          })
+          }),
+          url,
         } as PokemonData;
 
         setPokemon(parsedData);
-        console.log('Fetch');
+        findOne(parsedData.id).then(res => {
+          setIsFavorited(!!res);
+        })
       })
         .catch(err => console.error(err))
         .finally(() => setIsFetching(false));
@@ -140,6 +145,9 @@ export function Pokemon() {
         } as PokemonData;
 
         setPokemon(parsedData);
+        findOne(parsedData.id).then(res => {
+          setIsFavorited(!!res);
+        })
         console.log('Fetch');
       })
         .catch(_ => { return })
@@ -170,25 +178,29 @@ export function Pokemon() {
   }, [pokemon.id]);
 
   const handleFavorited = useCallback((id: string) => {
-    // addFavotire(id);
-    setIsFavorited(!isFavorited);
-  }, [isFavorited]);
+    if (isFavorited) {
+      remove(pokemon.id);
+      setIsFavorited(false);
+      return;
+    }
+
+    save(pokemon);
+    setIsFavorited(true);
+  }, [isFavorited, pokemon]);
 
   if (isFetching || !pokemon.name) {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Container> 
-          <Header>
-            <HeaderTitle>Loading...</HeaderTitle>
-          </Header>
+      <Container> 
+        <Header>
+          <HeaderTitle>Loading...</HeaderTitle>
+        </Header>
 
-          <Content>
+        <Content>
 
-          </Content>
-        </Container>
-      </SafeAreaView>
-    )
-  };
+        </Content>
+      </Container>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }} >
@@ -211,6 +223,9 @@ export function Pokemon() {
 
           <PokeDataDisplay>
             <PokemonAvatarContainer>
+              <GradientBackground
+                colors={[ Colors.type[pokemon.types[0].type], Colors.background[5]]}
+              />
               <PokeImage 
                 resizeMode='cover'
                 source={{ uri: pokemon.front_default }}

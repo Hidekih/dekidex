@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 import { Platform, StatusBar, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import Colors from '../../styles/colors';
 import Layout from '../../utils/layout';
 import { TypeBadgeProps } from '../../utils/types';
@@ -55,8 +57,17 @@ export const PokeDataDisplay = styled.View`
 `;
 
 export const PokemonAvatarContainer = styled.View`
+  position: relative;
   flex-direction: row;
   justify-content: space-around;
+`;
+
+export const GradientBackground = styled(LinearGradient)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 `;
 
 export const PokeImage = styled(Image)`

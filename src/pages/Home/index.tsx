@@ -16,6 +16,7 @@ import {
   HeaderTitle, 
   Content, 
   PokeListContainer,
+  GradientBottom,
   PokeList,
   ButtonCover,
   PokeInfoButton,
@@ -119,7 +120,6 @@ export function Home() {
   }, [navigate]);
 
   return (
-    // <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black}}>
     <Container>
       <Header>
         <HeaderTitle>Pokedex</HeaderTitle>
@@ -177,9 +177,11 @@ export function Home() {
                 : <></>
             )}
           />
+          <GradientBottom 
+            colors={['rgba(0,0,0,0)', Colors.background[9]]}
+          />
         </PokeListContainer>
       </Content>
     </Container>
-    // </SafeAreaView>
   )
 }

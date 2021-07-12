@@ -13,15 +13,19 @@ export type PokemonData = {
   ];
   height: number;
   weight: number;
+  url: string;
 }
 
 export type FavoritedPokemon = {
   id: string;
-  url: string;
   name: string;
+  avatar: string;
+  pokedex_Number: string;
+  url: string;
   types: [
     {
       slot: string;
+      name: string;
       type: string;
     }
   ];

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Colors from '../../styles/colors';
-import { PokemonData } from '../../utils/types';
+import { FavoritedPokemon } from '../../utils/types';
+import { load } from '../../storage/favorites';
 
 import { 
   Container, 
@@ -9,7 +9,6 @@ import {
   HeaderTitle, 
   Content,
   PokeList,
-  
   PokeInfoContainer,
   GradientBackground,
   PokeImage,
@@ -23,9 +22,26 @@ import {
   BadgeTitle,
 
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export function Favorites() {
-  const [ pokemons, setPokemons ] = useState<PokemonData[]>([]);
+  const [ favorites, setFavorites ] = useState<FavoritedPokemon[]>([]);
+  const { addListener, removeListener } = useNavigation();
+
+  useEffect(() => {
+    const navigationFocusListener = addListener('focus', () => {
+      fetchFavorites();
+    });
+    
+    return () => {
+      removeListener('focus', navigationFocusListener);
+    };
+  }, []);
+
+  async function fetchFavorites(): Promise<void> {
+    const data = await load();
+    setFavorites(data);
+  }
   
   return (
     <Container>
@@ -38,73 +54,39 @@ export function Favorites() {
           <PokeList
             showsVerticalScrollIndicator={false}
           >
-            {/* <PokeInfoContainer>
-              <PokeImage 
-                height={100} 
-                width={100} 
-                source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon}.png` }}
-              />
-              <PokeData>
-                <PokeBasicsContainer>    
-                  <PokeName>
-                    {pokemon === 251 ? 'Celebi' : 'Flygon' }
-                  </PokeName>
-                  <PokeNumber>
-                    {'#'}
-                    <BoldText>{pokemon}</BoldText>
-                  </PokeNumber>
-                </PokeBasicsContainer>
-                <PokeTypesContainer>
-                  { true && ['grass','poison'].map(type => (
-                    <TypeBadge key={type} typeColor={'grass'}>
-                      <BadgeTitle>
-                        {'Sla'}
-                      </BadgeTitle>
-                    </TypeBadge>
-                  )) }
-                </PokeTypesContainer>
-              </PokeData>                
-            </PokeInfoContainer> */}
-
-              <PokeInfoContainer>
+            { favorites.length > 0 && favorites.map(favorite => (
+              <PokeInfoContainer key={favorite.id}>
                 <GradientBackground 
-                  style={{ 
-                    backgroundColor: Colors.type['grass'],
-                  }}
+                  colors={[ Colors.type[favorite.types[0].type || 'dark'], Colors.background[9]]}
                 />
                 <PokeImage 
                   height={100} 
                   width={100} 
-                  source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png` }}
+                  source={{ uri: favorite.avatar || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png` }}
                 />
                 <PokeData>
                   <PokeBasicsContainer>    
                     <PokeName>
-                      {'Celebi' }
+                      {favorite.name}
                     </PokeName>
                     <PokeNumber>
                       {'#'}
-                      <BoldText>{'251'}</BoldText>
+                      <BoldText>{favorite.pokedex_Number}</BoldText>
                     </PokeNumber>
                   </PokeBasicsContainer>
                   <PokeTypesContainer>
-                    
-                      <TypeBadge typeColor={'psychic'}>
-                        <BadgeTitle>
-                          {'Psychc'}
-                        </BadgeTitle>
-                      </TypeBadge>
-                      <TypeBadge typeColor={'grass'}>
-                        <BadgeTitle>
-                          {'Grass'}
-                        </BadgeTitle>
-                      </TypeBadge>
-                    
+                  { favorite.types.map(type => (
+                    <TypeBadge key={type.slot} typeColor={type.type}>
+                      <BadgeTitle>
+                        {type.name}
+                      </BadgeTitle>
+                    </TypeBadge>
+                  ))}       
                   </PokeTypesContainer>
                 </PokeData>                
               </PokeInfoContainer>
-              
-            </PokeList>
+            ))}
+          </PokeList>
         
       </Content>
     </Container>

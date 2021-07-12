@@ -1,5 +1,6 @@
 import { Platform, StatusBar, Image } from 'react-native';
 import styled from 'styled-components/native';
+import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../styles/colors';
 
 export const Container = styled.View`
@@ -52,7 +53,7 @@ export const PokeInfoContainer = styled.View`
   overflow: hidden;
 `;
 
-export const GradientBackground = styled.View`
+export const GradientBackground = styled(LinearGradient)`
   position: absolute;
   top: 0;
   right: 0;
