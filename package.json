@@ -48,7 +48,7 @@
   },
   "private": true,
   "android": {
-    "package": "com.hidekih.ourpokedex",
+    "package": "com.hidekih.dekidex",
     "versionCode": 1
   }
 }
