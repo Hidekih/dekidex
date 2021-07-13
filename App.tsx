@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import useCachedResources from './src/hooks/useCachedResources';
 import Navigation from './src/navigation';

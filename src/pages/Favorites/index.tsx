@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Colors from '../../styles/colors';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import { Swipeable } from 'react-native-gesture-handler';
+
 import { FavoritedPokemon } from '../../utils/types';
-import { load } from '../../storage/favorites';
+import { load, remove } from '../../storage/favorites';
+import { GradientBottom } from '../../components/GradientBottom';
+import Colors from '../../styles/colors';
 
 import { 
   Container, 
@@ -21,8 +26,9 @@ import {
   TypeBadge,
   BadgeTitle,
 
+  RemoveButtonContainer,
 } from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
 export function Favorites() {
   const [ favorites, setFavorites ] = useState<FavoritedPokemon[]>([]);
@@ -39,8 +45,16 @@ export function Favorites() {
   }, []);
 
   async function fetchFavorites(): Promise<void> {
-    const data = await load();
-    setFavorites(data);
+    const response = await load();
+    setFavorites(response);
+  }
+
+  async function handleRemove(id: string) {
+    const response = await remove(id);
+
+    if (response) {
+      setFavorites(response);
+    }
   }
   
   return (
@@ -50,19 +64,27 @@ export function Favorites() {
       </Header>
       
       <Content>
-        
-          <PokeList
-            showsVerticalScrollIndicator={false}
-          >
-            { favorites.length > 0 && favorites.map(favorite => (
-              <PokeInfoContainer key={favorite.id}>
+        <PokeList
+          showsVerticalScrollIndicator={false}
+        >
+          { favorites.length > 0 && favorites.map(favorite => (
+            <Swipeable key={favorite.id}
+              renderRightActions={() => (
+                <RemoveButtonContainer>
+                  <TouchableOpacity onPress={() => handleRemove(favorite.id)} style={{ marginRight: 16, marginTop: 8 }}>
+                    <Ionicons name="ios-trash-outline" size={32} color={Colors.title} />
+                  </TouchableOpacity>
+                </RemoveButtonContainer>
+              )}
+            >
+              <PokeInfoContainer>
                 <GradientBackground 
                   colors={[ Colors.type[favorite.types[0].type || 'dark'], Colors.background[9]]}
                 />
                 <PokeImage 
                   height={100} 
                   width={100} 
-                  source={{ uri: favorite.avatar || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png` }}
+                  source={{ uri: favorite.avatar }}
                 />
                 <PokeData>
                   <PokeBasicsContainer>    
@@ -85,9 +107,12 @@ export function Favorites() {
                   </PokeTypesContainer>
                 </PokeData>                
               </PokeInfoContainer>
-            ))}
-          </PokeList>
-        
+            </Swipeable>
+          ))}
+        </PokeList>
+        <GradientBottom 
+          colors={['transparent', Colors.background[9]]}
+        />
       </Content>
     </Container>
   )

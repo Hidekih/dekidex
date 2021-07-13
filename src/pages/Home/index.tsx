@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, ActivityIndicator, Image } from 'react-native';
+import { ActivityIndicator, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 import Colors from '../../styles/colors';
@@ -16,7 +17,6 @@ import {
   HeaderTitle, 
   Content, 
   PokeListContainer,
-  GradientBottom,
   PokeList,
   ButtonCover,
   PokeInfoButton,
@@ -28,7 +28,7 @@ import {
   PokeNumber,
   BoldText,
 } from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { GradientBottom } from '../../components/GradientBottom';
 
 type PokeApiResponse = {
   next: string;
@@ -135,7 +135,7 @@ export function Home() {
               fetchData(distanceFromEnd);
             }}
             renderItem={( { item: pokemon } ) => (
-              <ButtonCover key={pokemon.id}>
+              <ButtonCover key={pokemon.id} >
                 <PokeInfoButton
                   onPress={() => handleSelectPokemon(pokemon.url)} 
                 >
@@ -178,7 +178,7 @@ export function Home() {
             )}
           />
           <GradientBottom 
-            colors={['rgba(0,0,0,0)', Colors.background[9]]}
+            colors={['transparent', Colors.background[9]]}
           />
         </PokeListContainer>
       </Content>

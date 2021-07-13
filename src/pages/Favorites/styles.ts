@@ -1,4 +1,4 @@
-import { Platform, StatusBar, Image } from 'react-native';
+import { Image } from 'react-native';
 import styled from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../styles/colors';
@@ -6,19 +6,18 @@ import Colors from '../../styles/colors';
 export const Container = styled.View`
   flex: 1;
   background: ${Colors.background[9]};
-  /* padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px; */
 `;
 
 export const Header = styled.View`
   width: 100%;
-  height: 56px;
+  height: 60px;
   align-items: center;
   justify-content: center;
   background: ${Colors.background[9]};
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   color: ${Colors.title};
 `;
@@ -26,31 +25,16 @@ export const HeaderTitle = styled.Text`
 export const Content = styled.View`
   flex: 1;
   background: ${Colors.background[9]};
-  padding: 24px 16px 16px 16px;
 `;
 
 export const PokeList = styled.ScrollView`
   flex: 1;
-  border-radius: 8px;
-  border-width: 4px;
-  border-color: ${Colors.background[9]};
-  overflow: hidden;
 `; 
 
-// export const PokeList = styled(FlatList as new () => FlatList<Pokemon>)`
-// export const PokeList = styled.ScrollView`
-//   flex: 1;
-//   background-color: ${Colors.gray};
-// `;
-
 export const PokeInfoContainer = styled.View`
-  position: relative;
   flex-direction: row;
-  width: 100%;
+  margin: 8px 16px 8px 16px;
   border-radius: 8px;
-  margin-bottom: 4px;
-
-  overflow: hidden;
 `;
 
 export const GradientBackground = styled(LinearGradient)`
@@ -59,11 +43,14 @@ export const GradientBackground = styled(LinearGradient)`
   right: 0;
   bottom: 0;
   left: 0;
+  border-radius: 8px;
 `;
 
 export const PokeImage = styled(Image)`
   width: 100px;
   height: 100px;
+  margin-left: 8px;
+  transform: scale(1.4);
 `;
 
 export const PokeData = styled.View`
@@ -116,4 +103,11 @@ export const BadgeTitle = styled.Text`
   font-size: 18px;
   font-weight: 700;
   color: ${Colors.title};
+`;
+
+export const RemoveButtonContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
 `;

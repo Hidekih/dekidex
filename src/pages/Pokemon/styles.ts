@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Platform, StatusBar, Image } from 'react-native';
+import { Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import Colors from '../../styles/colors';
@@ -9,7 +9,6 @@ import { TypeBadgeProps } from '../../utils/types';
 export const Container = styled.View`
   flex: 1;
   background: ${Colors.background[9]};
-  /* padding-top: ${Platform.OS === 'android' ? StatusBar?.currentHeight : 0 }px; */
 `; 
 
 export const Header = styled.View`
@@ -17,7 +16,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 56px;
+  height: 60px;
   padding: 0 16px;
 `;
 
@@ -29,7 +28,7 @@ export const IconButtonContainer = styled.TouchableOpacity`
 
 export const HeaderTitle = styled.Text`
   flex: 1;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   text-align: center;
   color: ${Colors.title};
@@ -38,7 +37,7 @@ export const HeaderTitle = styled.Text`
 export const Content = styled.View`
   flex: 1;
   background: ${Colors.background[9]};
-  padding: 24px 16px 16px 16px;
+  padding: 8px 16px 16px 16px;
 `;
 
 export const RowDivider = styled.View`
@@ -48,12 +47,9 @@ export const RowDivider = styled.View`
 `;
 
 export const PokeDataDisplay = styled.View`
-  border-radius: 12px;
-  border-width: 4px;
-  border-color: ${Colors.background[9]};
-
-  overflow: hidden;
   background: ${Colors.background[5]};
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 export const PokemonAvatarContainer = styled.View`
@@ -73,6 +69,7 @@ export const GradientBackground = styled(LinearGradient)`
 export const PokeImage = styled(Image)`
   width: ${Math.floor(Layout.window.width * 0.37)}px;
   height: ${Math.floor(Layout.window.width * 0.37)}px;
+  transform: scale(1.2);
 `;
 
 export const DataTitle = styled.Text`
@@ -90,7 +87,7 @@ export const DataValueContainer = styled.View`
 
 export const DataValue = styled.Text`
   font-size: 16px;
-  color: ${Colors.title};
+  color: ${Colors.subtilte};
   font-weight: 400;
 `;
 
@@ -100,7 +97,7 @@ export const PokemonInfoContainer = styled.View`
 `;
 
 export const PokemonRowContainer = styled.View`
-  height: 54px;
+  height: 60px;
   flex-direction: row;
   align-items: center;
 `;
@@ -143,17 +140,8 @@ export const SwitchController = styled.View`
   height: 60px;
   width: 100%;
   margin-top: 40px;
-  padding: 0 8px;
-
   background: ${Colors.background[5]};
   border-radius: 8px;
   
   overflow: hidden;
-`;
-
-export const SwitchControllerText = styled.Text`
-  margin: 0 4px;
-  font-size: 18px;
-  font-weight: 700;
-  color: ${Colors.title};
 `;

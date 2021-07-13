@@ -58,14 +58,16 @@ export async function findOne(id: string): Promise<FavoritedPokemon | undefined>
   }
 }
 
-export async function remove(id: string): Promise<void> {
+export async function remove(id: string): Promise<FavoritedPokemon[] | undefined> {
   try {
     const data = await AsyncStorage.getItem('@pokedex:favorites');
     const favorites = data ? JSON.parse(data) as FavoritedPokemon[] : [];
 
-    const updatedFavorites = favorites.find(fav => fav.id !== id);
+    const updatedFavorites = favorites.filter(fav => fav.id !== id);
 
     await AsyncStorage.setItem('@pokedex:favorites', JSON.stringify(updatedFavorites));
+
+    return updatedFavorites;
   } catch {
     Alert.alert('Não foi possível deletar esse pokemon da sua lista de favoritos :(');
   }

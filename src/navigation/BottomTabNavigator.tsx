@@ -25,7 +25,8 @@ export default function BottomTabNavigator() {
           justifyContent: 'center' ,
         },
         style: {
-          borderTopWidth: 0,
+          borderTopWidth: 2,
+          borderTopColor: Colors.background[5],
           height: 56,
         }
       }}

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { ActivityIndicator, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -30,7 +30,6 @@ import {
   TypeBadge,
   BadgeTitle,
   SwitchController,
-  SwitchControllerText,
 } from './styles';
 import { formatPokedexNumber } from '../../utils/formatPokedexNumber';
 
@@ -148,7 +147,6 @@ export function Pokemon() {
         findOne(parsedData.id).then(res => {
           setIsFavorited(!!res);
         })
-        console.log('Fetch');
       })
         .catch(_ => { return })
         .finally(() => setIsFetching(false));
@@ -164,14 +162,13 @@ export function Pokemon() {
     }
 
     const newUrl = createPokemonUrl(Number(pokemon.id) + 1);
-    console.log(newUrl);
     fetchData(newUrl);
   }, [pokemon.id]);
 
   const handlePreviousPokemon = useCallback(() => {
     if ((Number(pokemon.id) - 1) < 1) {
       return;
-    };
+    }
 
     const newUrl = createPokemonUrl(Number(pokemon.id) - 1);
     fetchData(newUrl);
@@ -290,17 +287,11 @@ export function Pokemon() {
           <SwitchController>
             <IconButtonContainer onPress={handlePreviousPokemon} >
               <Ionicons name="ios-chevron-back" size={44} color={Colors.title}/>
-              {/* <SwitchControllerText>
-                Previous
-              </SwitchControllerText> */}
             </IconButtonContainer>
 
             {/* <ActivityIndicator size="large" color={Colors.title} /> */}
 
             <IconButtonContainer onPress={handleNextPokemon} >
-              {/* <SwitchControllerText>
-                Next
-              </SwitchControllerText> */}
               <Ionicons name="ios-chevron-forward" size={44} color={Colors.title} />
             </IconButtonContainer>
           </SwitchController>
