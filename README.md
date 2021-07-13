@@ -1,6 +1,6 @@
 # App Pokedex
 
-<img src="./public/capa.png">
+<img src="./public/preview.png">
 
 # About
 
@@ -16,3 +16,4 @@
 - Expo CLI
 - Axios
 - Styled-components
+- Async Storage
