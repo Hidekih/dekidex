@@ -48,7 +48,6 @@
   },
   "private": true,
   "android": {
-    "package": "com.hidekih.dekidex",
     "versionCode": 1
   }
 }

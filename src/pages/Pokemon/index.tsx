@@ -31,7 +31,7 @@ import {
   BadgeTitle,
   SwitchController,
 } from './styles';
-import { formatPokedexNumber } from '../../utils/formatPokedexNumber';
+import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 
 type RoutePrams = {
   url: string;
@@ -87,7 +87,7 @@ export function Pokemon() {
 
         const parsedData = {
           id: String(id).trim(),
-          pokedexNumber: formatPokedexNumber(id.trim()),
+          pokedexNumber: generatePokedexNumber(id.trim()),
           name: captalize(response.data.name),
           ability: response.data.abilities.map(data => {
             return data.ability.name;
@@ -125,7 +125,7 @@ export function Pokemon() {
 
         const parsedData = {
           id: String(id).trim(),
-          pokedexNumber: formatPokedexNumber(id.trim()),
+          pokedexNumber: generatePokedexNumber(id.trim()),
           name: captalize(response.data.name),
           ability: response.data.abilities.map(data => {
             return data.ability.name;

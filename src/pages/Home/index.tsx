@@ -5,8 +5,7 @@ import axios from 'axios';
 
 import Colors from '../../styles/colors';
 import { captalize } from '../../utils/captalize';
-import { formatPokedexNumber } from '../../utils/formatPokedexNumber';
-import pokeApi from '../../services/pokeapi';
+import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { PokemonListed } from '../../utils/types';
 
 import pokeballImg from '../../assets/pokeball-icon.png';
@@ -40,80 +39,74 @@ type PokeApiResponse = {
   ];
 }
 
+const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20';
+
 export function createAvatarLink(id: string) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 } 
 
 export function Home() {
-  const [ nextUri, setNextUri ] = useState('');
   const [ pokemons, setPokemons ] = useState<PokemonListed[]>([]);
+  const [ nextUri, setNextUri ] = useState('');
   const [ isLoading, setIsLoading ]= useState(false);
   const [ loadedAll, setLoadedAll ]= useState(false);
 
   const { navigate } = useNavigation();
   
   useEffect(() => {
-    pokeApi.get<PokeApiResponse>('/pokemon')
-      .then(response => {
-        setNextUri(response.data.next);
-        
-        const formatedData = response.data.results.map<PokemonListed>(poke => {
-          const separetedUrl = poke.url.split('pokemon/');
-          const [ ,id ] = separetedUrl;
-          const pokedexNumber = id.replace('/','');
-
-          return {
-            id: formatPokedexNumber(pokedexNumber),
-            name: captalize(poke.name),
-            avatar: createAvatarLink(pokedexNumber),
-            url: poke.url,
-          }
-        });
-
-        setPokemons(formatedData);
-      })
-      .catch(err => console.error(err));
+    setIsLoading(true);
+    fetchData(FIRST_URI_TO_FETCH);
+    setIsLoading(false);
   }, []);
 
-  const fetchData = useCallback(async(distance: number) => {
-    if (distance < 1) {
-      return;
-    }
-
+  const fetchData = useCallback(async(uri: string) => {
     if (loadedAll) {
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      const response = await axios.get<PokeApiResponse>(nextUri);
-      setNextUri(response.data.next);
+      setIsLoading(true);
+      const { data } = await axios.get<PokeApiResponse>(uri);
+      setNextUri(data.next);
 
-      if (response.data.results.length < 20) {
+      if (data.results.length < 20) {
         setLoadedAll(true);
       }
 
-      const formatedData = response.data.results.map<PokemonListed>(pokemon => {
-        const separetedUrl = pokemon.url.split('pokemon/');
-        const [ ,id ] = separetedUrl;
-        const pokedexNumber = id.replace('/','');
+      const parsedData = data.results.map<PokemonListed>(pokemon => {
+        const [, endOfUrl ] = pokemon.url.split('pokemon/');
+        const [ id, ] = endOfUrl.split('/');
 
         return {
-          id: formatPokedexNumber(pokedexNumber),
+          id: generatePokedexNumber(id),
           name: captalize(pokemon.name),
-          avatar: createAvatarLink(pokedexNumber),
+          avatar: createAvatarLink(id),
           url: pokemon.url,
         }
       });
 
-      setPokemons([...pokemons, ...formatedData ]);
+      setPokemons(state => {
+        return [ 
+          ...state,
+          ...parsedData 
+        ]
+      });
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
     }
-  },[pokemons, nextUri]);
+  }, [loadedAll, nextUri]);
+
+  const handleReFetch  = useCallback(async(distance: number) => {
+    if (distance < 1) {
+      return;
+    }
+
+    console.log('Fetch on ' + nextUri)
+
+    fetchData(nextUri);
+  }, [nextUri]);
 
   const handleSelectPokemon = useCallback((url: string) => {
     navigate('Pokemon', { url });
@@ -132,7 +125,7 @@ export function Home() {
             keyExtractor={data => String(data.id)}
             showsVerticalScrollIndicator={false}
             onEndReached={({ distanceFromEnd }) => {
-              fetchData(distanceFromEnd);
+              handleReFetch(distanceFromEnd);
             }}
             renderItem={( { item: pokemon } ) => (
               <ButtonCover key={pokemon.id} >
