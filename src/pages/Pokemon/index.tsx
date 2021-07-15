@@ -151,7 +151,7 @@ export function Pokemon() {
             },
           },
           url,
-          is_unique_gender: !data.sprites.back_female,
+          is_unique_gender: !data.sprites.front_female,
         } as PokemonData;
 
         const {
@@ -326,7 +326,10 @@ export function Pokemon() {
               />
               <PokeImage 
                 resizeMode='cover'
-                source={{ uri: currentSprites[colorSprite][genderSprite].back || '' }}
+                source={{ uri: currentSprites[colorSprite][genderSprite].back 
+                  || currentSprites[colorSprite]['male'].back 
+                  || '',
+                }}
               />
             </PokemonAvatarContainer>
 
