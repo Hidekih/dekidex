@@ -103,8 +103,6 @@ export function Home() {
       return;
     }
 
-    console.log('Fetch on ' + nextUri)
-
     fetchData(nextUri);
   }, [nextUri]);
 

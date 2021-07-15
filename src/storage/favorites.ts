@@ -24,7 +24,7 @@ export async function save(data: PokemonData): Promise<void> {
     const pokemon = {
       id: data.id,
       name: data.name,
-      avatar: data.front_default,
+      avatar: data.sprites.versions.default.front_default,
       pokedex_Number: data.pokedexNumber,
       types: data.types.map(type => {
         return {

@@ -3,8 +3,34 @@ export type PokemonData = {
   pokedexNumber: string;
   ability: string;
   name: string;
-  back_default: string;
-  front_default: string;
+  is_unique_gender: boolean;
+  sprites: {
+    versions: {
+      default: {
+        back_default: string;
+        back_female?: string | null;
+        back_shiny: string;
+        back_shiny_female?: string | null;
+        front_default: string;
+        front_female?: string | null;
+        front_shiny: string;
+        front_shiny_female?: string | null;
+      }
+      // "generation-i": {
+      //   "red-blue": {
+      //     back_default: string | null;
+      //     front_default: string | null;
+      //   }
+      // },
+      // "generation-ii": {},
+      // "generation-iii": {},
+      // "generation-iv": {},
+      // "generation-v": {},
+      // "generation-vi": {},
+      // "generation-vii": {},
+      // "generation-viii": {},
+    }
+  },
   types: [
     {
       slot: string;
@@ -15,6 +41,29 @@ export type PokemonData = {
   weight: number;
   url: string;
 }
+
+export type CurrentSprites = {
+  normal: {
+    female: {
+      front: string | null | undefined;
+      back: string | null | undefined;
+    },
+    male: {
+      front: string;
+      back: string;
+    },
+  },
+  shiny: {
+    female: {
+      front: string | null | undefined;
+      back: string | null | undefined;
+    },
+    male: {
+      front: string | null | undefined;
+      back: string | null | undefined;
+    }
+  }
+};
 
 export type FavoritedPokemon = {
   id: string;

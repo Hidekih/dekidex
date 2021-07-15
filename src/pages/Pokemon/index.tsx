@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { ActivityIndicator, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
 import { captalize } from '../../utils/captalize';
-import { PokemonData } from '../../utils/types';
+import { PokemonData, CurrentSprites } from '../../utils/types';
 import Colors from '../../styles/colors';
 import { findOne, save, remove } from '../../storage/favorites';
 
@@ -17,6 +17,10 @@ import {
   Content,
   RowDivider,
   PokeDataDisplay,
+  PokemonSpriteControllers,
+  SpriteColorController,
+  SpriteGenderController,
+  ChangeSpriteGenderButton,
   PokemonAvatarContainer,
   GradientBackground,
   PokeImage,
@@ -32,10 +36,8 @@ import {
   SwitchController,
 } from './styles';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
+import { ChangeSpriteColorButton } from './ChangeSpriteColorButton';
 
-type RoutePrams = {
-  url: string;
-}
 
 export function createAvatarLink(id: string) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
@@ -43,6 +45,10 @@ export function createAvatarLink(id: string) {
 
 function createPokemonUrl(id: number) {
   return `https://pokeapi.co/api/v2/pokemon/${id}`;
+}
+
+type RoutePrams = {
+  url: string;
 }
 
 type PokemonDataResponse = {
@@ -55,8 +61,28 @@ type PokemonDataResponse = {
     }
   ]
   name: string;
-  back_default: string;
-  front_default: string;
+  sprites: {
+    back_default: string;
+    back_female?: string | null;
+    back_shiny: string;
+    back_shiny_female?: string | null;
+    front_default: string;
+    front_female?: string | null;
+    front_shiny: string;
+    front_shiny_female?: string | null;
+    versions: {
+      "generation-i": {
+        "red-blue": {
+          [key: string]: string;
+        }
+      },
+      [key: string]: {
+        [key: string]: {
+          
+        }
+      }
+    }
+  },
   types: [
     {
       slot: number;
@@ -74,51 +100,22 @@ export function Pokemon() {
   const { goBack } = useNavigation();
   const { url } = route.params as RoutePrams;
   const [ pokemon, setPokemon ] = useState<PokemonData>({} as PokemonData);
-  const [ isFetching, setIsFetching ] = useState(false);
+  const [ isFetching, setIsFetching ] = useState(true);
   const [ isFavorited, setIsFavorited ] = useState(false);
+  const [ colorSprite, setColorSprite ] = useState<'normal' | 'shiny'>('normal');
+  const [ genderSprite, setGenderSprite ] = useState<'male' | 'female'>('male');
+  
+  const [ currentSprites, setCurrentSprites ] = useState<CurrentSprites>({} as CurrentSprites);
 
   useEffect(() => {
-    setIsFetching(true);
-    axios.get<PokemonDataResponse>(url)
-      .then(response => {
-        const separetedUrl = url.split('pokemon/');
-        const [ ,endpoint ] = separetedUrl;
-        const id = endpoint.replace('/','');  
-
-        const parsedData = {
-          id: String(id).trim(),
-          pokedexNumber: generatePokedexNumber(id.trim()),
-          name: captalize(response.data.name),
-          ability: response.data.abilities.map(data => {
-            return data.ability.name;
-            
-          }).join(' / '),
-          front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id.trim()}.png`,
-          back_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id.trim()}.png`,
-          height: response.data.height,
-          weight: response.data.weight,
-          types: response.data.types.map(data =>{
-            return {
-              slot: String(data.slot),
-              type: data.type.name.toLowerCase(),
-            }
-          }),
-          url,
-        } as PokemonData;
-
-        setPokemon(parsedData);
-        findOne(parsedData.id).then(res => {
-          setIsFavorited(!!res);
-        })
-      })
-        .catch(err => console.error(err))
-        .finally(() => setIsFetching(false));
+    fetchData(url);
   }, [url]);
-  
 
   function fetchData(pokemonUrl: string) {
     axios.get<PokemonDataResponse>(pokemonUrl)
       .then(response => {
+        const { data } = response;
+
         const separetedUrl = pokemonUrl.split('pokemon/');
         const [ ,endpoint ] = separetedUrl;
         const id = endpoint.replace('/','');  
@@ -131,8 +128,6 @@ export function Pokemon() {
             return data.ability.name;
             
           }).join(' / '),
-          front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id.trim()}.png`,
-          back_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id.trim()}.png`,
           height: response.data.height,
           weight: response.data.weight,
           types: response.data.types.map(data => {
@@ -140,8 +135,58 @@ export function Pokemon() {
               slot: String(data.slot),
               type: data.type.name.toLowerCase(),
             }
-          })
+          }),
+          sprites: {
+            versions: {
+              default: {
+                back_default: data.sprites.back_default,
+                back_female: data.sprites.back_female,
+                back_shiny: data.sprites.back_shiny,
+                back_shiny_female: data.sprites.back_shiny_female,
+                front_default: data.sprites.front_default,
+                front_female: data.sprites.front_female,
+                front_shiny: data.sprites.front_shiny,
+                front_shiny_female: data.sprites.front_shiny_female,
+              },
+            },
+          },
+          url,
+          is_unique_gender: !data.sprites.back_female,
         } as PokemonData;
+
+        const {
+          back_default,
+          back_female,
+          back_shiny,
+          back_shiny_female,
+          front_default,
+          front_female,
+          front_shiny,
+          front_shiny_female,
+        } = parsedData.sprites.versions.default;
+        
+        setCurrentSprites({
+          normal: {
+            female: {
+              front: front_female,
+              back: back_female,
+            },
+            male: {
+              front: front_default,
+              back: back_default,
+            }
+          },
+          shiny: {
+            female: {
+              front: front_shiny_female,
+              back: back_shiny_female,
+            },
+            male: {
+              front: front_shiny,
+              back: back_shiny
+            }
+          }
+        });
 
         setPokemon(parsedData);
         findOne(parsedData.id).then(res => {
@@ -152,9 +197,18 @@ export function Pokemon() {
         .finally(() => setIsFetching(false));
   }
 
+
   const handleGoBack = useCallback(() => {
     goBack();
   }, [goBack]);
+
+  const handleToggleColorSprite = useCallback((string: 'normal' | 'shiny') => {
+    setColorSprite(string);
+  }, []);
+
+  const handleToggleGenderSprite = useCallback((string: 'male' | 'female') => {
+    setGenderSprite(string);
+  }, []);
 
   const handleNextPokemon = useCallback(() => {
     if ((Number(pokemon.id) + 1) >= 10000){
@@ -217,19 +271,58 @@ export function Pokemon() {
         </Header>
 
         <Content>
-
           <PokeDataDisplay>
+              <PokemonSpriteControllers typeColor={Colors.type[pokemon.types[0].type || '#333']}>
+                <SpriteColorController>
+                  <ChangeSpriteColorButton 
+                    disabled={!currentSprites.shiny.male.front}
+                    handleToggleSprite={() => handleToggleColorSprite('normal')}
+                    isSelected={colorSprite === 'normal'}
+                    title="Normal"
+                  />
+                  <ChangeSpriteColorButton 
+                    disabled={!currentSprites.shiny.male.front}
+                    handleToggleSprite={() => handleToggleColorSprite('shiny')}
+                    isSelected={colorSprite === 'shiny'}
+                    title="Shiny"
+                  />
+                </SpriteColorController>
+
+                <SpriteGenderController>
+                  <ChangeSpriteGenderButton 
+                    disabled={!currentSprites.normal.female.front}
+                    onPress={() => handleToggleGenderSprite('male')}
+                  >
+                    { genderSprite === 'male' && !pokemon.is_unique_gender ? (
+                      <MaterialCommunityIcons  name="gender-male" size={26} color={"#438FE6"}/>
+                    ) : (
+                      <MaterialCommunityIcons  name="gender-male" size={28} color={Colors.background[5]}/>
+                    )}
+                  </ChangeSpriteGenderButton>
+                  <ChangeSpriteGenderButton 
+                    disabled={!currentSprites.normal.female.front}
+                    onPress={() => handleToggleGenderSprite('female')}
+                  >
+                    { genderSprite === 'female' ? (
+                      <MaterialCommunityIcons  name="gender-female" size={26} color={"#DB736E"}/>
+                    ) : (
+                      <MaterialCommunityIcons  name="gender-female" size={28} color={Colors.background[5]}/>
+                    )}
+                  </ChangeSpriteGenderButton>
+                </SpriteGenderController>
+              </PokemonSpriteControllers>
+
             <PokemonAvatarContainer>
               <GradientBackground
                 colors={[ Colors.type[pokemon.types[0].type], Colors.background[5]]}
               />
               <PokeImage 
                 resizeMode='cover'
-                source={{ uri: pokemon.front_default }}
+                source={{ uri: currentSprites[colorSprite][genderSprite].front || '' }}
               />
               <PokeImage 
                 resizeMode='cover'
-                source={{ uri: pokemon.back_default }}
+                source={{ uri: currentSprites[colorSprite][genderSprite].back || '' }}
               />
             </PokemonAvatarContainer>
 
@@ -250,7 +343,6 @@ export function Pokemon() {
               </PokemonRowContainer>
               <RowDivider />
 
-           
                 <PokemonRowWithColumnContainer>
                   <PokemonRowColumn>
                     <DataTitle>
