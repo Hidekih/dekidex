@@ -188,7 +188,11 @@ export function Pokemon() {
           }
         });
 
+        setColorSprite('normal');
+        setGenderSprite('male');
+
         setPokemon(parsedData);
+        
         findOne(parsedData.id).then(res => {
           setIsFavorited(!!res);
         })
