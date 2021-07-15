@@ -52,6 +52,37 @@ export const PokeDataDisplay = styled.View`
   overflow: hidden;
 `;
 
+export const PokemonSpriteControllers = styled.View<TypeBadgeProps>`
+  width: 100%;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 8px 8px 0 8px;
+  background: ${props => props.typeColor};
+`;
+
+export const SpriteColorController = styled.View`
+  flex-direction: row;
+  height: 44px;
+  flex: 1;
+  background: ${Colors.background[9]};
+  border-radius: 12px;
+`;
+
+export const SpriteGenderController = styled.View`
+  flex-direction: row;
+  height: 44px;
+  margin-left: 16px;
+  width: 112px;
+  background: ${Colors.background[9]};
+  border-radius: 12px;
+`;
+
+export const ChangeSpriteGenderButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;  
+
 export const PokemonAvatarContainer = styled.View`
   position: relative;
   flex-direction: row;
@@ -144,37 +175,3 @@ export const SwitchController = styled.View`
   
   overflow: hidden;
 `;
-
-
-
-
-export const PokemonSpriteControllers = styled.View<TypeBadgeProps>`
-  width: 100%;
-  flex-direction: row;
-  align-items: flex-end;
-  padding: 8px 8px 0 8px;
-  background: ${props => props.typeColor};
-`;
-
-export const SpriteColorController = styled.View`
-  flex-direction: row;
-  height: 44px;
-  flex: 1;
-  background: ${Colors.background[9]};
-  border-radius: 12px;
-`;
-
-export const SpriteGenderController = styled.View`
-  flex-direction: row;
-  height: 44px;
-  margin-left: 16px;
-  width: 112px;
-  background: ${Colors.background[9]};
-  border-radius: 12px;
-`;
-
-export const ChangeSpriteGenderButton = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-`;  

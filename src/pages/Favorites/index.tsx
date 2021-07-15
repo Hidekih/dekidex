@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -28,11 +28,12 @@ import {
 
   RemoveButtonContainer,
 } from './styles';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 export function Favorites() {
   const [ favorites, setFavorites ] = useState<FavoritedPokemon[]>([]);
   const { addListener, removeListener } = useNavigation();
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     const navigationFocusListener = addListener('focus', () => {
@@ -56,6 +57,10 @@ export function Favorites() {
       setFavorites(response);
     }
   }
+
+  const handleSelectPokemon = useCallback((url: string) => {
+    navigate('Pokemon', { url });
+  }, [navigate]);
   
   return (
     <Container>
@@ -68,7 +73,7 @@ export function Favorites() {
           showsVerticalScrollIndicator={false}
         >
           { favorites.length > 0 && favorites.map(favorite => (
-            <Swipeable key={favorite.id}
+            <Swipeable 
               renderRightActions={() => (
                 <RemoveButtonContainer>
                   <TouchableOpacity onPress={() => handleRemove(favorite.id)} style={{ marginRight: 16, marginTop: 8 }}>
@@ -77,7 +82,7 @@ export function Favorites() {
                 </RemoveButtonContainer>
               )}
             >
-              <PokeInfoContainer>
+              <PokeInfoContainer onPress={() => handleSelectPokemon(favorite.url)} >
                 <GradientBackground 
                   colors={[ Colors.type[favorite.types[0].type || 'dark'], Colors.background[9]]}
                 />

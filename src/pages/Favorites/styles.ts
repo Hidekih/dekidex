@@ -2,6 +2,7 @@ import { Image } from 'react-native';
 import styled from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../styles/colors';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -31,10 +32,11 @@ export const PokeList = styled.ScrollView`
   flex: 1;
 `; 
 
-export const PokeInfoContainer = styled.View`
+export const PokeInfoContainer = styled.TouchableOpacity`
   flex-direction: row;
   margin: 8px 16px 8px 16px;
   border-radius: 8px;
+  z-index: 10;
 `;
 
 export const GradientBackground = styled(LinearGradient)`
