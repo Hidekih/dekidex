@@ -13,6 +13,6 @@ export const Container = styled.TouchableOpacity`
 
 export const ToggleButtonTitle = styled.Text<ToggleButtonTitleProps>`
   font-size: 18px;
-  color: ${props => props.isSelected ? Colors.title : Colors.background[5] };
+  color: ${props => props.isSelected ? Colors.title : Colors.background[1] };
   font-weight: 700;
 `;

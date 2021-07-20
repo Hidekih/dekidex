@@ -13,24 +13,23 @@ export const Header = styled.View`
   height: 60px;
   align-items: center;
   justify-content: center;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: ${Colors.title};
 `;
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
 `;
 
 export const PokeListContainer = styled.View`
   position: relative;
   flex: 1;
-  border-radius: 12px;
   overflow: hidden;
 `; 
 
@@ -48,8 +47,8 @@ export const ButtonCover = styled.View`
 export const PokeInfoButton = styled(RectButton)`
   width: 100%;
   flex-direction: row;
-  background: ${Colors.background[5]};
-  border-bottom-color: ${Colors.background[9]};
+  /* Possible color conflict here */
+  background: ${Colors.background[1]};
 `;
 
 export const PokeImage = styled(Image)`
@@ -80,12 +79,12 @@ export const PokeBasics = styled.View`
 export const PokeName = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  color: ${Colors.background[9]};
+  color: ${Colors.background[2]};
 `;
 
 export const PokeNumber = styled.Text`
   font-size: 20px;
-  color: ${Colors.background[9]};
+  color: ${Colors.background[2]};
 `;
 
 export const BoldText = styled.Text`

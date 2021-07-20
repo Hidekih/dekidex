@@ -2,9 +2,10 @@ import { ThemesColor } from "../utils/types";
 
 export default {
   background: {
-    "0": '#D4D4D2',
-    "5": '#555252',
-    "9": '#3F3D3C',
+    "0": '#CCC5C2', 
+    "1": '#555252',
+    "2": '#3F3D3C',
+    "3": '#383635',
   },
   title: '#f9f9f9',
   subtilte: '#EEEEEC',

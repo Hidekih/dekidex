@@ -6,9 +6,13 @@ import Colors from '../../styles/colors';
 import Layout from '../../utils/layout';
 import { TypeBadgeProps } from '../../utils/types';
 
+type SelectedProps = {
+  isSelected: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
 `; 
 
 export const Header = styled.View`
@@ -16,7 +20,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 60px;
+  height: 56px;
   padding: 0 16px;
 `;
 
@@ -28,52 +32,51 @@ export const IconButtonContainer = styled.TouchableOpacity`
 
 export const HeaderTitle = styled.Text`
   flex: 1;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   text-align: center;
   color: ${Colors.title};
 `;
 
 export const Content = styled.View`
+  position: relative;
   flex: 1;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
   padding: 8px 16px 16px 16px;
 `;
 
-export const RowDivider = styled.View`
-  width: 100%;
-  height: 2px;
-  background: ${Colors.background[9]};
-`;
-
 export const PokeDataDisplay = styled.View`
-  background: ${Colors.background[5]};
-  border-radius: 12px;
+  flex: 1;
+  /* background: ${Colors.background[1]}; */
+  /* border-radius: 12px; */
   overflow: hidden;
 `;
 
 export const PokemonSpriteControllers = styled.View<TypeBadgeProps>`
   width: 100%;
+  height: 56px;
   flex-direction: row;
   align-items: flex-end;
   padding: 8px 8px 0 8px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   background: ${props => props.typeColor};
 `;
 
 export const SpriteColorController = styled.View`
   flex-direction: row;
-  height: 44px;
+  height: 100%;
   flex: 1;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[3]};
   border-radius: 12px;
 `;
 
 export const SpriteGenderController = styled.View`
   flex-direction: row;
-  height: 44px;
+  height: 100%;
   margin-left: 16px;
   width: 112px;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[3]};
   border-radius: 12px;
 `;
 
@@ -87,6 +90,10 @@ export const PokemonAvatarContainer = styled.View`
   position: relative;
   flex-direction: row;
   justify-content: space-around;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  margin-bottom: 16px;
+  overflow: hidden;
 `;
 
 export const GradientBackground = styled(LinearGradient)`
@@ -101,7 +108,6 @@ export const PokeImage = styled(Image)`
   width: ${Math.floor(Layout.window.width * 0.40)}px;
   height: ${Math.floor(Layout.window.width * 0.40)}px;
 `;
-
 export const DataTitle = styled.Text`
   font-size: 18px;
   color: ${Colors.title};
@@ -121,13 +127,19 @@ export const DataValue = styled.Text`
   font-weight: 400;
 `;
 
-export const PokemonInfoContainer = styled.View`
-  background: ${Colors.background[5]};
-  padding: 0 16px;
+export const Section = styled.View`
+  position: relative;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+
+  background: ${Colors.background[3]};
+  border-radius: 12px;
+
+  overflow: hidden;
 `;
 
-export const PokemonRowContainer = styled.View`
-  height: 60px;
+export const RowContainer = styled.View`
+  height: 54px;
   flex-direction: row;
   align-items: center;
 `;
@@ -143,6 +155,7 @@ export const PokemonRowWithColumnContainer = styled.View`
 export const PokemonRowColumn = styled.View`
   flex: 1;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -168,10 +181,45 @@ export const SwitchController = styled.View`
   align-items: center;
   justify-content: space-between;
   height: 60px;
-  width: 100%;
-  margin-top: 40px;
-  background: ${Colors.background[5]};
+  margin-top: 16px;
+  background: ${Colors.background[3]};
   border-radius: 8px;
   
   overflow: hidden;
+`;
+
+export const GameVersionsList = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 6px 0 16px 0;
+`;
+
+export const GameVersionButton = styled.TouchableOpacity<SelectedProps>`
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  margin-top: 12px;
+  margin-right: 8px;
+  padding: 0 8px; 
+  background: ${props => props.isSelected ? Colors.title : 'transparent'};
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${Colors.subtilte};
+  border-radius: 8px;
+`;
+
+export const GameVersionTitle = styled.Text<SelectedProps>`
+  font-size: 18px;
+  font-weight: ${props => props.isSelected ? '700' : '400'};
+  color: ${props => props.isSelected ? Colors.background[2] : Colors.subtilte};
+`;
+
+
+export const MoveRowContainer = styled.View`
+  height: 54px;
+  flex-direction: row;
+  align-items: center;
+  border-bottom-color: ${Colors.subtilte};
+  border-bottom-width: 1px;
 `;

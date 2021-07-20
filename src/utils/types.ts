@@ -1,3 +1,67 @@
+export type Stat = {
+  base_stat: number;
+  effort: number;
+  name: string;
+}
+
+export type MoveGen = {
+  name: string;
+  level_learned_at: number;
+  learn_method: string;
+}
+
+export type GameVersions = 
+  "red-blue"
+| "yellow"
+| "gold-silver"
+| "crystal"
+| "ruby-sapphire"
+| "emerald"
+| "firered-leafgreen"
+| "diamond-pearl"
+| "platinum"
+| "heartgold-soulsilver"
+| "black-white"
+| "colosseum"
+| "xd"
+| "black-2-white-2"
+| "x-y"
+| "omega-ruby-alpha-sapphire"
+| "sun-moon"
+| "ultra-sun-ultra-moon"
+| "lets-go"
+| "sword-shield";
+
+export type MovesByGen = {
+  [key: string]: MoveGen[];
+}
+
+export type MoveVersionDetails = {
+  level_learned_at: number;
+  move_learn_method: {
+    name: string;
+  },
+  version_group: {
+    name: GameVersions;
+  }   
+  /* Example(JSON): 
+  "level_learned_at": 0,
+    "move_learn_method": {
+      "name": "egg"
+    },
+    "version_group": {
+      "name": "gold-silver"
+    }
+  */
+}
+
+export type Moves = {
+  move: {
+    name: string;
+  },
+  version_group_details: MoveVersionDetails[];
+}
+
 export type PokemonData = {
   id: string;
   pokedexNumber: string;
@@ -37,6 +101,15 @@ export type PokemonData = {
       type: string;
     }
   ];
+  stats: [
+    Stat,
+    Stat,
+    Stat,
+    Stat,
+    Stat,
+    Stat
+  ],
+  base_experience: number;
   height: number;
   weight: number;
   url: string;
@@ -83,8 +156,9 @@ export type FavoritedPokemon = {
 export type ThemesColor = {
   background: {
     "0": string;
-    "5": string;
-    "9": string;
+    "1": string;
+    "2": string;
+    "3": string;
   }
   title: string;
   subtilte: string;

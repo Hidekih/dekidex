@@ -5,7 +5,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 
 import { FavoritedPokemon } from '../../utils/types';
 import { load, remove } from '../../storage/favorites';
-import { GradientBottom } from '../../components/GradientBottom';
+import { BottomShadow } from '../../components/BottomShadow';
 import Colors from '../../styles/colors';
 
 import { 
@@ -73,7 +73,8 @@ export function Favorites() {
           showsVerticalScrollIndicator={false}
         >
           { favorites.length > 0 && favorites.map(favorite => (
-            <Swipeable 
+            <Swipeable
+              key={favorite.id}
               renderRightActions={() => (
                 <RemoveButtonContainer>
                   <TouchableOpacity onPress={() => handleRemove(favorite.id)} style={{ marginRight: 16, marginTop: 8 }}>
@@ -84,7 +85,7 @@ export function Favorites() {
             >
               <PokeInfoContainer onPress={() => handleSelectPokemon(favorite.url)} >
                 <GradientBackground 
-                  colors={[ Colors.type[favorite.types[0].type || 'dark'], Colors.background[9]]}
+                  colors={[ Colors.type[favorite.types[0].type || 'dark'], Colors.background[2]]}
                 />
                 <PokeImage 
                   height={100} 
@@ -115,8 +116,8 @@ export function Favorites() {
             </Swipeable>
           ))}
         </PokeList>
-        <GradientBottom 
-          colors={['transparent', Colors.background[9]]}
+        <BottomShadow 
+          colors={['transparent', Colors.background[2]]}
         />
       </Content>
     </Container>

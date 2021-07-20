@@ -6,7 +6,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
 `;
 
 export const Header = styled.View`
@@ -14,18 +14,18 @@ export const Header = styled.View`
   height: 60px;
   align-items: center;
   justify-content: center;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: ${Colors.title};
 `;
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Colors.background[9]};
+  background: ${Colors.background[2]};
 `;
 
 export const PokeList = styled.ScrollView`

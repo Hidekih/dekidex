@@ -14,10 +14,10 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{ 
-        inactiveTintColor: Colors.background[5],
+        inactiveTintColor: Colors.background[1],
         activeTintColor: Colors.title, 
-        activeBackgroundColor: Colors.background[9],
-        inactiveBackgroundColor: Colors.background[9],
+        activeBackgroundColor: Colors.background[3],
+        inactiveBackgroundColor: Colors.background[2],
         tabStyle: { 
           flex: 1, 
           flexDirection: "row", 
@@ -25,8 +25,8 @@ export default function BottomTabNavigator() {
           justifyContent: 'center' ,
         },
         style: {
-          borderTopWidth: 2,
-          borderTopColor: Colors.background[5],
+          borderTopWidth: 0,
+          borderTopColor: Colors.background[1],
           height: 56,
         }
       }}

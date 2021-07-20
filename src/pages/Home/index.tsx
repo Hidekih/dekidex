@@ -7,6 +7,7 @@ import Colors from '../../styles/colors';
 import { captalize } from '../../utils/captalize';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { PokemonListed } from '../../utils/types';
+import { BottomShadow } from '../../components/BottomShadow';
 
 import pokeballImg from '../../assets/pokeball-icon.png';
 
@@ -27,7 +28,8 @@ import {
   PokeNumber,
   BoldText,
 } from './styles';
-import { GradientBottom } from '../../components/GradientBottom';
+
+const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20';
 
 type PokeApiResponse = {
   next: string;
@@ -38,8 +40,6 @@ type PokeApiResponse = {
     }
   ];
 }
-
-const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20';
 
 export function createAvatarLink(id: string) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
@@ -168,8 +168,8 @@ export function Home() {
                 : <></>
             )}
           />
-          <GradientBottom 
-            colors={['transparent', Colors.background[9]]}
+          <BottomShadow 
+            colors={['transparent', Colors.background[2]]}
           />
         </PokeListContainer>
       </Content>
