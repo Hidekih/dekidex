@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Text } from 'react-native';
+import { Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -16,7 +16,7 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ 
         inactiveTintColor: Colors.background[1],
         activeTintColor: Colors.title, 
-        activeBackgroundColor: Colors.background[3],
+        activeBackgroundColor: Colors.background[2],
         inactiveBackgroundColor: Colors.background[2],
         tabStyle: { 
           flex: 1, 
@@ -25,9 +25,9 @@ export default function BottomTabNavigator() {
           justifyContent: 'center' ,
         },
         style: {
-          borderTopWidth: 0,
+          borderTopWidth: 2,
           borderTopColor: Colors.background[1],
-          height: 56,
+          height: 54,
         }
       }}
     >
@@ -35,7 +35,7 @@ export default function BottomTabNavigator() {
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: ({ focused, color }) => (
+          tabBarLabel: ({ color }) => (
             <>
               <Ionicons size={30} name="ios-list" color={color} />
               <Text 
@@ -51,7 +51,7 @@ export default function BottomTabNavigator() {
         name="Favorites"
         component={Favorites}
         options={{
-          tabBarLabel: ({ focused, color }) => (
+          tabBarLabel: ({ color }) => (
             <>
               <Ionicons size={30} name="heart" color={color} />
               <Text 

@@ -12,7 +12,7 @@ export function RowDivider({ colors }: RowDividerProps) {
     <Container>
       {colors && (
         <LinearGradient
-          start={{x: 0, y: 1}} end={{x: 1.1, y: 1}}
+          start={{x: 0, y: 1}} end={{x: 1, y: 1}}
           colors={colors}
           style={{
             position: 'absolute',

@@ -7,7 +7,6 @@ import Colors from '../../styles/colors';
 import { captalize } from '../../utils/captalize';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { PokemonListed } from '../../utils/types';
-import { BottomShadow } from '../../components/BottomShadow';
 
 import pokeballImg from '../../assets/pokeball-icon.png';
 
@@ -167,9 +166,6 @@ export function Home() {
                   />
                 : <></>
             )}
-          />
-          <BottomShadow 
-            colors={['transparent', Colors.background[2]]}
           />
         </PokeListContainer>
       </Content>

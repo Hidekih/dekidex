@@ -5,7 +5,6 @@ import { Swipeable } from 'react-native-gesture-handler';
 
 import { FavoritedPokemon } from '../../utils/types';
 import { load, remove } from '../../storage/favorites';
-import { BottomShadow } from '../../components/BottomShadow';
 import Colors from '../../styles/colors';
 
 import { 
@@ -85,7 +84,8 @@ export function Favorites() {
             >
               <PokeInfoContainer onPress={() => handleSelectPokemon(favorite.url)} >
                 <GradientBackground 
-                  colors={[ Colors.type[favorite.types[0].type || 'dark'], Colors.background[2]]}
+                  start={{x: 0, y: 1}} end={{x: 1, y: -1}}
+                  colors={[ Colors.type[favorite.types[0].type], Colors.background[3] ]}
                 />
                 <PokeImage 
                   height={100} 
@@ -103,22 +103,19 @@ export function Favorites() {
                     </PokeNumber>
                   </PokeBasicsContainer>
                   <PokeTypesContainer>
-                  { favorite.types.map(type => (
-                    <TypeBadge key={type.slot} typeColor={type.type}>
-                      <BadgeTitle>
-                        {type.name}
-                      </BadgeTitle>
-                    </TypeBadge>
-                  ))}       
+                    { favorite.types.map(type => (
+                      <TypeBadge key={type.slot} typeColor={type.type}>
+                        <BadgeTitle>
+                          {type.name}
+                        </BadgeTitle>
+                      </TypeBadge>
+                    ))}       
                   </PokeTypesContainer>
                 </PokeData>                
               </PokeInfoContainer>
             </Swipeable>
           ))}
         </PokeList>
-        <BottomShadow 
-          colors={['transparent', Colors.background[2]]}
-        />
       </Content>
     </Container>
   )

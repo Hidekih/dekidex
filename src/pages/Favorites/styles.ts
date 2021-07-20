@@ -34,9 +34,10 @@ export const PokeList = styled.ScrollView`
 
 export const PokeInfoContainer = styled.TouchableOpacity`
   flex-direction: row;
-  margin: 8px 16px 8px 16px;
+  margin: 0 16px 8px 16px;
   border-radius: 8px;
   z-index: 10;
+  elevation: 4;
 `;
 
 export const GradientBackground = styled(LinearGradient)`

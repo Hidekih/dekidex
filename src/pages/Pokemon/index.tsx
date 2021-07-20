@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -12,7 +12,7 @@ import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 
 import { ChangeSpriteColorButton } from './ChangeSpriteColorButton';
 import { SkeletonRectangleBox } from '../../components/Skeleton/SkeletonRectangleBox';
-import { RowDivider } from './RowDivider';
+import { RowDivider } from '../../components/RowDivider';
 
 import { 
   Container, 
@@ -37,12 +37,12 @@ import {
   PokemonRowColumn,
   TypeBadge,
   BadgeTitle,
-  SwitchController,
   GameVersionsList,
   GameVersionButton,
   GameVersionTitle,
   MoveRowContainer,
 } from './styles';
+import { SwitchController } from './SwitchController';
 
 function createPokemonUrl(id: number) {
   return `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -644,28 +644,29 @@ export function Pokemon() {
                   </PokemonRowColumn>
                 </PokemonRowWithColumnContainer>
 
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
-                />
-
                 { moves[selectedGameVersion].length > 0 
                   ? moves[selectedGameVersion].map(({ name,learn_method,level_learned_at }, index) => (
-                    <MoveRowContainer key={index}>
-                      <PokemonRowColumn>
-                        <DataValue>
-                          {name}
-                        </DataValue>
-                      </PokemonRowColumn>
-                      { learn_method === 'level-up' ? (
+                    <View key={index}>
+                      <RowDivider 
+                        colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                      />
+                      <MoveRowContainer key={index}>
                         <PokemonRowColumn>
-                          <DataValue>level: {level_learned_at}</DataValue>
+                          <DataValue>
+                            {name}
+                          </DataValue>
                         </PokemonRowColumn>
-                      ) : (
-                        <PokemonRowColumn>
-                          <DataValue>{learn_method}</DataValue>
-                        </PokemonRowColumn>
-                      )}
-                    </MoveRowContainer>
+                        { learn_method === 'level-up' ? (
+                          <PokemonRowColumn>
+                            <DataValue>level: {level_learned_at}</DataValue>
+                          </PokemonRowColumn>
+                        ) : (
+                          <PokemonRowColumn>
+                            <DataValue>{learn_method}</DataValue>
+                          </PokemonRowColumn>
+                        )}
+                      </MoveRowContainer>
+                    </View> 
                 )) : (
                   <RowContainer>
                     <DataTitle>
@@ -678,17 +679,12 @@ export function Pokemon() {
             </ScrollView>
           </PokeDataDisplay>
 
-          <SwitchController>
-            <IconButtonContainer onPress={handlePreviousPokemon} >
-              <Ionicons name="ios-chevron-back" size={44} color={Colors.title}/>
-            </IconButtonContainer>
-
-            <DataTitle>#{pokemon.pokedexNumber}</DataTitle>
-
-            <IconButtonContainer onPress={handleNextPokemon} >
-              <Ionicons name="ios-chevron-forward" size={44} color={Colors.title} />
-            </IconButtonContainer>
-          </SwitchController>
+          <SwitchController
+            pokedexNumber={pokemon.pokedexNumber}
+            isFirstPokemon={pokemon.id === '1'}
+            handlePreviousPokemon={handlePreviousPokemon}
+            handleNextPokemon={handleNextPokemon}
+          />
         </Content>
       </Container>
     </SafeAreaView>

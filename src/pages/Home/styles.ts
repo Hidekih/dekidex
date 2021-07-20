@@ -35,19 +35,19 @@ export const PokeListContainer = styled.View`
 
 export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
   flex: 1;
-  padding: 8px 16px 16px 16px;
+  padding: 0 16px 16px 16px;
 `
 
 export const ButtonCover = styled.View`
   margin-bottom: 8px;
   border-radius: 12px; 
   overflow: hidden;
+  elevation: 4;
 `;
 
 export const PokeInfoButton = styled(RectButton)`
   width: 100%;
   flex-direction: row;
-  /* Possible color conflict here */
   background: ${Colors.background[1]};
 `;
 
