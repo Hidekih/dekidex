@@ -5,11 +5,9 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 54px;
-  border-top-color: ${Colors.background[1]};
-  border-top-width: 2px;
+  height: 56px;
   padding: 0 8px;
-  background: ${Colors.background[3]};
+  background: ${Colors.background[2]};
 `;
 
 export const IconButton = styled.TouchableOpacity`

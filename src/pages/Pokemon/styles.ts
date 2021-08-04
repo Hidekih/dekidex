@@ -42,7 +42,6 @@ export const Content = styled.View`
   position: relative;
   flex: 1;
   background: ${Colors.background[2]};
-  padding: 0px 0px 0px 0px;
 `;
 
 export const PokeDataDisplay = styled.View`
@@ -51,20 +50,21 @@ export const PokeDataDisplay = styled.View`
 `;
 
 export const PokemonSpriteControllers = styled.View<TypeBadgeProps>`
-  width: 100%;
   height: 56px;
   flex-direction: row;
   align-items: flex-end;
+  margin: 0 12px;
   padding: 8px 16px 0 16px;
-  /* border-top-left-radius: 12px;
-  border-top-right-radius: 12px; */
+
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   background: ${props => props.typeColor};
 `;
 
 export const SpriteColorController = styled.View`
+  flex: 1;
   flex-direction: row;
   height: 100%;
-  flex: 1;
   background: ${Colors.background[3]};
   border-radius: 12px;
 `;
@@ -88,9 +88,10 @@ export const PokemonAvatarContainer = styled.View`
   position: relative;
   flex-direction: row;
   justify-content: space-around;
-  /* border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px; */
-  margin-bottom: 16px;
+  margin: 0 12px 16px;
+
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   overflow: hidden;
 `;
 
@@ -128,8 +129,8 @@ export const DataValue = styled.Text`
 export const Section = styled.View`
   position: relative;
   padding: 8px 16px;
-  margin-bottom: 16px;
-
+  margin: 0 12px 12px;
+  border-radius: 10px;
   background: ${Colors.background[3]};
 `;
 
@@ -159,7 +160,7 @@ export const TypeBadge = styled.View<TypeBadgeProps>`
   justify-content: center;
   width: 80px;
   height: 24px;
-  border-radius: 8px;
+  border-radius: 6px;
   margin: 0 8px;
   background: ${props => Colors.type[props.typeColor] || '#000'};
 `;
@@ -170,19 +171,6 @@ export const BadgeTitle = styled.Text<TypeBadgeProps>`
   letter-spacing: 0.8px;
   color: ${Colors.title};
 `;
-
-// export const SwitchController = styled.View`
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: space-between;
-//   height: 60px;
-//   border-top-color: ${Colors.background[1]};
-//   border-top-width: 2px;
-//   padding: 0 8px;
-//   background: ${Colors.background[3]};
-  
-//   overflow: hidden;
-// `;
 
 export const GameVersionsList = styled.View`
   flex-direction: row;

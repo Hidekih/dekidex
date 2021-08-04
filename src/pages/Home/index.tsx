@@ -58,11 +58,7 @@ export function Home() {
     setIsLoading(false);
   }, []);
 
-  const fetchData = useCallback(async(uri: string) => {
-    if (loadedAll) {
-      return;
-    }
-
+  async function fetchData(uri: string) {
     try {
       setIsLoading(true);
       const { data } = await axios.get<PokeApiResponse>(uri);
@@ -95,15 +91,19 @@ export function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [loadedAll, nextUri]);
+  };
 
   const handleReFetch  = useCallback(async(distance: number) => {
     if (distance < 1) {
       return;
     }
 
+    if (loadedAll) {
+      return;
+    }
+
     fetchData(nextUri);
-  }, [nextUri]);
+  }, [nextUri, loadedAll]);
 
   const handleSelectPokemon = useCallback((url: string) => {
     navigate('Pokemon', { url });
@@ -121,7 +121,8 @@ export function Home() {
             data={pokemons} 
             keyExtractor={data => String(data.id)}
             showsVerticalScrollIndicator={false}
-            onEndReached={({ distanceFromEnd }) => {
+            onEndReachedThreshold={0.2}
+            onEndReached={({ distanceFromEnd,  }) => {
               handleReFetch(distanceFromEnd);
             }}
             renderItem={( { item: pokemon } ) => (
