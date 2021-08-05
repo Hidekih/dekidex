@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
 
 import { FavoritedPokemon } from '../../utils/types';
 import { load, remove } from '../../storage/favorites';
-import Colors from '../../styles/colors';
+import { TypeBadge } from '../../components/TypeBadge';
 
+import Colors from '../../styles/colors';
 import { 
   Container, 
   Header, 
@@ -22,12 +24,8 @@ import {
   PokeNumber,
   BoldText,
   PokeTypesContainer,
-  TypeBadge,
-  BadgeTitle,
-
   RemoveButtonContainer,
 } from './styles';
-import { TouchableOpacity, View } from 'react-native';
 
 export function Favorites() {
   const [ favorites, setFavorites ] = useState<FavoritedPokemon[]>([]);
@@ -104,11 +102,7 @@ export function Favorites() {
                   </PokeBasicsContainer>
                   <PokeTypesContainer>
                     { favorite.types.map(type => (
-                      <TypeBadge key={type.slot} typeColor={type.type}>
-                        <BadgeTitle>
-                          {type.name}
-                        </BadgeTitle>
-                      </TypeBadge>
+                      <TypeBadge key={type.slot} type={type.type} />
                     ))}       
                   </PokeTypesContainer>
                 </PokeData>                

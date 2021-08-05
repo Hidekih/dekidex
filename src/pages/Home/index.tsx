@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Image } from 'react-native';
+import { ActivityIndicator, Image, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons';
 import axios from 'axios';
 
 import Colors from '../../styles/colors';
 import { captalize } from '../../utils/captalize';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { PokemonListed } from '../../utils/types';
+import { FilterModal } from '../../components/FilterModal';
 
 import pokeballImg from '../../assets/pokeball-icon.png';
 
@@ -14,6 +16,7 @@ import {
   Container, 
   Header, 
   HeaderTitle, 
+  HeaderFilterButton,
   Content, 
   PokeListContainer,
   PokeList,
@@ -49,6 +52,8 @@ export function Home() {
   const [ nextUri, setNextUri ] = useState('');
   const [ isLoading, setIsLoading ]= useState(false);
   const [ loadedAll, setLoadedAll ]= useState(false);
+
+  const [ isOpen, setIsOpen ] = useState(false);
 
   const { navigate } = useNavigation();
   
@@ -91,7 +96,16 @@ export function Home() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
+
+  const handleSetStarterListByGen = useCallback((initial: number) => {
+    setIsLoading(true);
+    setPokemons([]);
+
+    const uri = `https://pokeapi.co/api/v2/pokemon?offset=${initial}&limit=20`;
+    fetchData(uri);
+    setIsLoading(false);
+  }, []);
 
   const handleReFetch  = useCallback(async(distance: number) => {
     if (distance < 1) {
@@ -109,10 +123,27 @@ export function Home() {
     navigate('Pokemon', { url });
   }, [navigate]);
 
+  const handleToggleModal = useCallback(() => {
+    setIsOpen(state => !state);
+  }, []);
+
   return (
     <Container>
+      <FilterModal 
+        animationType="slide"
+        visible={isOpen} 
+        transparent={true} 
+        onRequestClose={handleToggleModal} 
+        toggleModal={handleToggleModal}
+        handleSetStarterListByGen={handleSetStarterListByGen}
+      />
+
       <Header>
+        <View style={{ height: 60, width: 60 }}/>
         <HeaderTitle>Pokedex</HeaderTitle>
+        <HeaderFilterButton onPress={handleToggleModal}>
+          <Feather name="filter" color={Colors.title} size={28} />
+        </HeaderFilterButton>
       </Header>
       
       <Content>

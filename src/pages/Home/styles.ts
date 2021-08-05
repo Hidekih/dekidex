@@ -1,4 +1,4 @@
-import { FlatList, Image } from 'react-native';
+import { FlatList, Image, TouchableOpacity } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import Colors from '../../styles/colors';
@@ -9,10 +9,13 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  
   width: 100%;
   height: 60px;
-  align-items: center;
-  justify-content: center;
   background: ${Colors.background[2]};
 `;
 
@@ -20,6 +23,13 @@ export const HeaderTitle = styled.Text`
   font-size: 22px;
   font-weight: bold;
   color: ${Colors.title};
+`;
+
+export const HeaderFilterButton = styled(TouchableOpacity)`
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 export const Content = styled.View`

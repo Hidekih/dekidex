@@ -7,7 +7,7 @@ type RowDividerProps = {
   colors?: [ string, string ];
 }
 
-export function RowDivider({ colors }: RowDividerProps) {
+export function RowDividerGradient({ colors }: RowDividerProps) {
   return (
     <Container>
       {colors && (

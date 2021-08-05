@@ -2,7 +2,6 @@ import { Image } from 'react-native';
 import styled from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../styles/colors';
-import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -34,7 +33,7 @@ export const PokeList = styled.ScrollView`
 
 export const PokeInfoContainer = styled.TouchableOpacity`
   flex-direction: row;
-  margin: 0 16px 8px 16px;
+  margin: 0 16px 10px 16px;
   border-radius: 8px;
   z-index: 10;
   elevation: 4;
@@ -50,8 +49,8 @@ export const GradientBackground = styled(LinearGradient)`
 `;
 
 export const PokeImage = styled(Image)`
-  width: 100px;
-  height: 100px;
+  width: 112px;
+  height: 112px;
   margin-left: 8px;
   transform: scale(1.4);
 `;
@@ -88,29 +87,9 @@ export const PokeTypesContainer = styled.View`
   justify-content: center;
 `;
 
-type TypeBadgeProps = {
-  typeColor: string;
-}
-
-export const TypeBadge = styled.View<TypeBadgeProps>`
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 24px;
-  border-radius: 4px;
-  margin: 0 12px;
-  background: ${props => Colors.type[props.typeColor] || '#000'};
-`;
-
-export const BadgeTitle = styled.Text`
-  font-size: 18px;
-  font-weight: 700;
-  color: ${Colors.title};
-`;
-
 export const RemoveButtonContainer = styled.View`
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 100px;
+  width: 112px;
+  height: 112px;
 `;

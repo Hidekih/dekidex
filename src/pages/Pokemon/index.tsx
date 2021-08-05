@@ -5,15 +5,22 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
 import { captalize } from '../../utils/captalize';
-import { PokemonData, CurrentSprites, MovesByGen, MoveGen, Moves } from '../../utils/types';
-import Colors from '../../styles/colors';
-import { findOne, save, remove } from '../../storage/favorites';
+import { compareLevel } from '../../utils/compareLevel';
+import { createPokemonUrl } from '../../utils/createPokemonUrl';
+import { PokemonData, CurrentSprites, MovesByGen, Moves } from '../../utils/types';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
+import { findOne, save, remove } from '../../storage/favorites';
 
 import { ChangeSpriteColorButton } from './ChangeSpriteColorButton';
 import { SkeletonRectangleBox } from '../../components/Skeleton/SkeletonRectangleBox';
-import { RowDivider } from '../../components/RowDivider';
+import { Section } from '../../components/Section';
+import { RowDividerGradient } from '../../components/RowDividerGradient';
+import { SwitchController } from './SwitchController';
+import { SectionTitle } from '../../components/Section/SectionTitle';
+import { SectionRowContent } from '../../components/Section/SectionRowContent';
+import { TypeBadge } from '../../components/TypeBadge';
 
+import Colors from '../../styles/colors';
 import { 
   Container, 
   Header, 
@@ -31,32 +38,11 @@ import {
   DataTitle,
   DataValueContainer,
   DataValue,
-  Section,
-  RowContainer,
-  PokemonRowWithColumnContainer,
-  PokemonRowColumn,
-  TypeBadge,
-  BadgeTitle,
+  RowContent,
   GameVersionsList,
   GameVersionButton,
   GameVersionTitle,
-  MoveRowContainer,
 } from './styles';
-import { SwitchController } from './SwitchController';
-
-function createPokemonUrl(id: number) {
-  return `https://pokeapi.co/api/v2/pokemon/${id}`;
-}
-
-function compareLevel( a: MoveGen, b: MoveGen ) {
-  if ( a.level_learned_at < b.level_learned_at ){
-    return -1;
-  }
-  if ( a.level_learned_at > b.level_learned_at ){
-    return 1;
-  }
-  return 0;
-}
 
 type RoutePrams = {
   url: string;
@@ -164,6 +150,7 @@ export function Pokemon() {
         setSelectedGameVersion(parsedData[0]);
         setGameVersions(parsedData);
       })
+        .catch(_ => { return })
   }
 
   function fetchData(pokemonUrl: string) {
@@ -244,7 +231,7 @@ export function Pokemon() {
               movesData[version_group.name].push({ 
                 name: captalize(move.name),
                 level_learned_at,
-                learn_method: move_learn_method.name,
+                learn_method: captalize(move_learn_method.name),
               });
             } catch (error) {
               return
@@ -320,25 +307,23 @@ export function Pokemon() {
     setGenderSprite(string);
   }, []);
 
-  const handleNextPokemon = useCallback(() => {
+  const handleChangePokemon = useCallback((mode: 'next' | 'previous' ) => {
     if ((Number(pokemon.id) + 1) >= 10000){
       return;
     }
 
-    const newUrl = createPokemonUrl(Number(pokemon.id) + 1);
-    fetchData(newUrl);
-  }, [pokemon.id]);
+    let newUrl = '';
 
-  const handlePreviousPokemon = useCallback(() => {
-    if ((Number(pokemon.id) - 1) < 1) {
-      return;
+    if (mode === 'next') {
+      newUrl = createPokemonUrl(Number(pokemon.id) + 1);
+    } else if (mode === 'previous') {
+      newUrl = createPokemonUrl(Number(pokemon.id) - 1);
     }
 
-    const newUrl = createPokemonUrl(Number(pokemon.id) - 1);
     fetchData(newUrl);
   }, [pokemon.id]);
 
-  const handleFavorited = useCallback((id: string) => {
+  const handleFavorited = useCallback(() => {
     if (isFavorited) {
       remove(pokemon.id);
       setIsFavorited(false);
@@ -387,7 +372,7 @@ export function Pokemon() {
             <Ionicons name="arrow-back" size={32} color={Colors.title} />
           </IconButtonContainer>
           <HeaderTitle>{pokemon.name}</HeaderTitle>
-          <IconButtonContainer onPress={() => handleFavorited(pokemon.id)}>
+          <IconButtonContainer onPress={handleFavorited}>
             { isFavorited ? (
               <Ionicons name="md-heart-sharp" size={32} color={Colors.title} />
             ) : (
@@ -454,226 +439,126 @@ export function Pokemon() {
               </PokemonAvatarContainer>
               
               <Section>
-                <RowContainer>
+                <RowContent>
                   <DataTitle>
                     Type
                   </DataTitle>
                   <DataValueContainer>
-                    {pokemon.types.map(type => (
-                      <TypeBadge key={type.slot} typeColor={type.type} >
-                        <BadgeTitle typeColor={type.type} >
-                          {captalize(type.type)}
-                        </BadgeTitle>
-                      </TypeBadge>
-                    ))}
+                    {
+                      pokemon.types.map(type => (
+                        <TypeBadge key={type.slot} type={type.type} />
+                      ))
+                    }
                   </DataValueContainer>
-                </RowContainer>
+                </RowContent>
 
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                <SectionRowContent 
+                  data={[
+                    { name: 'Height', value: `${pokemon.height} m` },
+                    { name: 'Weight', value: `${pokemon.weight} kg` },
+                  ]}
+                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
                 />
 
-                <PokemonRowWithColumnContainer>
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Height
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.height} m</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Weight
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.weight} kg</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-                </PokemonRowWithColumnContainer>
-                
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                <SectionRowContent 
+                  data={[
+                    { name: 'Ability', value: pokemon.ability },
+                  ]}
+                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
                 />
-
-                <RowContainer>
-                  <DataTitle>
-                    Ability
-                  </DataTitle>
-                  <DataValueContainer>
-                    <DataValue>{pokemon.ability}</DataValue>
-                  </DataValueContainer>
-                </RowContainer>
-              
               </Section>
               
               <Section>   
-                <RowContainer>
-                  <DataTitle style={{ flex: 1, textAlign: 'center' }}>
-                    Base stats
-                  </DataTitle>
-                </RowContainer>
-
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                <SectionTitle titles={["Base stats"]}/>
+                
+                <SectionRowContent 
+                  data={[
+                    { name: 'Hp', value: pokemon.stats[0].base_stat },
+                    { name: 'Sp.Atk', value: pokemon.stats[3].base_stat }
+                  ]}
+                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
                 />
 
-                <PokemonRowWithColumnContainer>
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Hp
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.stats[0].base_stat}</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Sp.Atk
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.stats[3].base_stat}</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-                </PokemonRowWithColumnContainer>
-
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                <SectionRowContent 
+                  data={[
+                    { name: 'Atk', value: pokemon.stats[1].base_stat },
+                    { name: 'Sp.Def', value: pokemon.stats[4].base_stat }
+                  ]}
+                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
                 />
 
-                <PokemonRowWithColumnContainer>
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Atk
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.stats[1].base_stat}</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Sp.Def
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.stats[4].base_stat}</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-                </PokemonRowWithColumnContainer>
-
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                <SectionRowContent 
+                  data={[
+                    { name: 'Def', value: pokemon.stats[2].base_stat },
+                    { name: 'Spd', value: pokemon.stats[5].base_stat }
+                  ]}
+                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
                 />
 
-                <PokemonRowWithColumnContainer>
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Def
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.stats[2].base_stat}</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Spd
-                    </DataTitle>
-                    <DataValueContainer>
-                      <DataValue>{pokemon.stats[5].base_stat}</DataValue>
-                    </DataValueContainer>
-                  </PokemonRowColumn>
-                </PokemonRowWithColumnContainer>
-
-                <RowDivider 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                <SectionRowContent 
+                  data={[
+                    { name: 'Experience', value: `${pokemon.base_experience}` },
+                  ]}
+                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
                 />
-
-                <RowContainer>
-                  <DataTitle>
-                    Experience
-                  </DataTitle>
-                  <DataValueContainer>
-                    <DataValue>{pokemon.base_experience} exp</DataValue>
-                  </DataValueContainer>
-                </RowContainer>
               </Section>      
 
-
               <Section>
-                <RowContainer>
-                  <DataTitle style={{ flex: 1, textAlign: 'center' }}>
-                    Moves (select a game)
-                  </DataTitle>
-                </RowContainer>
+                <SectionTitle titles={["Moves (select a game)"]}/>
 
-                <RowDivider 
+                <RowDividerGradient 
                   colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
                 />
 
                 <GameVersionsList>
-                  { gameVersions.length > 0 && gameVersions.map(version => (
-                    <GameVersionButton 
-                      key={version} 
-                      onPress={() => handleSelectGameVersion(version)}
-                      isSelected={version === selectedGameVersion}
-                    >
-                      <GameVersionTitle isSelected={version === selectedGameVersion}>
-                        {version}
-                      </GameVersionTitle>
-                    </GameVersionButton>
-                  ))}
+                  { 
+                    gameVersions.length > 0 && gameVersions.map(version => (
+                      <GameVersionButton 
+                        key={version} 
+                        onPress={() => handleSelectGameVersion(version)}
+                        isSelected={version === selectedGameVersion}
+                      >
+                        <GameVersionTitle isSelected={version === selectedGameVersion}>
+                          {version}
+                        </GameVersionTitle>
+                      </GameVersionButton>
+                    ))
+                  }
                 </GameVersionsList>
-
               </Section>
 
               <Section>
-                <PokemonRowWithColumnContainer>
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Move title
-                    </DataTitle>
-                  </PokemonRowColumn>
-
-                  <PokemonRowColumn>
-                    <DataTitle>
-                      Learn method
-                    </DataTitle>
-                  </PokemonRowColumn>
-                </PokemonRowWithColumnContainer>
-
-                { moves[selectedGameVersion].length > 0 
-                  ? moves[selectedGameVersion].map(({ name,learn_method,level_learned_at }, index) => (
-                    <View key={index}>
-                      <RowDivider 
+                <SectionTitle titles={['Move title', 'Learn method']} />
+                { 
+                  moves[selectedGameVersion].length > 0 
+                    ? moves[selectedGameVersion]
+                      .map(({ name, learn_method, level_learned_at }, index) => (
+                        <View key={index}>
+                          <RowDividerGradient 
+                            colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
+                          />
+                          <RowContent>
+                            <DataValue>
+                              {name}
+                            </DataValue>
+                            { learn_method === 'Level-up' ? (
+                              <DataValue>Level: {level_learned_at}</DataValue>   
+                            ) : (
+                              <DataValue>{learn_method}</DataValue>
+                            )}
+                          </RowContent>
+                        </View> 
+                  )) : (
+                    <>
+                      <RowDividerGradient 
                         colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
                       />
-                      <MoveRowContainer key={index}>
-                        <PokemonRowColumn>
-                          <DataValue>
-                            {name}
-                          </DataValue>
-                        </PokemonRowColumn>
-                        { learn_method === 'level-up' ? (
-                          <PokemonRowColumn>
-                            <DataValue>level: {level_learned_at}</DataValue>
-                          </PokemonRowColumn>
-                        ) : (
-                          <PokemonRowColumn>
-                            <DataValue>{learn_method}</DataValue>
-                          </PokemonRowColumn>
-                        )}
-                      </MoveRowContainer>
-                    </View> 
-                )) : (
-                  <RowContainer>
-                    <DataTitle>
-                      {'Impossible to find moves informations about this pokemon :('}
-                    </DataTitle>
-                  </RowContainer>
-                )}
+                      <SectionTitle titles={[
+                        'Impossible to find moves informations about this pokemon :('
+                      ]}/>
+                    </>
+                  )
+                }
               </Section>
 
             </ScrollView>
@@ -682,8 +567,8 @@ export function Pokemon() {
           <SwitchController
             pokedexNumber={pokemon.pokedexNumber}
             isFirstPokemon={pokemon.id === '1'}
-            handlePreviousPokemon={handlePreviousPokemon}
-            handleNextPokemon={handleNextPokemon}
+            handlePreviousPokemon={() => handleChangePokemon('previous')}
+            handleNextPokemon={() => handleChangePokemon('next')}
           />
         </Content>
       </Container>

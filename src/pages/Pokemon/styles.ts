@@ -107,10 +107,12 @@ export const PokeImage = styled(Image)`
   width: ${Math.floor(Layout.window.width * 0.40)}px;
   height: ${Math.floor(Layout.window.width * 0.40)}px;
 `;
+
 export const DataTitle = styled.Text`
   font-size: 18px;
   color: ${Colors.title};
   font-weight: 700;
+  align-items: center;
 `;
 
 export const DataValueContainer = styled.View`
@@ -121,61 +123,23 @@ export const DataValueContainer = styled.View`
 `;
 
 export const DataValue = styled.Text`
+  flex: 1;
   font-size: 16px;
   color: ${Colors.subtilte};
   font-weight: 400;
+  text-align: center;
 `;
 
-export const Section = styled.View`
-  position: relative;
-  padding: 8px 16px;
-  margin: 0 12px 12px;
-  border-radius: 10px;
-  background: ${Colors.background[3]};
-`;
-
-export const RowContainer = styled.View`
+export const RowContent = styled.View`
   height: 54px;
   flex-direction: row;
   align-items: center;
-`;
-
-export const PokemonRowWithColumnContainer = styled.View`
-  width: 100%;
-  height: 54px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const PokemonRowColumn = styled.View`
-  flex: 1;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const TypeBadge = styled.View<TypeBadgeProps>`
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 24px;
-  border-radius: 6px;
-  margin: 0 8px;
-  background: ${props => Colors.type[props.typeColor] || '#000'};
-`;
-
-export const BadgeTitle = styled.Text<TypeBadgeProps>`
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  color: ${Colors.title};
 `;
 
 export const GameVersionsList = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 6px 0 16px 0;
 `;
 
@@ -197,11 +161,4 @@ export const GameVersionTitle = styled.Text<SelectedProps>`
   font-size: 18px;
   font-weight: ${props => props.isSelected ? '700' : '400'};
   color: ${props => props.isSelected ? Colors.background[2] : Colors.subtilte};
-`;
-
-
-export const MoveRowContainer = styled.View`
-  height: 54px;
-  flex-direction: row;
-  align-items: center;
 `;
