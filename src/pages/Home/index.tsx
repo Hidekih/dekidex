@@ -30,6 +30,8 @@ import {
   PokeNumber,
   BoldText,
 } from './styles';
+import { Skeleton } from '../../components/Skeleton';
+import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 
 const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20';
 
@@ -98,14 +100,14 @@ export function Home() {
     }
   }
 
-  const handleSetStarterListByGen = useCallback((initial: number) => {
+  function handleSetStarterListByGen(initial: number) {
     setIsLoading(true);
     setPokemons([]);
 
     const uri = `https://pokeapi.co/api/v2/pokemon?offset=${initial}&limit=20`;
     fetchData(uri);
     setIsLoading(false);
-  }, []);
+  };
 
   const handleReFetch  = useCallback(async(distance: number) => {
     if (distance < 1) {
@@ -147,59 +149,101 @@ export function Home() {
       </Header>
       
       <Content>
-        <PokeListContainer>
-          <PokeList
-            data={pokemons} 
-            keyExtractor={data => String(data.id)}
-            showsVerticalScrollIndicator={false}
-            onEndReachedThreshold={0.2}
-            onEndReached={({ distanceFromEnd,  }) => {
-              handleReFetch(distanceFromEnd);
-            }}
-            renderItem={( { item: pokemon } ) => (
-              <ButtonCover key={pokemon.id} >
-                <PokeInfoButton
-                  onPress={() => handleSelectPokemon(pokemon.url)} 
-                >
-                  <PokeImage 
-                    height={100} 
-                    width={100} 
-                    source={{ uri: pokemon.avatar }}
-                  />
-                  <PokeData>
-                    <PokeBasics>
-                      <PokeName>
-                        {captalize(pokemon.name)}
-                      </PokeName>
-                      <PokeNumber>
-                        {'#'}
-                        <BoldText>{pokemon.id}</BoldText>
-                      </PokeNumber>
-                    </PokeBasics>
-                    <ImageContainer>
-                      <Image 
-                        source={pokeballImg} 
-                        height={45}
-                        width={45}
-                        resizeMode="contain"
-                        style={{ height: 45, width: 45 }}
-                      />   
-                    </ImageContainer>
-                  </PokeData>     
-                </PokeInfoButton>
-              </ButtonCover>
-            )}
-            ListFooterComponent={(
-              isLoading 
-                ? <ActivityIndicator 
-                    style={{ marginVertical: 8 }} 
-                    size="large" 
-                    color={Colors.title} 
-                  />
-                : <></>
-            )}
-          />
-        </PokeListContainer>
+        {
+          pokemons.length <= 0 ? (
+            <Skeleton paddingX={16}>
+              <SkeletonContent 
+                bgColor={Colors.background[3]} 
+                indicatorColor={Colors.background[1]} 
+                mt={8}
+                w="100%"
+                h="100px"
+              />
+              <SkeletonContent 
+                bgColor={Colors.background[3]} 
+                indicatorColor={Colors.background[1]} 
+                mt={8}
+                w="100%"
+                h="100px"
+              />
+              <SkeletonContent 
+                bgColor={Colors.background[3]} 
+                indicatorColor={Colors.background[1]} 
+                mt={8}
+                w="100%"
+                h="100px"
+              />
+              <SkeletonContent 
+                bgColor={Colors.background[3]} 
+                indicatorColor={Colors.background[1]} 
+                mt={8}
+                w="100%"
+                h="100px"
+              />
+              <SkeletonContent 
+                bgColor={Colors.background[3]} 
+                indicatorColor={Colors.background[1]} 
+                mt={8}
+                w="100%"
+                h="100px"
+              />
+            </Skeleton>
+          ) : (
+            <PokeListContainer>
+              <PokeList
+                data={pokemons} 
+                keyExtractor={data => String(data.id)}
+                showsVerticalScrollIndicator={false}
+                onEndReachedThreshold={0.2}
+                onEndReached={({ distanceFromEnd,  }) => {
+                  handleReFetch(distanceFromEnd);
+                }}
+                renderItem={( { item: pokemon } ) => (
+                  <ButtonCover key={pokemon.id} >
+                    <PokeInfoButton
+                      onPress={() => handleSelectPokemon(pokemon.url)} 
+                    >
+                      <PokeImage 
+                        height={100} 
+                        width={100} 
+                        source={{ uri: pokemon.avatar }}
+                      />
+                      <PokeData>
+                        <PokeBasics>
+                          <PokeName>
+                            {captalize(pokemon.name)}
+                          </PokeName>
+                          <PokeNumber>
+                            {'#'}
+                            <BoldText>{pokemon.id}</BoldText>
+                          </PokeNumber>
+                        </PokeBasics>
+                        <ImageContainer>
+                          <Image 
+                            source={pokeballImg} 
+                            height={45}
+                            width={45}
+                            resizeMode="contain"
+                            style={{ height: 45, width: 45 }}
+                          />   
+                        </ImageContainer>
+                      </PokeData>     
+                    </PokeInfoButton>
+                  </ButtonCover>
+                )}
+                ListFooterComponent={(
+                  isLoading 
+                    ? <ActivityIndicator 
+                        style={{ marginVertical: 8 }} 
+                        size="large" 
+                        color={Colors.title} 
+                      />
+                    : <></>
+                )}
+              />
+            </PokeListContainer>
+          )
+        }
       </Content>
     </Container>
   )

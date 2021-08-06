@@ -11,11 +11,13 @@ import { PokemonData, CurrentSprites, MovesByGen, Moves } from '../../utils/type
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { findOne, save, remove } from '../../storage/favorites';
 
-import { ChangeSpriteColorButton } from './ChangeSpriteColorButton';
-import { SkeletonRectangleBox } from '../../components/Skeleton/SkeletonRectangleBox';
+import { ChangeSpriteColorButton } from '../../components/ChangeSpriteColorButton';
+import { Skeleton } from '../../components/Skeleton';
+import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
+import { SkeletonRowBox } from '../../components/Skeleton/SkeletonRowBox';
 import { Section } from '../../components/Section';
 import { RowDividerGradient } from '../../components/RowDividerGradient';
-import { SwitchController } from './SwitchController';
+import { SwitchController } from '../../components/SwitchController';
 import { SectionTitle } from '../../components/Section/SectionTitle';
 import { SectionRowContent } from '../../components/Section/SectionRowContent';
 import { TypeBadge } from '../../components/TypeBadge';
@@ -336,31 +338,52 @@ export function Pokemon() {
 
   if (isFetching || !pokemon.name) {
     return (
-      <Content style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-        <SkeletonRectangleBox 
-          size="small" 
+      <Skeleton paddingX={16} paddingY={8}>
+        <SkeletonRowBox h="60px" w="100%">
+          <SkeletonContent 
+            bgColor={Colors.background[3]} 
+            indicatorColor={'transparent'} 
+            w="50px"
+            h="50px"
+          />
+          <SkeletonContent 
+            bgColor={Colors.background[3]} 
+            indicatorColor={Colors.background[1]} 
+            w="160px"
+            h="50px"
+          />
+          <SkeletonContent 
+            bgColor={Colors.background[3]} 
+            indicatorColor={'transparent'} 
+            w="50px"
+            h="50px"
+          />
+        </SkeletonRowBox>
+
+        <SkeletonContent 
           bgColor={Colors.background[3]} 
-          indicatorColor={Colors.title} 
+          indicatorColor={Colors.background[1]} 
+          mt={16}
+          w="100%"
+          h="188px"
+        />
+        <SkeletonContent 
+          bgColor={Colors.background[3]} 
+          indicatorColor={Colors.background[1]} 
+          mt={16}
+          w="100%"
+          h="160px"
+        />
+        <SkeletonContent 
+          bgColor={Colors.background[3]} 
+          indicatorColor={Colors.background[1]} 
+          mt={16}
+          w="100%"
+          h="160px"
         />
 
-        <SkeletonRectangleBox 
-          size="large" 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.title} 
-        />
         
-        <SkeletonRectangleBox 
-          size="large" 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.title} 
-        />
-
-        <SkeletonRectangleBox 
-          size="small" 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.title} 
-        />
-      </Content>
+      </Skeleton>
     );
   }
 
@@ -553,9 +576,11 @@ export function Pokemon() {
                       <RowDividerGradient 
                         colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
                       />
-                      <SectionTitle titles={[
-                        'Impossible to find moves informations about this pokemon :('
-                      ]}/>
+                      <RowContent style={{ padding: 16, height: 'auto' }}>
+                        <DataTitle>
+                          {'Impossible to find moves informations about this pokemon :('}
+                        </DataTitle>
+                      </RowContent>
                     </>
                   )
                 }

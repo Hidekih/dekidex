@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import Colors from '../../../styles/colors';
+import Colors from '../../styles/colors';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -17,7 +17,7 @@ export const IconButton = styled.TouchableOpacity`
 `;
 
 export const Title = styled.Text`
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: ${Colors.title};
 `;

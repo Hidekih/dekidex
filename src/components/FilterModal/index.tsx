@@ -21,7 +21,6 @@ import {
 } from './styles';
 import { useNavigation } from "@react-navigation/core";
 
-
 interface FilterModalProps extends ModalProps {
   toggleModal: () => void;
   handleSetStarterListByGen: (initial: number) => void;
@@ -32,7 +31,7 @@ export type GenProps = {
   initial: number;
 }
 
-export function FilterModal({ toggleModal, handleSetStarterListByGen ,...rest }: FilterModalProps) {
+export function FilterModal({ toggleModal, handleSetStarterListByGen, ...rest }: FilterModalProps) {
   const { navigate } = useNavigation();
   const [ pokedexNumber, setPokedexNumber ] = useState('');
   const [ selectedGen, setSelectedGen ] = useState<GenProps>({} as GenProps);
@@ -53,12 +52,14 @@ export function FilterModal({ toggleModal, handleSetStarterListByGen ,...rest }:
 
     const url = `https://pokeapi.co/api/v2/pokemon/${Number(value)}`;
     setPokedexNumber('');
+    toggleModal();
     navigate('Pokemon', { url });
   }, [navigate]);
 
-  const handleSelectGen = useCallback((data: GenProps) => {
-    setSelectedGen(data);
-    handleSetStarterListByGen(data.initial);
+  const handleSelectGen = useCallback((genData: GenProps) => {
+    setSelectedGen(genData);
+    handleSetStarterListByGen(genData.initial);
+    toggleModal();
   }, []);
   
   useEffect(() => {
@@ -77,12 +78,14 @@ export function FilterModal({ toggleModal, handleSetStarterListByGen ,...rest }:
               <InputNumber  
                 value={pokedexNumber} 
                 onChangeText={value => handleInputData(value)} 
+                placeholderTextColor={Colors.subtilte}
+                placeholder="#000"
                 keyboardType="number-pad"
                 returnKeyType="send"
                 onSubmitEditing={() => handleSelectPokemon(pokedexNumber)}
               />
               <SubmitButton onPress={() => handleSelectPokemon(pokedexNumber)}>
-                <Feather name="search" size={32} color={Colors.background[3]} />
+                <Feather name="search" size={28} color={Colors.background[3]} />
               </SubmitButton>
             </RowContent>
 

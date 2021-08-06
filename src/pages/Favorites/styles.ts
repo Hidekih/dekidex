@@ -22,6 +22,41 @@ export const HeaderTitle = styled.Text`
   color: ${Colors.title};
 `;
 
+export const EmpytContent = styled.View`
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const MessageBox = styled.View`
+  width: 60%;
+`;
+
+export const Description = styled.Text`
+  text-align: center;
+  font-size: 19px;
+  font-weight: 400;
+  color: ${Colors.title};
+`;
+
+export const Button = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  margin-top: 24px;
+  background: ${Colors.background[3]};  
+  border-radius: 12px;
+`;
+
+export const ButtonTitle = styled.Text`
+  margin-left: 12px;
+  font-size: 19px;
+  font-weight: 400;
+  color: ${Colors.title};
+`;
+
 export const Content = styled.View`
   flex: 1;
   background: ${Colors.background[2]};

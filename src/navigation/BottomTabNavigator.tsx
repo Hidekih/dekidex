@@ -16,8 +16,8 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ 
         inactiveTintColor: Colors.background[1],
         activeTintColor: Colors.title, 
-        activeBackgroundColor: Colors.background[2],
-        inactiveBackgroundColor: Colors.background[2],
+        activeBackgroundColor: Colors.background[3],
+        inactiveBackgroundColor: Colors.background[3],
         tabStyle: { 
           flex: 1, 
           flexDirection: "row", 
@@ -25,9 +25,9 @@ export default function BottomTabNavigator() {
           justifyContent: 'center' ,
         },
         style: {
-          borderTopWidth: 2,
+          borderTopWidth: 0,
           borderTopColor: Colors.background[1],
-          height: 54,
+          height: 56,
         }
       }}
     >
@@ -39,7 +39,7 @@ export default function BottomTabNavigator() {
             <>
               <Ionicons size={30} name="ios-list" color={color} />
               <Text 
-                style={{ color, marginLeft: 8, fontWeight: '700', fontSize: 18 }}
+                style={{ color, marginLeft: 12, fontWeight: '700', fontSize: 19 }}
               >
                 Pokedex
               </Text>
@@ -55,7 +55,7 @@ export default function BottomTabNavigator() {
             <>
               <Ionicons size={30} name="heart" color={color} />
               <Text 
-                style={{ color, marginLeft: 8, fontWeight: '700', fontSize: 18 }}
+                style={{ color, marginLeft: 12, fontWeight: '700', fontSize: 19 }}
               >
                 Favorites
               </Text>

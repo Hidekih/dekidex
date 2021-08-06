@@ -15,7 +15,7 @@ export const Container = styled.View`
 `;
 
 export const Content = styled.View`
-  width: 100%;
+  width: 93%;
   align-items: center;
   padding: 24px 16px;
 
@@ -37,7 +37,7 @@ export const SubmitButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   width: 60px;
-  height: 44px;
+  height: 40px;
   background: ${Colors.subtilte};
   margin-left: 16px;
   border-radius: 12px;
@@ -69,10 +69,10 @@ export const Label = styled.Text`
 `;
 
 export const InputNumber = styled.TextInput`
-  width: 110px;
-  height: 44px;
+  width: 80px;
+  height: 40px;
   padding: 0 16px;
-  font-size: 16px;
+  font-size: 18px;
   color: ${Colors.subtilte};
   border-radius: 12px;
   background: ${Colors.background[1]};
@@ -87,16 +87,16 @@ export const GenItem = styled.TouchableOpacity<GenItemProps>`
   align-items: center;
   justify-content: center;
   width: 80px;
-  height: 44px;
-  border-width: 2px;
+  height: 40px;
+  border-width: 1px;
   border-color: ${Colors.subtilte};
-  margin-right: 16px;
+  margin-right: 12px;
   border-radius: 8px;
   background: ${({ isSelected }) => isSelected ? Colors.subtilte : 'transparent'};
 `;
 
 export const GenTitle = styled.Text<GenItemProps>`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: ${({ isSelected }) => isSelected ? Colors.background[3] : Colors.title };
 `;
