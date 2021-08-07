@@ -15,7 +15,7 @@ export const Header = styled.View`
   padding: 0 20px;
   
   width: 100%;
-  height: 60px;
+  height: 70px;
   background: ${Colors.background[2]};
 `;
 

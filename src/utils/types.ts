@@ -59,13 +59,23 @@ export type Moves = {
   move: {
     name: string;
   },
-  version_group_details: MoveVersionDetails[];
+  version_group_details: [
+    {
+      level_learned_at: number;
+      move_learn_method: {
+        name: string;
+      },
+      version_group: {
+        name: GameVersions;
+      }  
+    }
+  ];
 }
 
 export type PokemonData = {
   id: string;
-  pokedexNumber: string;
   ability: string;
+            pokedexNumber: string;
   name: string;
   is_unique_gender: boolean;
   sprites: {
@@ -109,6 +119,7 @@ export type PokemonData = {
     Stat,
     Stat
   ],
+  moves: Moves[];
   base_experience: number;
   height: number;
   weight: number;

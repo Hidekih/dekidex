@@ -1,7 +1,7 @@
 import React from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-import Colors from '../../styles/colors';
+import Colors from '../../../styles/colors';
 import { Container, IconButton, Title } from './styles';
 
 type SwitchControllerProps = {
@@ -21,18 +21,18 @@ export function SwitchController({
     <Container>
       { isFirstPokemon ? (
         <IconButton disabled >
-          <MaterialCommunityIcons name="chevron-left" size={50} color={Colors.background[1]}/>
+          <Ionicons name="chevron-back" size={28} color={Colors.background[1]}/>
         </IconButton>
       ) : (
         <IconButton onPress={handlePreviousPokemon} >
-          <MaterialCommunityIcons name="chevron-left" size={50} color={Colors.title}/>
+          <Ionicons name="chevron-back" size={28} color={Colors.title}/>
         </IconButton>
       )}
 
       <Title>#{pokedexNumber}</Title>
 
       <IconButton onPress={handleNextPokemon} >
-        <MaterialCommunityIcons name="chevron-right" size={50} color={Colors.title} />
+        <Ionicons name="chevron-forward" size={28} color={Colors.title} />
       </IconButton>
     </Container>
   )

@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
 import { captalize } from '../../utils/captalize';
-import { compareLevel } from '../../utils/compareLevel';
 import { createPokemonUrl } from '../../utils/createPokemonUrl';
-import { PokemonData, CurrentSprites, MovesByGen, Moves } from '../../utils/types';
+import { PokemonData, CurrentSprites } from '../../utils/types';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { findOne, save, remove } from '../../storage/favorites';
 
@@ -16,11 +15,13 @@ import { Skeleton } from '../../components/Skeleton';
 import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 import { SkeletonRowBox } from '../../components/Skeleton/SkeletonRowBox';
 import { Section } from '../../components/Section';
-import { RowDividerGradient } from '../../components/RowDividerGradient';
-import { SwitchController } from '../../components/SwitchController';
+// import { RowDividerGradient } from '../../components/RowDividerGradient';
+import { SwitchController } from '../../components/Home/SwitchController';
 import { SectionTitle } from '../../components/Section/SectionTitle';
 import { SectionRowContent } from '../../components/Section/SectionRowContent';
 import { TypeBadge } from '../../components/TypeBadge';
+
+import { MovesList } from '../../components/Home/MovesList';
 
 import Colors from '../../styles/colors';
 import { 
@@ -39,27 +40,21 @@ import {
   PokeImage,
   DataTitle,
   DataValueContainer,
-  DataValue,
   RowContent,
-  GameVersionsList,
-  GameVersionButton,
-  GameVersionTitle,
 } from './styles';
 
 type RoutePrams = {
   url: string;
 }
 
-type PokemonDataResponse = {
-  id: string;
+interface PokemonDataResponse extends Omit<PokemonData, 'ability' | 'sprites' | 'types' | 'stats' > {
   abilities: [
     {
       ability: {
         name: string;
       }
     }
-  ]
-  name: string;
+  ];
   sprites: {
     back_default: string;
     back_female?: string | null;
@@ -81,7 +76,7 @@ type PokemonDataResponse = {
         }
       }
     }
-  },
+  };
   types: [
     {
       slot: number;
@@ -106,18 +101,6 @@ type PokemonDataResponse = {
       }
     }
   ],
-  moves: Moves[];
-  base_experience: number;
-  height: number;
-  weight: number;
-}
-
-type VersionGroupResponse = {
-  results: [
-    { 
-      name: string;
-    }
-  ]
 }
 
 export function Pokemon() {
@@ -130,30 +113,11 @@ export function Pokemon() {
   const [ colorSprite, setColorSprite ] = useState<'normal' | 'shiny'>('normal');
   const [ genderSprite, setGenderSprite ] = useState<'male' | 'female'>('male');
   const [ currentSprites, setCurrentSprites ] = useState<CurrentSprites>({} as CurrentSprites);
-  const [ selectedGameVersion, setSelectedGameVersion ] = useState('');
-  const [ moves, setMoves ] = useState<MovesByGen>({} as MovesByGen);
-  const [ gameVersions, setGameVersions ] = useState<string[]>([]);
 
   useEffect(() => {
-    fetchGamesVersions();
     fetchData(url);
     setIsFetching(false)
   }, []);
-  
-  function fetchGamesVersions() {
-    axios.get<VersionGroupResponse>('https://pokeapi.co/api/v2/version-group/')
-      .then(res => {
-        const { data } = res;
-
-        const parsedData = data.results.map(version => {
-          return version.name
-        });
-
-        setSelectedGameVersion(parsedData[0]);
-        setGameVersions(parsedData);
-      })
-        .catch(_ => { return })
-  }
 
   function fetchData(pokemonUrl: string) {
     axios.get<PokemonDataResponse>(pokemonUrl)
@@ -170,8 +134,8 @@ export function Pokemon() {
           ability: data.abilities.map(({ ability }) => {
             return ability.name;
           }).join(' / '),
-          height: (data.height*0.1).toFixed(1) || 0,
-          weight: (data.weight*0.1).toFixed(1) || 0,
+          height: (data.height * 0.1).toFixed(1) || 0,
+          weight: (data.weight * 0.1).toFixed(1) || 0,
           types: data.types.map(({ slot, type }) => {
             return {
               slot: String(slot),
@@ -199,53 +163,11 @@ export function Pokemon() {
               name: stat.name,
             }
           }),
+          moves: data.moves,
           base_experience: data.base_experience,
           url,
           is_unique_gender: !data.sprites.front_female,
         } as PokemonData;
-
-        const movesData: MovesByGen = {} as MovesByGen;
-
-        movesData["red-blue"] = [];
-        movesData["yellow"] = [];
-        movesData["gold-silver"] = [];
-        movesData["crystal"] = [];
-        movesData["ruby-sapphire"] = [];
-        movesData["emerald"] = [];
-        movesData["firered-leafgreen"] = [];
-        movesData["diamond-pearl"] = [];
-        movesData["platinum"] = [];
-        movesData["heartgold-soulsilver"] = [];
-        movesData["black-white"] = [];
-        movesData["colosseum"] = [];
-        movesData["xd"] = [];
-        movesData["black-2-white-2"] = [];
-        movesData["x-y"] = [];
-        movesData["omega-ruby-alpha-sapphire"] = [];
-        movesData["sun-moon"] = [];
-        movesData["ultra-sun-ultra-moon"] = [];
-        movesData["lets-go"] = [];
-        movesData["sword-shield"] = [];
-
-        data.moves.forEach(({ move, version_group_details }) => {
-          version_group_details.forEach(({ level_learned_at, move_learn_method, version_group }) => {
-            try {
-              movesData[version_group.name].push({ 
-                name: captalize(move.name),
-                level_learned_at,
-                learn_method: captalize(move_learn_method.name),
-              });
-            } catch (error) {
-              return
-            }
-          });
-        });
-
-        Object.keys(movesData).forEach(item => {
-          movesData[item].sort(compareLevel);
-        });
-      
-        setMoves(movesData);
 
         const {
           back_default,
@@ -293,10 +215,6 @@ export function Pokemon() {
         .catch(_ => { return })
   }
 
-  const handleSelectGameVersion = useCallback((gameVersion: string) => {
-    setSelectedGameVersion(gameVersion);
-  }, []);
-
   const handleGoBack = useCallback(() => {
     goBack();
   }, [goBack]);
@@ -338,7 +256,7 @@ export function Pokemon() {
 
   if (isFetching || !pokemon.name) {
     return (
-      <Skeleton paddingX={16} paddingY={8}>
+      <Skeleton paddingX={16} paddingY={0}>
         <SkeletonRowBox h="60px" w="100%">
           <SkeletonContent 
             bgColor={Colors.background[3]} 
@@ -392,14 +310,14 @@ export function Pokemon() {
       <Container>
         <Header>
           <IconButtonContainer onPress={handleGoBack}>
-            <Ionicons name="arrow-back" size={32} color={Colors.title} />
+            <Ionicons name="arrow-back" size={28} color={Colors.title} />
           </IconButtonContainer>
           <HeaderTitle>{pokemon.name}</HeaderTitle>
           <IconButtonContainer onPress={handleFavorited}>
             { isFavorited ? (
-              <Ionicons name="md-heart-sharp" size={32} color={Colors.title} />
+              <Ionicons name="md-heart-sharp" size={28} color={Colors.title} />
             ) : (
-              <Ionicons name="md-heart-outline" size={32} color={Colors.title} />
+              <Ionicons name="md-heart-outline" size={28} color={Colors.title} />
             )}
           </IconButtonContainer>
         </Header>
@@ -429,9 +347,9 @@ export function Pokemon() {
                     onPress={() => handleToggleGenderSprite('male')}
                   >
                     { genderSprite === 'male' && !pokemon.is_unique_gender ? (
-                      <MaterialCommunityIcons  name="gender-male" size={26} color={"#438FE6"}/>
+                      <Ionicons  name="male" size={26} color={"#438FE6"}/>
                     ) : (
-                      <MaterialCommunityIcons  name="gender-male" size={28} color={Colors.background[1]}/>
+                      <Ionicons  name="male" size={28} color={Colors.background[1]}/>
                     )}
                   </ChangeSpriteGenderButton>
                   <ChangeSpriteGenderButton 
@@ -439,9 +357,9 @@ export function Pokemon() {
                     onPress={() => handleToggleGenderSprite('female')}
                   >
                     { genderSprite === 'female' ? (
-                      <MaterialCommunityIcons  name="gender-female" size={26} color={"#DB736E"}/>
+                      <Ionicons  name="female" size={26} color={"#DB736E"}/>
                     ) : (
-                      <MaterialCommunityIcons  name="gender-female" size={28} color={Colors.background[1]}/>
+                      <Ionicons  name="female" size={28} color={Colors.background[1]}/>
                     )}
                   </ChangeSpriteGenderButton>
                 </SpriteGenderController>
@@ -527,63 +445,10 @@ export function Pokemon() {
               </Section>      
 
               <Section>
-                <SectionTitle titles={["Moves (select a game)"]}/>
-
-                <RowDividerGradient 
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
-                />
-
-                <GameVersionsList>
-                  { 
-                    gameVersions.length > 0 && gameVersions.map(version => (
-                      <GameVersionButton 
-                        key={version} 
-                        onPress={() => handleSelectGameVersion(version)}
-                        isSelected={version === selectedGameVersion}
-                      >
-                        <GameVersionTitle isSelected={version === selectedGameVersion}>
-                          {version}
-                        </GameVersionTitle>
-                      </GameVersionButton>
-                    ))
-                  }
-                </GameVersionsList>
-              </Section>
-
-              <Section>
-                <SectionTitle titles={['Move title', 'Learn method']} />
-                { 
-                  moves[selectedGameVersion].length > 0 
-                    ? moves[selectedGameVersion]
-                      .map(({ name, learn_method, level_learned_at }, index) => (
-                        <View key={index}>
-                          <RowDividerGradient 
-                            colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
-                          />
-                          <RowContent>
-                            <DataValue>
-                              {name}
-                            </DataValue>
-                            { learn_method === 'Level-up' ? (
-                              <DataValue>Level: {level_learned_at}</DataValue>   
-                            ) : (
-                              <DataValue>{learn_method}</DataValue>
-                            )}
-                          </RowContent>
-                        </View> 
-                  )) : (
-                    <>
-                      <RowDividerGradient 
-                        colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]} 
-                      />
-                      <RowContent style={{ padding: 16, height: 'auto' }}>
-                        <DataTitle>
-                          {'Impossible to find moves informations about this pokemon :('}
-                        </DataTitle>
-                      </RowContent>
-                    </>
-                  )
-                }
+                <MovesList data={{
+                  moves: pokemon.moves,
+                  colors: [ Colors.title, Colors.type[pokemon.types[0].type ]]
+                }}/>
               </Section>
 
             </ScrollView>

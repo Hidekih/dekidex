@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal, ModalProps } from 'react-native';
+import { useNavigation } from "@react-navigation/core";
+import { Ionicons } from '@expo/vector-icons';
 import { data } from '../../utils/data.json';
-import { Feather } from '@expo/vector-icons';
 
 import Colors from "../../styles/colors";
 import { 
@@ -19,7 +20,6 @@ import {
   GenItem,
   GenTitle,
 } from './styles';
-import { useNavigation } from "@react-navigation/core";
 
 interface FilterModalProps extends ModalProps {
   toggleModal: () => void;
@@ -85,7 +85,7 @@ export function FilterModal({ toggleModal, handleSetStarterListByGen, ...rest }:
                 onSubmitEditing={() => handleSelectPokemon(pokedexNumber)}
               />
               <SubmitButton onPress={() => handleSelectPokemon(pokedexNumber)}>
-                <Feather name="search" size={28} color={Colors.background[3]} />
+                <Ionicons name="md-search" size={28} color={Colors.background[3]} />
               </SubmitButton>
             </RowContent>
 

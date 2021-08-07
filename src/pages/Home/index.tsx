@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
 import Colors from '../../styles/colors';
@@ -144,7 +144,7 @@ export function Home() {
         <View style={{ height: 60, width: 60 }}/>
         <HeaderTitle>Pokedex</HeaderTitle>
         <HeaderFilterButton onPress={handleToggleModal}>
-          <Feather name="filter" color={Colors.title} size={28} />
+          <Ionicons name="search" color={Colors.title} size={30} />
         </HeaderFilterButton>
       </Header>
       
