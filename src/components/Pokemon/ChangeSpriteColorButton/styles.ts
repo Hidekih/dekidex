@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import Colors from '../../styles/colors';
+import Colors from '../../../styles/colors';
 
 type ToggleButtonTitleProps = {
   isSelected: boolean;

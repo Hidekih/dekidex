@@ -110,7 +110,7 @@ export function MovesList({ data } : MovesListProps) {
   
     setMoves(movesData);
     setIsFetching(false);
-  }, []);
+  }, [data]);
 
   if (isFetching) {
     return (

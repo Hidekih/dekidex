@@ -6,22 +6,21 @@ import axios from 'axios';
 
 import { captalize } from '../../utils/captalize';
 import { createPokemonUrl } from '../../utils/createPokemonUrl';
-import { PokemonData, CurrentSprites } from '../../utils/types';
+import { PokemonData } from '../../utils/types';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { findOne, save, remove } from '../../storage/favorites';
 
-import { ChangeSpriteColorButton } from '../../components/ChangeSpriteColorButton';
 import { Skeleton } from '../../components/Skeleton';
 import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 import { SkeletonRowBox } from '../../components/Skeleton/SkeletonRowBox';
 import { Section } from '../../components/Section';
-// import { RowDividerGradient } from '../../components/RowDividerGradient';
-import { SwitchController } from '../../components/Home/SwitchController';
+import { SwitchController } from '../../components/Pokemon/SwitchController';
 import { SectionTitle } from '../../components/Section/SectionTitle';
 import { SectionRowContent } from '../../components/Section/SectionRowContent';
 import { TypeBadge } from '../../components/TypeBadge';
+import { SpriteSection } from '../../components/Pokemon/SpriteSection';
 
-import { MovesList } from '../../components/Home/MovesList';
+import { MovesList } from '../../components/Pokemon/MovesList';
 
 import Colors from '../../styles/colors';
 import { 
@@ -31,13 +30,6 @@ import {
   HeaderTitle, 
   Content,
   PokeDataDisplay,
-  PokemonSpriteControllers,
-  SpriteColorController,
-  SpriteGenderController,
-  ChangeSpriteGenderButton,
-  PokemonAvatarContainer,
-  GradientBackground,
-  PokeImage,
   DataTitle,
   DataValueContainer,
   RowContent,
@@ -47,7 +39,7 @@ type RoutePrams = {
   url: string;
 }
 
-interface PokemonDataResponse extends Omit<PokemonData, 'ability' | 'sprites' | 'types' | 'stats' > {
+interface PokemonDataResponse extends Omit<PokemonData, 'ability' | 'types' | 'stats' > {
   abilities: [
     {
       ability: {
@@ -55,28 +47,6 @@ interface PokemonDataResponse extends Omit<PokemonData, 'ability' | 'sprites' | 
       }
     }
   ];
-  sprites: {
-    back_default: string;
-    back_female?: string | null;
-    back_shiny: string;
-    back_shiny_female?: string | null;
-    front_default: string;
-    front_female?: string | null;
-    front_shiny: string;
-    front_shiny_female?: string | null;
-    versions: {
-      "generation-i": {
-        "red-blue": {
-          [key: string]: string;
-        }
-      },
-      [key: string]: {
-        [key: string]: {
-          
-        }
-      }
-    }
-  };
   types: [
     {
       slot: number;
@@ -110,9 +80,6 @@ export function Pokemon() {
   const [ pokemon, setPokemon ] = useState<PokemonData>({} as PokemonData);
   const [ isFetching, setIsFetching ] = useState(true);
   const [ isFavorited, setIsFavorited ] = useState(false);
-  const [ colorSprite, setColorSprite ] = useState<'normal' | 'shiny'>('normal');
-  const [ genderSprite, setGenderSprite ] = useState<'male' | 'female'>('male');
-  const [ currentSprites, setCurrentSprites ] = useState<CurrentSprites>({} as CurrentSprites);
 
   useEffect(() => {
     fetchData(url);
@@ -143,18 +110,14 @@ export function Pokemon() {
             }
           }),
           sprites: {
-            versions: {
-              default: {
-                back_default: data.sprites.back_default,
-                back_female: data.sprites.back_female,
-                back_shiny: data.sprites.back_shiny,
-                back_shiny_female: data.sprites.back_shiny_female,
-                front_default: data.sprites.front_default,
-                front_female: data.sprites.front_female,
-                front_shiny: data.sprites.front_shiny,
-                front_shiny_female: data.sprites.front_shiny_female,
-              },
-            },
+            back_default: data.sprites.back_default,
+            back_female: data.sprites.back_female,
+            back_shiny: data.sprites.back_shiny,
+            back_shiny_female: data.sprites.back_shiny_female,
+            front_default: data.sprites.front_default,
+            front_female: data.sprites.front_female,
+            front_shiny: data.sprites.front_shiny,
+            front_shiny_female: data.sprites.front_shiny_female,
           },
           stats: data.stats.map(({ base_stat, effort,stat }) => {
             return {
@@ -169,43 +132,6 @@ export function Pokemon() {
           is_unique_gender: !data.sprites.front_female,
         } as PokemonData;
 
-        const {
-          back_default,
-          back_female,
-          back_shiny,
-          back_shiny_female,
-          front_default,
-          front_female,
-          front_shiny,
-          front_shiny_female,
-        } = parsedData.sprites.versions.default;
-        
-        setCurrentSprites({
-          normal: {
-            female: {
-              front: front_female,
-              back: back_female || back_default,
-            },
-            male: {
-              front: front_default,
-              back: back_default,
-            }
-          },
-          shiny: {
-            female: {
-              front: front_shiny_female,
-              back: back_shiny_female || back_shiny,
-            },
-            male: {
-              front: front_shiny,
-              back: back_shiny
-            }
-          }
-        });
-
-        setColorSprite('normal');
-        setGenderSprite('male');
-
         setPokemon(parsedData);
         
         findOne(parsedData.id).then(res => {
@@ -219,26 +145,16 @@ export function Pokemon() {
     goBack();
   }, [goBack]);
 
-  const handleToggleColorSprite = useCallback((string: 'normal' | 'shiny') => {
-    setColorSprite(string);
-  }, []);
-
-  const handleToggleGenderSprite = useCallback((string: 'male' | 'female') => {
-    setGenderSprite(string);
-  }, []);
-
   const handleChangePokemon = useCallback((mode: 'next' | 'previous' ) => {
     if ((Number(pokemon.id) + 1) >= 10000){
       return;
     }
 
-    let newUrl = '';
-
-    if (mode === 'next') {
-      newUrl = createPokemonUrl(Number(pokemon.id) + 1);
-    } else if (mode === 'previous') {
-      newUrl = createPokemonUrl(Number(pokemon.id) - 1);
-    }
+    const newUrl = createPokemonUrl( 
+      mode === 'next' 
+        ? Number(pokemon.id) + 1 
+        : Number(pokemon.id) - 1
+    );
 
     fetchData(newUrl);
   }, [pokemon.id]);
@@ -325,59 +241,14 @@ export function Pokemon() {
         <Content>
           <PokeDataDisplay>
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
-              <PokemonSpriteControllers typeColor={Colors.type[pokemon.types[0].type || '#333']}>
-                <SpriteColorController>
-                  <ChangeSpriteColorButton 
-                    disabled={!currentSprites.shiny.male.front}
-                    handleToggleSprite={() => handleToggleColorSprite('normal')}
-                    isSelected={colorSprite === 'normal'}
-                    title="Normal"
-                  />
-                  <ChangeSpriteColorButton 
-                    disabled={!currentSprites.shiny.male.front}
-                    handleToggleSprite={() => handleToggleColorSprite('shiny')}
-                    isSelected={colorSprite === 'shiny'}
-                    title="Shiny"
-                  />
-                </SpriteColorController>
-
-                <SpriteGenderController>
-                  <ChangeSpriteGenderButton 
-                    disabled={!currentSprites.normal.female.front}
-                    onPress={() => handleToggleGenderSprite('male')}
-                  >
-                    { genderSprite === 'male' && !pokemon.is_unique_gender ? (
-                      <Ionicons  name="male" size={26} color={"#438FE6"}/>
-                    ) : (
-                      <Ionicons  name="male" size={28} color={Colors.background[1]}/>
-                    )}
-                  </ChangeSpriteGenderButton>
-                  <ChangeSpriteGenderButton 
-                    disabled={!currentSprites.normal.female.front}
-                    onPress={() => handleToggleGenderSprite('female')}
-                  >
-                    { genderSprite === 'female' ? (
-                      <Ionicons  name="female" size={26} color={"#DB736E"}/>
-                    ) : (
-                      <Ionicons  name="female" size={28} color={Colors.background[1]}/>
-                    )}
-                  </ChangeSpriteGenderButton>
-                </SpriteGenderController>
-              </PokemonSpriteControllers>
-
-              <PokemonAvatarContainer>
-                <GradientBackground
-                  colors={[ Colors.type[pokemon.types[0].type], Colors.background[3]]}
-                />
-                <PokeImage 
-                  resizeMode='cover'
-                  source={{ uri: currentSprites[colorSprite][genderSprite].front || '' }}
-                />
-                <PokeImage 
-                  resizeMode='cover'
-                  source={{ uri: currentSprites[colorSprite][genderSprite].back || '' }}
-                />
-              </PokemonAvatarContainer>
+              <SpriteSection 
+                data={{
+                  gradientColors: [ Colors.type[pokemon.types[0].type ], Colors.background[3] ],
+                  sprites: pokemon.sprites,
+                  typeColor: Colors.type[pokemon.types[0].type] || '#333',
+                  is_unique_gender: pokemon.is_unique_gender
+                }}
+              />
               
               <Section>
                 <RowContent>
@@ -447,7 +318,7 @@ export function Pokemon() {
               <Section>
                 <MovesList data={{
                   moves: pokemon.moves,
-                  colors: [ Colors.title, Colors.type[pokemon.types[0].type ]]
+                  colors: [ Colors.title, Colors.type[pokemon.types[0].type]]
                 }}/>
               </Section>
 

@@ -72,24 +72,24 @@ export type Moves = {
   ];
 }
 
+export type Sprites = {
+  back_default: string;
+  back_female?: string | null;
+  back_shiny: string;
+  back_shiny_female?: string | null;
+  front_default: string;
+  front_female?: string | null;
+  front_shiny: string;
+  front_shiny_female?: string | null;
+}
+
 export type PokemonData = {
   id: string;
   ability: string;
             pokedexNumber: string;
   name: string;
   is_unique_gender: boolean;
-  sprites: {
-    versions: {
-      default: {
-        back_default: string;
-        back_female?: string | null;
-        back_shiny: string;
-        back_shiny_female?: string | null;
-        front_default: string;
-        front_female?: string | null;
-        front_shiny: string;
-        front_shiny_female?: string | null;
-      }
+  sprites: Sprites;
       // "generation-i": {
       //   "red-blue": {
       //     back_default: string | null;
@@ -103,8 +103,7 @@ export type PokemonData = {
       // "generation-vi": {},
       // "generation-vii": {},
       // "generation-viii": {},
-    }
-  },
+
   types: [
     {
       slot: string;
