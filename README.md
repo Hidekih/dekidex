@@ -6,7 +6,7 @@
 
 Essa aplicação foi desenvolvida com React Native + Expo CLI, consumindo a [`PokeAPI`](https://pokeapi.co/)!
 
-Layout no figma: https://www.figma.com/file/JJrWdyubpzNA3N4nn5oMIz/Hidekih-pokedex?node-id=0%3A1
+Layout no figma: https://www.figma.com/file/JJrWdyubpzNA3N4nn5oMIz/DekiDex-Pokedex?node-id=278%3A36
 
 # Techs:
 
