@@ -182,6 +182,7 @@ export type PokemonListed = {
   name: string;
   url: string;
   avatar: string; 
+  gen: string;
 }
 
 export type RootStackParamList = {

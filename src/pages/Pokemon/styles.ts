@@ -14,6 +14,9 @@ export const Header = styled.View`
   width: 100%;
   height: 56px;
   padding: 0 16px;
+
+  border-bottom-width: 2px;
+  border-bottom-color: ${Colors.background[3]};
 `;
 
 export const IconButtonContainer = styled.TouchableOpacity` 
@@ -24,7 +27,7 @@ export const IconButtonContainer = styled.TouchableOpacity`
 
 export const HeaderTitle = styled.Text`
   flex: 1;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   text-align: center;
   color: ${Colors.title};
@@ -40,8 +43,6 @@ export const PokeDataDisplay = styled.View`
   flex: 1;
   overflow: hidden;
 `;
-
-
 
 export const DataTitle = styled.Text`
   font-size: 18px;

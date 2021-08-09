@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
+import { data as genData } from '../../utils/data.json';
+
 import Colors from '../../styles/colors';
 import { captalize } from '../../utils/captalize';
 import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
@@ -20,20 +22,19 @@ import {
   Content, 
   PokeListContainer,
   PokeList,
-  ButtonCover,
-  PokeInfoButton,
+  PokemonButton,
   PokeImage,
-  PokeData,
-  ImageContainer,
-  PokeBasics,
-  PokeName,
-  PokeNumber,
-  BoldText,
+  PokemonData,
+  PrincipalData,
+  PokemonName,
+  PokemonNumber,
+  PokemonGeneration,
+  
 } from './styles';
 import { Skeleton } from '../../components/Skeleton';
 import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 
-const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20';
+const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=40';
 
 type PokeApiResponse = {
   next: string;
@@ -48,6 +49,19 @@ type PokeApiResponse = {
 export function createAvatarLink(id: string) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 } 
+
+function getGen(id: Number): string {
+  const gen = genData.find(data => {
+    if (id >= data.initial && id <= data.last)
+      return data;
+  });
+
+  if (!gen) {
+    return '';
+  }
+
+  return gen.name;
+}
 
 export function Home() {
   const [ pokemons, setPokemons ] = useState<PokemonListed[]>([]);
@@ -71,7 +85,7 @@ export function Home() {
       const { data } = await axios.get<PokeApiResponse>(uri);
       setNextUri(data.next);
 
-      if (data.results.length < 20) {
+      if (data.results.length < 40) {
         setLoadedAll(true);
       }
 
@@ -84,6 +98,7 @@ export function Home() {
           name: captalize(pokemon.name),
           avatar: createAvatarLink(id),
           url: pokemon.url,
+          gen: getGen(Number(id)),
         }
       });
 
@@ -104,22 +119,19 @@ export function Home() {
     setIsLoading(true);
     setPokemons([]);
 
-    const uri = `https://pokeapi.co/api/v2/pokemon?offset=${initial}&limit=20`;
+    const uri = `https://pokeapi.co/api/v2/pokemon?offset=${initial}&limit=40`;
     fetchData(uri);
     setIsLoading(false);
   };
 
-  const handleReFetch  = useCallback(async(distance: number) => {
-    if (distance < 1) {
+  async function handleReFetch(distance: number)  {
+    console.log('Requested to load more: ' + distance);
+    if (distance < 1 || isLoading || loadedAll) {
       return;
     }
 
-    if (loadedAll) {
-      return;
-    }
-
-    fetchData(nextUri);
-  }, [nextUri, loadedAll]);
+    await fetchData(nextUri);
+  };
 
   const handleSelectPokemon = useCallback((url: string) => {
     navigate('Pokemon', { url });
@@ -144,7 +156,7 @@ export function Home() {
         <View style={{ height: 60, width: 60 }}/>
         <HeaderTitle>Pokedex</HeaderTitle>
         <HeaderFilterButton onPress={handleToggleModal}>
-          <Ionicons name="search" color={Colors.title} size={30} />
+          <Ionicons name="search" color={Colors.title} size={28} />
         </HeaderFilterButton>
       </Header>
       
@@ -195,48 +207,39 @@ export function Home() {
                 keyExtractor={data => String(data.id)}
                 showsVerticalScrollIndicator={false}
                 onEndReachedThreshold={0.2}
-                onEndReached={({ distanceFromEnd,  }) => {
+                onEndReached={({ distanceFromEnd }) => {
                   handleReFetch(distanceFromEnd);
                 }}
                 renderItem={( { item: pokemon } ) => (
-                  <ButtonCover key={pokemon.id} >
-                    <PokeInfoButton
-                      onPress={() => handleSelectPokemon(pokemon.url)} 
-                    >
-                      <PokeImage 
-                        height={100} 
-                        width={100} 
-                        source={{ uri: pokemon.avatar }}
-                      />
-                      <PokeData>
-                        <PokeBasics>
-                          <PokeName>
-                            {captalize(pokemon.name)}
-                          </PokeName>
-                          <PokeNumber>
-                            {'#'}
-                            <BoldText>{pokemon.id}</BoldText>
-                          </PokeNumber>
-                        </PokeBasics>
-                        <ImageContainer>
-                          <Image 
-                            source={pokeballImg} 
-                            height={45}
-                            width={45}
-                            resizeMode="contain"
-                            style={{ height: 45, width: 45 }}
-                          />   
-                        </ImageContainer>
-                      </PokeData>     
-                    </PokeInfoButton>
-                  </ButtonCover>
+                  <PokemonButton
+                    onPress={() => handleSelectPokemon(pokemon.url)} 
+                  >
+                    <PokeImage 
+                      height={100} 
+                      width={100} 
+                      source={{ uri: pokemon.avatar }}
+                    />
+                    <PokemonData>
+                      <PrincipalData>
+                        <PokemonName>
+                          {pokemon.name}
+                        </PokemonName>
+                        <PokemonNumber>
+                          # {pokemon.id}
+                        </PokemonNumber>
+                      </PrincipalData>
+                      <PokemonGeneration>
+                        Gen: {pokemon.gen}
+                      </PokemonGeneration>
+                    </PokemonData>     
+                  </PokemonButton>
                 )}
                 ListFooterComponent={(
                   isLoading 
                     ? <ActivityIndicator 
                         style={{ marginVertical: 8 }} 
                         size="large" 
-                        color={Colors.title} 
+                        color={Colors.subtilte} 
                       />
                     : <></>
                 )}

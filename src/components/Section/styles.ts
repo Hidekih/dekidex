@@ -5,6 +5,6 @@ export const Container = styled.View`
   position: relative;
   padding: 8px 16px;
   margin: 0 12px 12px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: ${Colors.background[3]};
 `;

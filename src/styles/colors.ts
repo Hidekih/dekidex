@@ -8,7 +8,7 @@ export default {
     "3": '#383635',
   },
   title: '#f9f9f9',
-  subtilte: '#EEEEEC',
+  subtilte: '#E0E0E0',
   type: {
     "bug": 'rgba(173, 189, 33, 0.6)',
     "dark": 'rgba(115, 90, 74, 0.6)',

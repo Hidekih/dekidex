@@ -12,15 +12,18 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  height: 56px;
   padding: 0 20px;
   
-  width: 100%;
-  height: 70px;
+  border-bottom-width: 2px;
+  border-bottom-color: ${Colors.background[3]};
+
   background: ${Colors.background[2]};
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   color: ${Colors.title};
 `;
@@ -30,6 +33,7 @@ export const HeaderFilterButton = styled(TouchableOpacity)`
   height: 60px;
   justify-content: center;
   align-items: flex-end;
+  background: ${Colors.background[2]};
 `;
 
 export const Content = styled.View`
@@ -48,32 +52,28 @@ export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
   padding: 0 16px 16px 16px;
 `
 
-export const ButtonCover = styled.View`
-  margin-bottom: 8px;
-  border-radius: 12px; 
-  overflow: hidden;
-  elevation: 4;
-`;
-
-export const PokeInfoButton = styled(RectButton)`
+export const PokemonButton = styled(TouchableOpacity)`
   width: 100%;
+  height: 90px;
   flex-direction: row;
-  background: ${Colors.background[1]};
+  border-radius: 8px; 
+  margin-bottom: 10px;
+  border-color: ${Colors.background[3]};
+  border-width: 1px;
 `;
 
 export const PokeImage = styled(Image)`
-  width: 100px;
-  height: 100px;
-  transform: scale(1.1);
+  width: 90px;
+  height: 90px;
+  transform: scale(1.2);
 `;
 
-export const PokeData = styled.View`
+export const PokemonData = styled.View`
   flex: 1;
-  flex-direction: row;
   justify-content: space-between;
   padding: 16px;
-  background: ${Colors.background[0]};
-  border-radius: 12px; 
+  background: ${Colors.background[3]};
+  border-radius: 8px; 
   overflow: hidden;
 `;
 
@@ -82,21 +82,25 @@ export const ImageContainer = styled.View`
   justify-content: center;
 `;
 
-export const PokeBasics = styled.View`
+export const PrincipalData = styled.View`
+  width: 100%;
+  flex-direction: row;
   justify-content: space-between;
 `;
 
-export const PokeName = styled.Text`
+export const PokemonName = styled.Text`
   font-weight: bold;
-  font-size: 20px;
-  color: ${Colors.background[2]};
+  font-size: 18px;
+  color: ${Colors.title};
 `;
 
-export const PokeNumber = styled.Text`
-  font-size: 20px;
-  color: ${Colors.background[2]};
+export const PokemonNumber = styled.Text`
+  font-weight: normal;
+  font-size: 16px;
+  color: ${Colors.subtilte};
 `;
 
-export const BoldText = styled.Text`
-  font-weight: bold;
+export const PokemonGeneration = styled.Text`
+  font-size: 16px;
+  color: ${Colors.subtilte};
 `;

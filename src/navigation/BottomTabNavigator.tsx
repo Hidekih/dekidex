@@ -7,6 +7,7 @@ import { Favorites } from '../pages/Favorites';
 import Colors from '../styles/colors';
 
 import { HighLightRow, TabTitle } from './styles';
+import { Platform } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -17,8 +18,8 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ 
         inactiveTintColor: Colors.background[1],
         activeTintColor: Colors.title, 
-        activeBackgroundColor: Colors.background[3],
-        inactiveBackgroundColor: Colors.background[3],
+        activeBackgroundColor: Platform.OS === 'ios' ? Colors.background[2] : Colors.background[3],
+        inactiveBackgroundColor: Platform.OS === 'ios' ? Colors.background[2] : Colors.background[3],
         tabStyle: { 
           position: 'relative',
           flex: 1, 
@@ -27,9 +28,10 @@ export default function BottomTabNavigator() {
           justifyContent: 'center' ,
         },
         style: {
-          borderTopWidth: 0,
-          borderTopColor: Colors.background[1],
-          height: 56,
+          elevation: 0,
+          borderTopWidth: 1,
+          borderTopColor: Platform.OS === 'ios' ? Colors.background[3] : Colors.background[2],
+          height: 54,
         }
       }}
     >
@@ -39,8 +41,8 @@ export default function BottomTabNavigator() {
         options={{
           tabBarLabel: ({ color, focused }) => (
             <>
-              { focused &&  <HighLightRow style={{ backgroundColor: color }} />}
-              <Ionicons size={28} name="home" color={color} />
+             
+              <Ionicons size={24} name="home" color={color} />
               <TabTitle style={{ color }}>Home</TabTitle>
             </>
           )
@@ -52,8 +54,8 @@ export default function BottomTabNavigator() {
         options={{
           tabBarLabel: ({ color, focused }) => (
             <>
-              { focused &&  <HighLightRow style={{ backgroundColor: color }} />}
-              <Ionicons size={28} name="heart" color={color} />
+              
+              <Ionicons size={24} name="heart" color={color} />
               <TabTitle style={{ color }}>Favorites</TabTitle>
             </>
           )

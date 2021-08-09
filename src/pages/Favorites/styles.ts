@@ -10,14 +10,17 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: 60px;
+  height: 56px;
   align-items: center;
   justify-content: center;
+
+  border-bottom-width: 2px;
+  border-bottom-color: ${Colors.background[3]};
   background: ${Colors.background[2]};
 `;
 
 export const HeaderTitle = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   color: ${Colors.title};
 `;

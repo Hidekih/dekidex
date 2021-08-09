@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Modal, ModalProps } from 'react-native';
 import { useNavigation } from "@react-navigation/core";
 import { Ionicons } from '@expo/vector-icons';
-import { data } from '../../utils/data.json';
+import { data as genData } from '../../utils/data.json';
 
 import Colors from "../../styles/colors";
 import { 
@@ -58,13 +58,13 @@ export function FilterModal({ toggleModal, handleSetStarterListByGen, ...rest }:
 
   const handleSelectGen = useCallback((genData: GenProps) => {
     setSelectedGen(genData);
-    handleSetStarterListByGen(genData.initial);
+    handleSetStarterListByGen(genData.initial - 1);
     toggleModal();
   }, []);
   
   useEffect(() => {
-    setGenDataProps(data);
-    setSelectedGen(data[0]);
+    setGenDataProps(genData);
+    setSelectedGen(genData[0]);
   }, []);
 
   return (
