@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
 export default function useCachedResources() {
-  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [ isLoading, setLoading ] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
@@ -18,7 +18,7 @@ export default function useCachedResources() {
       } catch (e) {
         console.warn(e);
       } finally {
-        setLoadingComplete(true);
+        setLoading(true);
         SplashScreen.hideAsync();
       }
     }
@@ -26,5 +26,5 @@ export default function useCachedResources() {
     loadResourcesAndDataAsync();
   }, []);
 
-  return isLoadingComplete;
+  return isLoading;
 }

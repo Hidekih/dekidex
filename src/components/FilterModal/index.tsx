@@ -95,7 +95,6 @@ export function FilterModal({ toggleModal, handleSetStarterListByGen, ...rest }:
             <Line />
           </RowDividerWithText>
 
-          
           <Label>Filter by Gen:</Label>
           <GenerationList
             data={genDataProps}

@@ -1,10 +1,11 @@
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { SkeletonRowBoxProps } from './index';
-import Colors from '../../../styles/colors';
 
-export const Container = styled.View<SkeletonRowBoxProps>`
+export const Container = styled(View)<SkeletonRowBoxProps>`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: ${({ w }) => w };
   height: ${({ h }) => h };
 `;  

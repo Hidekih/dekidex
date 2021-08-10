@@ -6,7 +6,7 @@ import { Home } from '../pages/Home';
 import { Favorites } from '../pages/Favorites';
 import Colors from '../styles/colors';
 
-import { HighLightRow, TabTitle } from './styles';
+import { TabTitle } from './styles';
 import { Platform } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
@@ -41,7 +41,6 @@ export default function BottomTabNavigator() {
         options={{
           tabBarLabel: ({ color, focused }) => (
             <>
-             
               <Ionicons size={24} name="home" color={color} />
               <TabTitle style={{ color }}>Home</TabTitle>
             </>
@@ -54,7 +53,6 @@ export default function BottomTabNavigator() {
         options={{
           tabBarLabel: ({ color, focused }) => (
             <>
-              
               <Ionicons size={24} name="heart" color={color} />
               <TabTitle style={{ color }}>Favorites</TabTitle>
             </>

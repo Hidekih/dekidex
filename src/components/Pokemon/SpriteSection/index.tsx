@@ -7,6 +7,7 @@ import { SkeletonContent } from '../../Skeleton/SkeletonContent';
 
 import Colors from '../../../styles/colors';
 import {
+  Container,
   HeaderButtons,
   SpriteColorSection,
   SpriteGenderSection,
@@ -15,6 +16,7 @@ import {
   GradientBackground,
   PokeImage,
 } from './styles';
+import { Skeleton } from '../../Skeleton';
 
 type SpriteSectionProps = {
   data: {
@@ -28,17 +30,20 @@ type SpriteSectionProps = {
   }
 }
 
-export function SpriteSection({ data }: SpriteSectionProps) {
-  const [ colorSprite, setColorSprite ] = useState<'normal' | 'shiny'>('normal');
-  const [ genderSprite, setGenderSprite ] = useState<'male' | 'female'>('male');
-  const [ currentSprites, setCurrentSprites ] = useState<CurrentSprites>({} as CurrentSprites); 
-  const [ isFetching, setIsFetching ] = useState(true);
+type ColorType = 'normal' | 'shiny';
 
-  const handleToggleColorSprite = useCallback((string: 'normal' | 'shiny') => {
+type Gender = 'male' | 'female';
+
+export function SpriteSection({ data }: SpriteSectionProps) {
+  const [ colorSprite, setColorSprite ] = useState<ColorType>('normal');
+  const [ genderSprite, setGenderSprite ] = useState<Gender>('male');
+  const [ currentSprites, setCurrentSprites ] = useState<null | CurrentSprites>(null); 
+
+  const handleToggleColorSprite = useCallback((string: ColorType) => {
     setColorSprite(string);
   }, []);
 
-  const handleToggleGenderSprite = useCallback((string: 'male' | 'female') => {
+  const handleToggleGenderSprite = useCallback((string: Gender) => {
     setGenderSprite(string);
   }, []);
 
@@ -53,8 +58,8 @@ export function SpriteSection({ data }: SpriteSectionProps) {
       front_shiny,
       front_shiny_female,
     } = data.sprites;
-    
-    setCurrentSprites({
+
+    const sprites = {
       normal: {
         female: {
           front: front_female,
@@ -75,28 +80,29 @@ export function SpriteSection({ data }: SpriteSectionProps) {
           back: back_shiny
         }
       }
-    });
+    } as CurrentSprites;
+    
+    setCurrentSprites(sprites);
 
     setColorSprite('normal');
     setGenderSprite('male');
-
-    setIsFetching(false)
   }, [data]);
 
-  if (isFetching) {
+  if (!currentSprites) {
     return (
-      <SkeletonContent 
-        bgColor={Colors.background[3]} 
-        indicatorColor={Colors.background[1]} 
-        mt={16}
-        w="100%"
-        h="188px"
-      />
+      <Skeleton paddingX={12}>
+        <SkeletonContent 
+          bgColor={Colors.background[3]} 
+          indicatorColor={Colors.background[1]} 
+          w="100%"
+          h="188px"
+        />
+      </Skeleton>
     )
   }
 
   return (
-    <>
+    <Container>
       <HeaderButtons typeColor={data.typeColor}>
         <SpriteColorSection>
           <ChangeSpriteColorButton 
@@ -150,6 +156,6 @@ export function SpriteSection({ data }: SpriteSectionProps) {
           source={{ uri: currentSprites[colorSprite][genderSprite].back || '' }}
         />
       </PokemonAvatarContainer>
-    </>
+    </Container>
   )
 }

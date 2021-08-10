@@ -1,5 +1,5 @@
 import React from 'react';
-import { captalize } from '../../utils/captalize';
+import { captalize } from '../../utils/functions';
 
 import { Container, Title } from './styles';
 

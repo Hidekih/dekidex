@@ -1,8 +1,8 @@
 import { FlatList, Image, TouchableOpacity } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import Colors from '../../styles/colors';
 import { PokemonListed } from '../../utils/types';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export const Container = styled.View`
   flex: 1;
@@ -29,11 +29,10 @@ export const HeaderTitle = styled.Text`
 `;
 
 export const HeaderFilterButton = styled(TouchableOpacity)`
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   justify-content: center;
   align-items: flex-end;
-  background: ${Colors.background[2]};
 `;
 
 export const Content = styled.View`
@@ -53,28 +52,37 @@ export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
 `
 
 export const PokemonButton = styled(TouchableOpacity)`
-  width: 100%;
-  height: 90px;
+  position: relative;
   flex-direction: row;
-  border-radius: 8px; 
-  margin-bottom: 10px;
-  border-color: ${Colors.background[3]};
-  border-width: 1px;
+  width: 100%;
+  height: 100px;
+  background: transparent;
+  margin-top: 8px;
+
+  border-radius: 6px; 
+`;
+
+export const GradientBackground = styled(LinearGradient)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 6px; 
 `;
 
 export const PokeImage = styled(Image)`
-  width: 90px;
-  height: 90px;
-  transform: scale(1.2);
+  width: 100px;
+  height: 100px;
+  transform: scale(1.15);
 `;
 
 export const PokemonData = styled.View`
   flex: 1;
   justify-content: space-between;
-  padding: 16px;
-  background: ${Colors.background[3]};
+  margin-left: -15px;
+  padding: 16px 24px;
   border-radius: 8px; 
-  overflow: hidden;
 `;
 
 export const ImageContainer = styled.View`

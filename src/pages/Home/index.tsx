@@ -1,19 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
-import { data as genData } from '../../utils/data.json';
-
-import Colors from '../../styles/colors';
-import { captalize } from '../../utils/captalize';
-import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
+import { captalize, createAvatarLink, generatePokedexNumber, getGen } from '../../utils/functions';
 import { PokemonListed } from '../../utils/types';
 import { FilterModal } from '../../components/FilterModal';
+import { Skeleton } from '../../components/Skeleton';
+import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 
-import pokeballImg from '../../assets/pokeball-icon.png';
-
+import Colors from '../../styles/colors';
 import { 
   Container, 
   Header, 
@@ -23,16 +20,14 @@ import {
   PokeListContainer,
   PokeList,
   PokemonButton,
+  GradientBackground,
   PokeImage,
   PokemonData,
   PrincipalData,
   PokemonName,
   PokemonNumber,
   PokemonGeneration,
-  
 } from './styles';
-import { Skeleton } from '../../components/Skeleton';
-import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 
 const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=40';
 
@@ -44,23 +39,6 @@ type PokeApiResponse = {
       url: string;
     }
   ];
-}
-
-export function createAvatarLink(id: string) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-} 
-
-function getGen(id: Number): string {
-  const gen = genData.find(data => {
-    if (id >= data.initial && id <= data.last)
-      return data;
-  });
-
-  if (!gen) {
-    return '';
-  }
-
-  return gen.name;
 }
 
 export function Home() {
@@ -207,6 +185,7 @@ export function Home() {
                 keyExtractor={data => String(data.id)}
                 showsVerticalScrollIndicator={false}
                 onEndReachedThreshold={0.2}
+                
                 onEndReached={({ distanceFromEnd }) => {
                   handleReFetch(distanceFromEnd);
                 }}
@@ -214,11 +193,17 @@ export function Home() {
                   <PokemonButton
                     onPress={() => handleSelectPokemon(pokemon.url)} 
                   >
+                    <GradientBackground 
+                      start={{x: 0, y: 1}} 
+                      end={{x: 1, y: -1}}
+                      
+                      colors={[ Colors.background[1], 'transparent' ]} 
+                    />
                     <PokeImage 
                       height={100} 
                       width={100} 
                       source={{ uri: pokemon.avatar }}
-                    />
+                      />
                     <PokemonData>
                       <PrincipalData>
                         <PokemonName>

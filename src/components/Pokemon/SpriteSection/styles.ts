@@ -6,6 +6,10 @@ import Colors from '../../../styles/colors';
 
 import { TypeBadgeProps } from '../../../utils/types';
 
+export const Container = styled.View`
+  margin-top: 8px;
+`;
+
 export const HeaderButtons = styled.View<TypeBadgeProps>`
   height: 56px;
   flex-direction: row;

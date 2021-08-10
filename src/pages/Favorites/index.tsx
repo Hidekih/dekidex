@@ -89,46 +89,48 @@ export function Favorites() {
             <PokeList
               showsVerticalScrollIndicator={false}
             >
-              { favorites.length > 0 && favorites.map(favorite => (
-                <Swipeable
-                  key={favorite.id}
-                  renderRightActions={() => (
-                    <RemoveButtonContainer>
-                      <TouchableOpacity onPress={() => handleRemove(favorite.id)} style={{ marginRight: 16, marginTop: 8 }}>
-                        <Ionicons name="ios-trash-outline" size={32} color={Colors.title} />
-                      </TouchableOpacity>
-                    </RemoveButtonContainer>
-                  )}
-                >
-                  <PokeInfoContainer onPress={() => handleSelectPokemon(favorite.url)} >
-                    <GradientBackground 
-                      start={{x: 0, y: 1}} end={{x: 1, y: -1}}
-                      colors={[ Colors.type[favorite.types[0].type], Colors.background[3] ]}
-                    />
-                    <PokeImage 
-                      height={100} 
-                      width={100} 
-                      source={{ uri: favorite.avatar }}
-                    />
-                    <PokeData>
-                      <PokeBasicsContainer>    
-                        <PokeName>
-                          {favorite.name}
-                        </PokeName>
-                        <PokeNumber>
-                          {'#'}
-                          <BoldText>{favorite.pokedex_Number}</BoldText>
-                        </PokeNumber>
-                      </PokeBasicsContainer>
-                      <PokeTypesContainer>
-                        { favorite.types.map(type => (
-                          <TypeBadge key={type.slot} type={type.type} />
-                        ))}       
-                      </PokeTypesContainer>
-                    </PokeData>                
-                  </PokeInfoContainer>
-                </Swipeable>
-              ))}
+              { 
+                favorites.length > 0 && favorites.map(favorite => (
+                  <Swipeable
+                    key={favorite.id}
+                    renderRightActions={() => (
+                      <RemoveButtonContainer>
+                        <TouchableOpacity onPress={() => handleRemove(favorite.id)} style={{ marginRight: 16, marginTop: 8 }}>
+                          <Ionicons name="ios-trash-outline" size={32} color={Colors.title} />
+                        </TouchableOpacity>
+                      </RemoveButtonContainer>
+                    )}
+                  >
+                    <PokeInfoContainer onPress={() => handleSelectPokemon(favorite.url)} >
+                      <GradientBackground 
+                        start={{x: 0, y: 1}} end={{x: 1, y: -1}}
+                        colors={[ Colors.type[favorite.types[0].type], 'transparent' ]}
+                      />
+                      <PokeImage 
+                        height={100} 
+                        width={100} 
+                        source={{ uri: favorite.avatar }}
+                      />
+                      <PokeData>
+                        <PokeBasicsContainer>    
+                          <PokeName>
+                            {favorite.name}
+                          </PokeName>
+                          <PokeNumber>
+                            {'#'}
+                            <BoldText>{favorite.pokedex_Number}</BoldText>
+                          </PokeNumber>
+                        </PokeBasicsContainer>
+                        <PokeTypesContainer>
+                          { favorite.types.map(type => (
+                            <TypeBadge key={type.slot} type={type.type} />
+                          ))}       
+                        </PokeTypesContainer>
+                      </PokeData>                
+                    </PokeInfoContainer>
+                  </Swipeable>
+                ))
+              }
             </PokeList>
           </Content>
         )

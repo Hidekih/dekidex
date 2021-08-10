@@ -38,7 +38,7 @@ export const MessageBox = styled.View`
 
 export const Description = styled.Text`
   text-align: center;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 400;
   color: ${Colors.title};
 `;
@@ -49,8 +49,9 @@ export const Button = styled.TouchableOpacity`
   justify-content: center;
   height: 56px;
   margin-top: 24px;
+
   background: ${Colors.background[3]};  
-  border-radius: 12px;
+  border-radius: 8px;
 `;
 
 export const ButtonTitle = styled.Text`
@@ -71,10 +72,9 @@ export const PokeList = styled.ScrollView`
 
 export const PokeInfoContainer = styled.TouchableOpacity`
   flex-direction: row;
-  margin: 0 16px 10px 16px;
+  margin: 8px 16px 0 16px;
   border-radius: 8px;
   z-index: 10;
-  elevation: 4;
 `;
 
 export const GradientBackground = styled(LinearGradient)`
@@ -87,10 +87,10 @@ export const GradientBackground = styled(LinearGradient)`
 `;
 
 export const PokeImage = styled(Image)`
-  width: 112px;
-  height: 112px;
+  width: 100px;
+  height: 100px;
   margin-left: 8px;
-  transform: scale(1.4);
+  transform: scale(1.3);
 `;
 
 export const PokeData = styled.View`
@@ -128,6 +128,7 @@ export const PokeTypesContainer = styled.View`
 export const RemoveButtonContainer = styled.View`
   align-items: center;
   justify-content: center;
-  width: 112px;
-  height: 112px;
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
 `;

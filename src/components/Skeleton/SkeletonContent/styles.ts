@@ -9,7 +9,7 @@ export const Container = styled.View<Props>`
   width: ${({ w }) => w};
   height: ${({ h }) => h};
   margin-top: ${({ mt }) => mt}px;
-
+  
   background: ${props => props.bgColor};
   border-radius: 8px;
 `;

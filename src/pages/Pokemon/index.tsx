@@ -4,11 +4,9 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
-import { captalize } from '../../utils/captalize';
-import { createPokemonUrl } from '../../utils/createPokemonUrl';
-import { PokemonData } from '../../utils/types';
-import { generatePokedexNumber } from '../../utils/generatePokedexNumber';
 import { findOne, save, remove } from '../../storage/favorites';
+import { captalize, createPokemonUrl, generatePokedexNumber } from '../../utils/functions';
+import { PokemonData } from '../../utils/types';
 
 import { Skeleton } from '../../components/Skeleton';
 import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
@@ -83,7 +81,6 @@ export function Pokemon() {
 
   useEffect(() => {
     fetchData(url);
-    setIsFetching(false)
   }, []);
 
   function fetchData(pokemonUrl: string) {
@@ -95,12 +92,10 @@ export function Pokemon() {
         const id = enfOfUrl.replace('/','').trim();  
 
         const parsedData = {
-          id: String(id),
+          id,
           pokedexNumber: generatePokedexNumber(id),
           name: captalize(data.name),
-          ability: data.abilities.map(({ ability }) => {
-            return ability.name;
-          }).join(' / '),
+          ability: data.abilities.map(({ ability }) => ability.name).join(' / '),
           height: (data.height * 0.1).toFixed(1) || 0,
           weight: (data.weight * 0.1).toFixed(1) || 0,
           types: data.types.map(({ slot, type }) => {
@@ -119,7 +114,7 @@ export function Pokemon() {
             front_shiny: data.sprites.front_shiny,
             front_shiny_female: data.sprites.front_shiny_female,
           },
-          stats: data.stats.map(({ base_stat, effort,stat }) => {
+          stats: data.stats.map(({ base_stat, effort, stat }) => {
             return {
               base_stat,
               effort,
@@ -138,7 +133,8 @@ export function Pokemon() {
           setIsFavorited(!!res);
         })
       })
-        .catch(_ => { return })
+        .catch(() => { return })
+        .finally(() => setIsFetching(false))
   }
 
   const handleGoBack = useCallback(() => {
@@ -173,31 +169,35 @@ export function Pokemon() {
   if (isFetching || !pokemon.name) {
     return (
       <Skeleton paddingX={16} paddingY={0}>
-        <SkeletonRowBox h="60px" w="100%">
+        <SkeletonRowBox 
+          style={{ borderBottomColor: Colors.background[3], borderBottomWidth: 1  }} 
+          h="60px" 
+          w="100%"
+        >
           <SkeletonContent 
             bgColor={Colors.background[3]} 
             indicatorColor={'transparent'} 
-            w="50px"
-            h="50px"
+            w="28px"
+            h="28px"
           />
           <SkeletonContent 
             bgColor={Colors.background[3]} 
             indicatorColor={Colors.background[1]} 
             w="160px"
-            h="50px"
+            h="28px"
           />
           <SkeletonContent 
             bgColor={Colors.background[3]} 
             indicatorColor={'transparent'} 
-            w="50px"
-            h="50px"
+            w="28px"
+            h="28px"
           />
         </SkeletonRowBox>
 
         <SkeletonContent 
           bgColor={Colors.background[3]} 
           indicatorColor={Colors.background[1]} 
-          mt={16}
+          mt={8}
           w="100%"
           h="188px"
         />

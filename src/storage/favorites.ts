@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
-import { captalize } from '../utils/captalize';
+import { captalize } from '../utils/functions';
 import { FavoritedPokemon, PokemonData } from '../utils/types';
 
 export async function load(): Promise<FavoritedPokemon[]> {

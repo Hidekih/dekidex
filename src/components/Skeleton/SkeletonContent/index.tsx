@@ -26,7 +26,7 @@ export function SkeletonContent({
       h={h}
     >
       <ActivityIndicator 
-        size="large" 
+        size="small" 
         color={indicatorColor} 
       />
     </Container>
