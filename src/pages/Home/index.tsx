@@ -132,7 +132,7 @@ export function Home() {
 
       <Header>
         <View style={{ height: 60, width: 60 }}/>
-        <HeaderTitle>Pokedex</HeaderTitle>
+        <HeaderTitle>Home</HeaderTitle>
         <HeaderFilterButton onPress={handleToggleModal}>
           <Ionicons name="search" color={Colors.title} size={28} />
         </HeaderFilterButton>
