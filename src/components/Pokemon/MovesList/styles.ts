@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Colors from '../../../styles/colors';
 
 type SelectedProps = {
   isSelected: boolean;
@@ -21,17 +20,17 @@ export const GameVersionButton = styled.TouchableOpacity<SelectedProps>`
   margin-top: 12px;
   margin-right: 8px;
   padding: 0 8px; 
-  background: ${props => props.isSelected ? Colors.title : 'transparent'};
+  background: ${({ theme, isSelected}) => isSelected ? theme.title : 'transparent'};
   border-width: 1px;
   border-style: solid;
-  border-color: ${Colors.subtilte};
+  border-color: ${({ theme }) => theme.text};
   border-radius: 8px;
 `;
 
 export const GameVersionTitle = styled.Text<SelectedProps>`
   font-size: 18px;
   font-weight: ${props => props.isSelected ? '700' : '400'};
-  color: ${props => props.isSelected ? Colors.background[2] : Colors.subtilte};
+  color: ${({ theme, isSelected }) => isSelected ? theme.background1 : theme.text};
 `;
 
 export const RowContent = styled.View`
@@ -42,7 +41,7 @@ export const RowContent = styled.View`
 
 export const DataTitle = styled.Text`
   font-size: 18px;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
   font-weight: 700;
   align-items: center;
 `;
@@ -50,7 +49,7 @@ export const DataTitle = styled.Text`
 export const DataValue = styled.Text`
   flex: 1;
   font-size: 16px;
-  color: ${Colors.subtilte};
+  color: ${({ theme }) => theme.text};
   font-weight: 400;
   text-align: center;
 `;

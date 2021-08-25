@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
-import Colors from '../../styles/colors';
 import { GenProps } from './index';
 
 type GenItemProps = {
@@ -19,7 +18,7 @@ export const Content = styled.View`
   align-items: center;
   padding: 24px 16px;
 
-  background: ${Colors.background[3]};
+  background: ${({ theme }) => theme.background2};
   border-radius: 12px;
 `;
 
@@ -38,7 +37,7 @@ export const SubmitButton = styled.TouchableOpacity`
   justify-content: center;
   width: 60px;
   height: 40px;
-  background: ${Colors.subtilte};
+  background: ${({ theme }) => theme.text};
   margin-left: 16px;
   border-radius: 12px;
 `;
@@ -54,18 +53,18 @@ export const Line = styled.View`
   height: 2px;
   background: black;
   flex: 1;
-  background: ${Colors.subtilte};
+  background: ${({ theme }) => theme.text};
 `;
 
 export const RowDividerTitle = styled.Text`
   font-size: 18px;
   margin: 0 16px;
-  color: ${Colors.subtilte};
+  color: ${({ theme }) => theme.text};
 `;
 
 export const Label = styled.Text`
   font-size: 20px;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
 `;
 
 export const InputNumber = styled.TextInput`
@@ -73,9 +72,9 @@ export const InputNumber = styled.TextInput`
   height: 40px;
   padding: 0 16px;
   font-size: 18px;
-  color: ${Colors.subtilte};
+  color: ${({ theme }) => theme.text};
   border-radius: 12px;
-  background: ${Colors.background[1]};
+  background: ${({ theme }) => theme.background1};
   text-align: center;
 `;
 
@@ -89,14 +88,14 @@ export const GenItem = styled.TouchableOpacity<GenItemProps>`
   width: 80px;
   height: 40px;
   border-width: 1px;
-  border-color: ${Colors.subtilte};
+  border-color: ${({ theme }) => theme.text};
   margin-right: 12px;
   border-radius: 8px;
-  background: ${({ isSelected }) => isSelected ? Colors.subtilte : 'transparent'};
+  background: ${({ isSelected, theme }) => isSelected ? theme.text : 'transparent'};
 `;
 
 export const GenTitle = styled.Text<GenItemProps>`
   font-size: 18px;
   font-weight: 700;
-  color: ${({ isSelected }) => isSelected ? Colors.background[3] : Colors.title };
+  color: ${({ isSelected, theme }) => isSelected ? theme.background2 : theme.title };
 `;

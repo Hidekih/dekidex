@@ -3,15 +3,16 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { Swipeable } from 'react-native-gesture-handler';
+import { useTheme } from 'styled-components';
 
 import { FavoritedPokemon } from '../../utils/types';
 import { load, remove } from '../../storage/favorites';
 import { TypeBadge } from '../../components/TypeBadge';
 
-import Colors from '../../styles/colors';
 import { 
   Container, 
   Header, 
+  HeaderContent,
   HeaderTitle, 
   EmpytContent,
   MessageBox,
@@ -19,6 +20,7 @@ import {
   Button,
   ButtonTitle,
   Content,
+  ListContainer,
   PokeList,
   PokeInfoContainer,
   GradientBackground,
@@ -33,6 +35,7 @@ import {
 } from './styles';
 
 export function Favorites() {
+  const theme = useTheme();
   const { goBack } = useNavigation();
   const [ favorites, setFavorites ] = useState<FavoritedPokemon[]>([]);
   const { addListener, removeListener } = useNavigation();
@@ -68,7 +71,9 @@ export function Favorites() {
   return (
     <Container>
       <Header>
-        <HeaderTitle>Favorites</HeaderTitle>
+        <HeaderContent>
+          <HeaderTitle>Favorites</HeaderTitle>
+        </HeaderContent>
       </Header>
 
       {
@@ -79,24 +84,25 @@ export function Favorites() {
                 Your favorite list is empyt back to start to add favorite pokemons!
               </Description>
               <Button onPress={goBack}>
-                <Feather name="arrow-left" size={30} color={Colors.title}/>
+                <Feather name="arrow-left" size={30} color={theme.shape}/>
                 <ButtonTitle>Back To pokedex</ButtonTitle>
               </Button>
             </MessageBox>
           </EmpytContent>
         ) : (
           <Content>
-            <PokeList
-              showsVerticalScrollIndicator={false}
-            >
-              { 
-                favorites.length > 0 && favorites.map(favorite => (
+            <ListContainer>
+              <PokeList
+                showsVerticalScrollIndicator={true}
+                keyExtractor={({ id }) => id}
+                data={favorites}
+                renderItem={({ item: favorite}) => (
                   <Swipeable
                     key={favorite.id}
                     renderRightActions={() => (
                       <RemoveButtonContainer>
-                        <TouchableOpacity onPress={() => handleRemove(favorite.id)} style={{ marginRight: 16, marginTop: 8 }}>
-                          <Ionicons name="ios-trash-outline" size={32} color={Colors.title} />
+                        <TouchableOpacity onPress={() => handleRemove(favorite.id)} >
+                          <Ionicons name="trash" size={28} color={theme.title} />
                         </TouchableOpacity>
                       </RemoveButtonContainer>
                     )}
@@ -104,7 +110,7 @@ export function Favorites() {
                     <PokeInfoContainer onPress={() => handleSelectPokemon(favorite.url)} >
                       <GradientBackground 
                         start={{x: 0, y: 1}} end={{x: 1, y: -1}}
-                        colors={[ Colors.type[favorite.types[0].type], 'transparent' ]}
+                        colors={[ theme.background1, theme.background2 ]}
                       />
                       <PokeImage 
                         height={100} 
@@ -129,9 +135,9 @@ export function Favorites() {
                       </PokeData>                
                     </PokeInfoContainer>
                   </Swipeable>
-                ))
-              }
-            </PokeList>
+                )}
+              />
+              </ListContainer>
           </Content>
         )
       }

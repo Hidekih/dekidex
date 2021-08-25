@@ -1,28 +1,33 @@
-import { Image } from 'react-native';
+import { Image, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Colors from '../../styles/colors';
+import { FavoritedPokemon } from '../../utils/types';
 
 export const Container = styled.View`
   flex: 1;
-  background: ${Colors.background[2]};
+  background: ${({ theme }) => theme.background2};
 `;
 
 export const Header = styled.View`
   width: 100%;
-  height: 56px;
+  height: 106px;
+
+  background: ${({ theme }) => theme.primary};
+`;
+
+export const HeaderContent = styled.View`
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-
-  border-bottom-width: 2px;
-  border-bottom-color: ${Colors.background[3]};
-  background: ${Colors.background[2]};
+  width: 100%;
+  height: 56px;
+  padding: 0 20px;
 `;
 
 export const HeaderTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.shape};
 `;
 
 export const EmpytContent = styled.View`
@@ -40,7 +45,7 @@ export const Description = styled.Text`
   text-align: center;
   font-size: 18px;
   font-weight: 400;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -49,8 +54,6 @@ export const Button = styled.TouchableOpacity`
   justify-content: center;
   height: 56px;
   margin-top: 24px;
-
-  background: ${Colors.background[3]};  
   border-radius: 8px;
 `;
 
@@ -58,22 +61,31 @@ export const ButtonTitle = styled.Text`
   margin-left: 12px;
   font-size: 19px;
   font-weight: 400;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
 `;
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Colors.background[2]};
+  background: ${({ theme }) => theme.background2};
+  padding: 0 20px 20px 20px;
 `;
 
-export const PokeList = styled.ScrollView`
+export const ListContainer = styled.View`
+  flex: 1;
+  margin-top: -50px;
+  border-radius: 16px;
+  overflow: hidden;
+`;
+
+export const PokeList = styled(FlatList as new () => FlatList<FavoritedPokemon>)`
+  background: ${({ theme }) => theme.background2};
   flex: 1;
 `; 
 
 export const PokeInfoContainer = styled.TouchableOpacity`
   flex-direction: row;
-  margin: 8px 16px 0 16px;
-  border-radius: 8px;
+  margin-bottom: 8px;
+  border-radius: 12px;
   z-index: 10;
 `;
 
@@ -90,7 +102,7 @@ export const PokeImage = styled(Image)`
   width: 100px;
   height: 100px;
   margin-left: 8px;
-  transform: scale(1.3);
+  transform: scale(1.2);
 `;
 
 export const PokeData = styled.View`
@@ -107,13 +119,13 @@ export const PokeBasicsContainer = styled.View`
 
 export const PokeName = styled.Text`
   font-weight: bold;
-  font-size: 20px;
-  color: ${Colors.subtilte};
+  font-size: 18px;
+  color: ${({ theme }) => theme.text};
 `;
 
 export const PokeNumber = styled.Text`
-  font-size: 20px;
-  color: ${Colors.subtilte};
+  font-size: 16px;
+  color: ${({ theme }) => theme.text};
 `;
 
 export const BoldText = styled.Text`
@@ -130,5 +142,6 @@ export const RemoveButtonContainer = styled.View`
   justify-content: center;
   width: 100px;
   height: 100px;
-  margin-top: 10px;
+  border-radius: 12px;
+  background: ${({ theme }) => theme.background1};
 `;

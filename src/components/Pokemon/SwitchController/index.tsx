@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from 'styled-components';
 
-import Colors from '../../../styles/colors';
 import { Container, IconButton, Title } from './styles';
 
 type SwitchControllerProps = {
@@ -17,22 +17,24 @@ export function SwitchController({
   handleNextPokemon, 
   pokedexNumber 
 }: SwitchControllerProps) {
+  const theme = useTheme();
+
   return (
     <Container>
       { isFirstPokemon ? (
         <IconButton disabled >
-          <Ionicons name="chevron-back" size={28} color={Colors.background[1]}/>
+          <Ionicons name="chevron-back" size={28} color={theme.background1}/>
         </IconButton>
       ) : (
         <IconButton onPress={handlePreviousPokemon} >
-          <Ionicons name="chevron-back" size={28} color={Colors.title}/>
+          <Ionicons name="chevron-back" size={28} color={theme.shape}/>
         </IconButton>
       )}
 
       <Title>#{pokedexNumber}</Title>
 
       <IconButton onPress={handleNextPokemon} >
-        <Ionicons name="chevron-forward" size={28} color={Colors.title} />
+        <Ionicons name="chevron-forward" size={28} color={theme.shape} />
       </IconButton>
     </Container>
   )

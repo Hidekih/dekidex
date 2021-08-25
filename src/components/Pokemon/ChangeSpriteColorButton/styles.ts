@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Colors from '../../../styles/colors';
 
 type ToggleButtonTitleProps = {
   isSelected: boolean;
@@ -13,6 +12,6 @@ export const Container = styled.TouchableOpacity`
 
 export const ToggleButtonTitle = styled.Text<ToggleButtonTitleProps>`
   font-size: 18px;
-  color: ${props => props.isSelected ? Colors.title : Colors.background[1] };
+  color: ${({ theme, isSelected}) => isSelected ? '#f9f9f9' : theme.inactivity };
   font-weight: 700;
 `;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { useTheme } from 'styled-components/native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -20,10 +21,10 @@ import { SpriteSection } from '../../components/Pokemon/SpriteSection';
 
 import { MovesList } from '../../components/Pokemon/MovesList';
 
-import Colors from '../../styles/colors';
 import { 
   Container, 
   Header, 
+  HeaderContent,
   IconButtonContainer, 
   HeaderTitle, 
   Content,
@@ -72,6 +73,7 @@ interface PokemonDataResponse extends Omit<PokemonData, 'ability' | 'types' | 's
 }
 
 export function Pokemon() {
+  const theme = useTheme();
   const route = useRoute();
   const { goBack } = useNavigation();
   const { url } = route.params as RoutePrams;
@@ -166,28 +168,29 @@ export function Pokemon() {
     setIsFavorited(true);
   }, [isFavorited, pokemon]);
 
+  
+
   if (isFetching || !pokemon.name) {
     return (
       <Skeleton paddingX={16} paddingY={0}>
         <SkeletonRowBox 
-          style={{ borderBottomColor: Colors.background[3], borderBottomWidth: 1  }} 
           h="60px" 
           w="100%"
         >
           <SkeletonContent 
-            bgColor={Colors.background[3]} 
+            bgColor={theme.background2} 
             indicatorColor={'transparent'} 
             w="28px"
             h="28px"
           />
           <SkeletonContent 
-            bgColor={Colors.background[3]} 
-            indicatorColor={Colors.background[1]} 
+            bgColor={theme.background2} 
+            indicatorColor={theme.background1} 
             w="160px"
             h="28px"
           />
           <SkeletonContent 
-            bgColor={Colors.background[3]} 
+            bgColor={theme.background2} 
             indicatorColor={'transparent'} 
             w="28px"
             h="28px"
@@ -195,22 +198,22 @@ export function Pokemon() {
         </SkeletonRowBox>
 
         <SkeletonContent 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.background[1]} 
+          bgColor={theme.background2} 
+          indicatorColor={theme.background1} 
           mt={8}
           w="100%"
           h="188px"
         />
         <SkeletonContent 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.background[1]} 
+          bgColor={theme.background2} 
+          indicatorColor={theme.background1} 
           mt={16}
           w="100%"
           h="160px"
         />
         <SkeletonContent 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.background[1]} 
+          bgColor={theme.background2} 
+          indicatorColor={theme.background1} 
           mt={16}
           w="100%"
           h="160px"
@@ -225,104 +228,104 @@ export function Pokemon() {
     <SafeAreaView style={{ flex: 1 }} >
       <Container>
         <Header>
-          <IconButtonContainer onPress={handleGoBack}>
-            <Ionicons name="arrow-back" size={28} color={Colors.title} />
-          </IconButtonContainer>
-          <HeaderTitle>{pokemon.name}</HeaderTitle>
-          <IconButtonContainer onPress={handleFavorited}>
-            { isFavorited ? (
-              <Ionicons name="md-heart-sharp" size={28} color={Colors.title} />
-            ) : (
-              <Ionicons name="md-heart-outline" size={28} color={Colors.title} />
-            )}
-          </IconButtonContainer>
+          <HeaderContent>
+            <IconButtonContainer onPress={handleGoBack}>
+              <Ionicons name="arrow-back" size={28} color={theme.shape} />
+            </IconButtonContainer>
+            <HeaderTitle>{pokemon.name}</HeaderTitle>
+            <IconButtonContainer onPress={handleFavorited}>
+              { isFavorited ? (
+                <Ionicons name="md-heart-sharp" size={28} color={theme.shape} />
+              ) : (
+                <Ionicons name="md-heart-outline" size={28} color={theme.shape} />
+              )}
+            </IconButtonContainer>
+          </HeaderContent>
         </Header>
 
         <Content>
           <PokeDataDisplay>
-            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
-              <SpriteSection 
-                data={{
-                  gradientColors: [ Colors.type[pokemon.types[0].type ], Colors.background[3] ],
-                  sprites: pokemon.sprites,
-                  typeColor: Colors.type[pokemon.types[0].type] || '#333',
-                  is_unique_gender: pokemon.is_unique_gender
-                }}
+            <SpriteSection 
+              data={{
+                gradientColors:  [ theme.type[pokemon.types[0].type], pokemon.types.length > 1 ? theme.type[pokemon.types[1].type] : theme.type[pokemon.types[0].type] ],
+                sprites: pokemon.sprites,
+                typeColor: theme.type[pokemon.types[0].type] || '#333',
+                is_unique_gender: pokemon.is_unique_gender
+              }}
+            />
+            
+            <Section>
+              <RowContent>
+                <DataTitle>
+                  Type
+                </DataTitle>
+                <DataValueContainer>
+                  {
+                    pokemon.types.map(type => (
+                      <TypeBadge key={type.slot} type={type.type} />
+                    ))
+                  }
+                </DataValueContainer>
+              </RowContent>
+
+              <SectionRowContent 
+                data={[
+                  { name: 'Height', value: `${pokemon.height} m` },
+                  { name: 'Weight', value: `${pokemon.weight} kg` },
+                ]}
+                colors={[theme.text, theme.type[pokemon.types[0].type]]}
               />
+
+              <SectionRowContent 
+                data={[
+                  { name: 'Ability', value: pokemon.ability },
+                ]}
+                colors={[theme.text, theme.type[pokemon.types[0].type]]}
+              />
+            </Section>
+            
+            <Section>   
+              <SectionTitle titles={["Base stats"]}/>
               
-              <Section>
-                <RowContent>
-                  <DataTitle>
-                    Type
-                  </DataTitle>
-                  <DataValueContainer>
-                    {
-                      pokemon.types.map(type => (
-                        <TypeBadge key={type.slot} type={type.type} />
-                      ))
-                    }
-                  </DataValueContainer>
-                </RowContent>
+              <SectionRowContent 
+                data={[
+                  { name: 'Hp', value: pokemon.stats[0].base_stat },
+                  { name: 'Sp.Atk', value: pokemon.stats[3].base_stat }
+                ]}
+                colors={[theme.text, theme.type[pokemon.types[0].type]]}
+              />
 
-                <SectionRowContent 
-                  data={[
-                    { name: 'Height', value: `${pokemon.height} m` },
-                    { name: 'Weight', value: `${pokemon.weight} kg` },
-                  ]}
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
-                />
+              <SectionRowContent 
+                data={[
+                  { name: 'Atk', value: pokemon.stats[1].base_stat },
+                  { name: 'Sp.Def', value: pokemon.stats[4].base_stat }
+                ]}
+                colors={[theme.text, theme.type[pokemon.types[0].type]]}
+              />
 
-                <SectionRowContent 
-                  data={[
-                    { name: 'Ability', value: pokemon.ability },
-                  ]}
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
-                />
-              </Section>
-              
-              <Section>   
-                <SectionTitle titles={["Base stats"]}/>
-                
-                <SectionRowContent 
-                  data={[
-                    { name: 'Hp', value: pokemon.stats[0].base_stat },
-                    { name: 'Sp.Atk', value: pokemon.stats[3].base_stat }
-                  ]}
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
-                />
+              <SectionRowContent 
+                data={[
+                  { name: 'Def', value: pokemon.stats[2].base_stat },
+                  { name: 'Spd', value: pokemon.stats[5].base_stat }
+                ]}
+                colors={[theme.text, theme.type[pokemon.types[0].type]]}
+              />
 
-                <SectionRowContent 
-                  data={[
-                    { name: 'Atk', value: pokemon.stats[1].base_stat },
-                    { name: 'Sp.Def', value: pokemon.stats[4].base_stat }
-                  ]}
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
-                />
+              <SectionRowContent 
+                data={[
+                  { name: 'Experience', value: `${pokemon.base_experience}` },
+                ]}
+                colors={[theme.text, theme.type[pokemon.types[0].type]]}
+              />
+            </Section>      
 
-                <SectionRowContent 
-                  data={[
-                    { name: 'Def', value: pokemon.stats[2].base_stat },
-                    { name: 'Spd', value: pokemon.stats[5].base_stat }
-                  ]}
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
-                />
+            <Section>
+              <MovesList data={{
+                moves: pokemon.moves,
+                colors: [ theme.title, theme.type[pokemon.types[0].type]]
+              }}/>
+            </Section>
 
-                <SectionRowContent 
-                  data={[
-                    { name: 'Experience', value: `${pokemon.base_experience}` },
-                  ]}
-                  colors={[Colors.subtilte, Colors.type[pokemon.types[0].type]]}
-                />
-              </Section>      
-
-              <Section>
-                <MovesList data={{
-                  moves: pokemon.moves,
-                  colors: [ Colors.title, Colors.type[pokemon.types[0].type]]
-                }}/>
-              </Section>
-
-            </ScrollView>
           </PokeDataDisplay>
 
           <SwitchController

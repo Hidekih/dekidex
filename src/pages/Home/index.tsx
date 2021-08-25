@@ -10,10 +10,10 @@ import { FilterModal } from '../../components/FilterModal';
 import { Skeleton } from '../../components/Skeleton';
 import { SkeletonContent } from '../../components/Skeleton/SkeletonContent';
 
-import Colors from '../../styles/colors';
 import { 
   Container, 
   Header, 
+  HeaderContent,
   HeaderTitle, 
   HeaderFilterButton,
   Content, 
@@ -28,6 +28,7 @@ import {
   PokemonNumber,
   PokemonGeneration,
 } from './styles';
+import { useTheme } from 'styled-components';
 
 const FIRST_URI_TO_FETCH = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=40';
 
@@ -46,6 +47,7 @@ export function Home() {
   const [ nextUri, setNextUri ] = useState('');
   const [ isLoading, setIsLoading ]= useState(false);
   const [ loadedAll, setLoadedAll ]= useState(false);
+  const theme = useTheme();
 
   const [ isOpen, setIsOpen ] = useState(false);
 
@@ -131,11 +133,13 @@ export function Home() {
       />
 
       <Header>
-        <View style={{ height: 60, width: 60 }}/>
-        <HeaderTitle>Home</HeaderTitle>
-        <HeaderFilterButton onPress={handleToggleModal}>
-          <Ionicons name="search" color={Colors.title} size={28} />
-        </HeaderFilterButton>
+        <HeaderContent>
+          <View style={{ height: 60, width: 60 }}/>
+          <HeaderTitle>Home</HeaderTitle>
+          <HeaderFilterButton onPress={handleToggleModal}>
+            <Ionicons name="search" color={theme.shape} size={28} />
+          </HeaderFilterButton>
+        </HeaderContent>
       </Header>
       
       <Content>
@@ -143,36 +147,36 @@ export function Home() {
           pokemons.length <= 0 ? (
             <Skeleton paddingX={16}>
               <SkeletonContent 
-                bgColor={Colors.background[3]} 
-                indicatorColor={Colors.background[1]} 
+                bgColor={theme.background2} 
+                indicatorColor={theme.background1} 
                 mt={8}
                 w="100%"
                 h="100px"
               />
               <SkeletonContent 
-                bgColor={Colors.background[3]} 
-                indicatorColor={Colors.background[1]} 
+                bgColor={theme.background2} 
+                indicatorColor={theme.background1} 
                 mt={8}
                 w="100%"
                 h="100px"
               />
               <SkeletonContent 
-                bgColor={Colors.background[3]} 
-                indicatorColor={Colors.background[1]} 
+                bgColor={theme.background2} 
+                indicatorColor={theme.background1} 
                 mt={8}
                 w="100%"
                 h="100px"
               />
               <SkeletonContent 
-                bgColor={Colors.background[3]} 
-                indicatorColor={Colors.background[1]} 
+                bgColor={theme.background2} 
+                indicatorColor={theme.background1} 
                 mt={8}
                 w="100%"
                 h="100px"
               />
               <SkeletonContent 
-                bgColor={Colors.background[3]} 
-                indicatorColor={Colors.background[1]} 
+                bgColor={theme.background2} 
+                indicatorColor={theme.background1} 
                 mt={8}
                 w="100%"
                 h="100px"
@@ -194,10 +198,7 @@ export function Home() {
                     onPress={() => handleSelectPokemon(pokemon.url)} 
                   >
                     <GradientBackground 
-                      start={{x: 0, y: 1}} 
-                      end={{x: 1, y: -1}}
-                      
-                      colors={[ Colors.background[1], 'transparent' ]} 
+                      colors={[ theme.background1, theme.background2 ]} 
                     />
                     <PokeImage 
                       height={100} 
@@ -224,7 +225,7 @@ export function Home() {
                     ? <ActivityIndicator 
                         style={{ marginVertical: 8 }} 
                         size="large" 
-                        color={Colors.subtilte} 
+                        color={theme.text} 
                       />
                     : <></>
                 )}

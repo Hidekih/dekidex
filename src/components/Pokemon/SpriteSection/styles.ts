@@ -2,31 +2,36 @@ import styled from 'styled-components/native';
 import { Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Layout from '../../../utils/layout';
-import Colors from '../../../styles/colors';
 
-import { TypeBadgeProps } from '../../../utils/types';
+type Colors = {
+  primary: string;
+  secondary: string;
+};
 
-export const Container = styled.View`
-  margin-top: 8px;
-`;
+export const Container = styled.View<Colors>`
+  elevation: 5;
+  background: ${({ theme }) => theme.background2};
+  border-radius: 16px;
+  overflow: hidden;
+  border-width: 4px;
+  border-top-color: ${({ primary }) => primary};
+  border-right-color: ${({ primary }) => primary};
+  border-bottom-color: ${({ secondary }) => secondary};
+  border-left-color: ${({ secondary }) => secondary};
+`
 
-export const HeaderButtons = styled.View<TypeBadgeProps>`
+export const HeaderButtons = styled.View`
   height: 56px;
   flex-direction: row;
   align-items: flex-end;
-  margin: 0 12px;
   padding: 8px 16px 0 16px;
-
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background: ${props => props.typeColor};
 `;
 
 export const SpriteColorSection = styled.View`
   flex: 1;
   flex-direction: row;
   height: 100%;
-  background: ${Colors.background[3]};
+  background: ${({ theme }) => theme.tabBarBackground};
   border-radius: 12px;
 `;
 
@@ -35,7 +40,7 @@ export const SpriteGenderSection = styled.View`
   height: 100%;
   margin-left: 16px;
   width: 112px;
-  background: ${Colors.background[3]};
+  background: ${({ theme }) => theme.tabBarBackground};
   border-radius: 12px;
 `;
 
@@ -49,10 +54,9 @@ export const PokemonAvatarContainer = styled.View`
   position: relative;
   flex-direction: row;
   justify-content: space-around;
-  margin: 0 12px 16px;
 
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
   overflow: hidden;
 `;
 
@@ -62,6 +66,7 @@ export const GradientBackground = styled(LinearGradient)`
   right: 0;
   bottom: 0;
   left: 0;
+  
 `;
 
 export const PokeImage = styled(Image)`

@@ -5,7 +5,6 @@ import { CurrentSprites, Sprites } from '../../../utils/types';
 import { ChangeSpriteColorButton } from '../ChangeSpriteColorButton';
 import { SkeletonContent } from '../../Skeleton/SkeletonContent';
 
-import Colors from '../../../styles/colors';
 import {
   Container,
   HeaderButtons,
@@ -13,10 +12,10 @@ import {
   SpriteGenderSection,
   ChangeSpriteGenderButton,
   PokemonAvatarContainer,
-  GradientBackground,
   PokeImage,
 } from './styles';
 import { Skeleton } from '../../Skeleton';
+import { useTheme } from 'styled-components';
 
 type SpriteSectionProps = {
   data: {
@@ -35,6 +34,7 @@ type ColorType = 'normal' | 'shiny';
 type Gender = 'male' | 'female';
 
 export function SpriteSection({ data }: SpriteSectionProps) {
+  const theme = useTheme();
   const [ colorSprite, setColorSprite ] = useState<ColorType>('normal');
   const [ genderSprite, setGenderSprite ] = useState<Gender>('male');
   const [ currentSprites, setCurrentSprites ] = useState<null | CurrentSprites>(null); 
@@ -92,8 +92,8 @@ export function SpriteSection({ data }: SpriteSectionProps) {
     return (
       <Skeleton paddingX={12}>
         <SkeletonContent 
-          bgColor={Colors.background[3]} 
-          indicatorColor={Colors.background[1]} 
+          bgColor={theme.background2} 
+          indicatorColor={theme.background1} 
           w="100%"
           h="188px"
         />
@@ -102,8 +102,8 @@ export function SpriteSection({ data }: SpriteSectionProps) {
   }
 
   return (
-    <Container>
-      <HeaderButtons typeColor={data.typeColor}>
+    <Container primary={data.gradientColors[0]} secondary={data.gradientColors[1]}>
+      <HeaderButtons>
         <SpriteColorSection>
           <ChangeSpriteColorButton 
             disabled={!currentSprites.shiny.male.front}
@@ -127,7 +127,7 @@ export function SpriteSection({ data }: SpriteSectionProps) {
             { genderSprite === 'male' && !data.is_unique_gender ? (
               <Ionicons  name="male" size={26} color={"#438FE6"}/>
             ) : (
-              <Ionicons  name="male" size={28} color={Colors.background[1]}/>
+              <Ionicons  name="male" size={28} color="#7A7776"/>
             )}
           </ChangeSpriteGenderButton>
           <ChangeSpriteGenderButton 
@@ -137,16 +137,13 @@ export function SpriteSection({ data }: SpriteSectionProps) {
             { genderSprite === 'female' ? (
               <Ionicons  name="female" size={26} color={"#DB736E"}/>
             ) : (
-              <Ionicons  name="female" size={28} color={Colors.background[1]}/>
+              <Ionicons  name="female" size={28} color="#7A7776"/>
             )}
           </ChangeSpriteGenderButton>
         </SpriteGenderSection>
       </HeaderButtons>
 
       <PokemonAvatarContainer>
-        <GradientBackground
-          colors={[ data.typeColor, Colors.background[3]]}
-        />
         <PokeImage 
           resizeMode='cover'
           source={{ uri: currentSprites[colorSprite][genderSprite].front || '' }}

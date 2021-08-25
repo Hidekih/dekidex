@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Colors from '../../styles/colors';
 import { TypeBadgeProps } from '../../utils/types';
 
 export const Container = styled.View<TypeBadgeProps>`
@@ -10,12 +9,12 @@ export const Container = styled.View<TypeBadgeProps>`
   margin: 0 8px;
   
   border-radius: 6px;
-  background: ${props => Colors.type[props.typeColor] || '#000'};
+  background: ${({ theme, typeColor }) => theme.type[typeColor] || '#222'};
 `;
 
 export const Title = styled.Text<TypeBadgeProps>`
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.8px;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.shape};
 `;

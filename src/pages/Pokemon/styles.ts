@@ -1,22 +1,25 @@
 import styled from 'styled-components/native';
-
-import Colors from '../../styles/colors';
+import { ScrollView } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  background: ${Colors.background[2]};
+  background: ${({ theme }) => theme.background2};
 `; 
 
 export const Header = styled.View`
+  width: 100%;
+  height: 106px;
+
+  background: ${({ theme }) => theme.primary};
+`;
+
+export const HeaderContent = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 56px;
-  padding: 0 16px;
-
-  border-bottom-width: 2px;
-  border-bottom-color: ${Colors.background[3]};
+  padding: 0 20px;
 `;
 
 export const IconButtonContainer = styled.TouchableOpacity` 
@@ -30,23 +33,26 @@ export const HeaderTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.shape};
 `;
 
 export const Content = styled.View`
   position: relative;
   flex: 1;
-  background: ${Colors.background[2]};
+  margin-top: -50px;
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.background2};
 `;
 
-export const PokeDataDisplay = styled.View`
+export const PokeDataDisplay = styled(ScrollView)`
   flex: 1;
-  overflow: hidden;
 `;
 
 export const DataTitle = styled.Text`
   font-size: 18px;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
   font-weight: 700;
   align-items: center;
 `;

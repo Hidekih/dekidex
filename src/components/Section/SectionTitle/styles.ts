@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Colors from '../../../styles/colors';
 
 export const Container = styled.View`
   height: 54px;
@@ -9,8 +8,8 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
   flex: 1;
-  font-size: 20px;
-  color: ${Colors.title};
+  font-size: 18px;
+  color: ${({ theme }) => theme.title};
   font-weight: 700;
   text-align: center;
 `;

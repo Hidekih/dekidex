@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import Colors from '../../../styles/colors';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -14,7 +13,7 @@ export const Column = styled.View`
 
 export const Name = styled.Text`
   font-size: 18px;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
   font-weight: 700;
 `;
 
@@ -22,6 +21,6 @@ export const Value = styled.Text`
   flex: 1;
   text-align: center;
   font-size: 16px;
-  color: ${Colors.subtilte};
+  color: ${({ theme }) => theme.text};
   font-weight: 400;
 `;

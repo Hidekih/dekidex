@@ -7,7 +7,6 @@ import { RowDividerGradient } from '../../RowDividerGradient';
 import { SectionTitle } from '../../Section/SectionTitle';
 import { SkeletonContent } from '../../Skeleton/SkeletonContent';
 
-import Colors from '../../../styles/colors';
 import { 
   Container,
   GameVersionsList,
@@ -18,6 +17,7 @@ import {
   DataValue,
 } from './styles';
 import { captalize, compareLevel } from '../../../utils/functions';
+import { useTheme } from 'styled-components';
 
 type VersionGroupResponse = {
   results: [
@@ -38,6 +38,7 @@ type MovesListProps = {
 }
 
 export function MovesList({ data } : MovesListProps) {
+  const theme = useTheme();
   const [ selectedGameVersion, setSelectedGameVersion ] = useState('');
   const [ moves, setMoves ] = useState< null | MovesByGen>(null);
   const [ gameVersions, setGameVersions ] = useState<string[]>([]);
@@ -96,8 +97,8 @@ export function MovesList({ data } : MovesListProps) {
   if (!moves) {
     return (
       <SkeletonContent 
-        bgColor={Colors.background[3]} 
-        indicatorColor={Colors.background[1]} 
+        bgColor={theme.background2} 
+        indicatorColor={theme.background1} 
         mt={16}
         w="100%"
         h="160px"

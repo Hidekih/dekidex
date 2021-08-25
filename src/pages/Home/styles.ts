@@ -1,6 +1,5 @@
 import { FlatList, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import Colors from '../../styles/colors';
 import { PokemonListed } from '../../utils/types';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -9,23 +8,25 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
+  width: 100%;
+  height: 106px;
+
+  background: ${({ theme }) => theme.primary};
+`;
+
+export const HeaderContent = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 56px;
   padding: 0 20px;
-  
-  border-bottom-width: 2px;
-  border-bottom-color: ${Colors.background[3]};
-
-  background: ${Colors.background[2]};
 `;
 
 export const HeaderTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.shape};
 `;
 
 export const HeaderFilterButton = styled(TouchableOpacity)`
@@ -37,18 +38,21 @@ export const HeaderFilterButton = styled(TouchableOpacity)`
 
 export const Content = styled.View`
   flex: 1;
-  background: ${Colors.background[2]};
+  background: ${({ theme }) => theme.background2};
+  padding: 0 20px 20px 20px;
 `;
 
 export const PokeListContainer = styled.View`
-  position: relative;
   flex: 1;
+  margin-top: -50px;
+  border-radius: 12px;
   overflow: hidden;
 `; 
 
 export const PokeList = styled(FlatList as new () => FlatList<PokemonListed>)`
   flex: 1;
-  padding: 0 16px 16px 16px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.background2};
 `
 
 export const PokemonButton = styled(TouchableOpacity)`
@@ -57,9 +61,8 @@ export const PokemonButton = styled(TouchableOpacity)`
   width: 100%;
   height: 100px;
   background: transparent;
-  margin-top: 8px;
-
-  border-radius: 6px; 
+  margin-bottom: 8px;
+  border-radius: 10px; 
 `;
 
 export const GradientBackground = styled(LinearGradient)`
@@ -99,16 +102,16 @@ export const PrincipalData = styled.View`
 export const PokemonName = styled.Text`
   font-weight: bold;
   font-size: 18px;
-  color: ${Colors.title};
+  color: ${({ theme }) => theme.title};
 `;
 
 export const PokemonNumber = styled.Text`
   font-weight: normal;
   font-size: 16px;
-  color: ${Colors.subtilte};
+  color: ${({ theme }) => theme.text};
 `;
 
 export const PokemonGeneration = styled.Text`
   font-size: 16px;
-  color: ${Colors.subtilte};
+  color: ${({ theme }) => theme.text};
 `;

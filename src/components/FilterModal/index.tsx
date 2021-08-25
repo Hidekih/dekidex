@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/core";
 import { Ionicons } from '@expo/vector-icons';
 import { data as genData } from '../../utils/data.json';
 
-import Colors from "../../styles/colors";
 import { 
   Container, 
   Content, 
@@ -20,6 +19,7 @@ import {
   GenItem,
   GenTitle,
 } from './styles';
+import { useTheme } from "styled-components";
 
 interface FilterModalProps extends ModalProps {
   toggleModal: () => void;
@@ -33,6 +33,7 @@ export type GenProps = {
 
 export function FilterModal({ toggleModal, handleSetStarterListByGen, ...rest }: FilterModalProps) {
   const { navigate } = useNavigation();
+  const theme = useTheme();
   const [ pokedexNumber, setPokedexNumber ] = useState('');
   const [ selectedGen, setSelectedGen ] = useState<GenProps>({} as GenProps);
   const [ genDataProps, setGenDataProps ] = useState<GenProps[]>([]);
@@ -78,14 +79,14 @@ export function FilterModal({ toggleModal, handleSetStarterListByGen, ...rest }:
               <InputNumber  
                 value={pokedexNumber} 
                 onChangeText={value => handleInputData(value)} 
-                placeholderTextColor={Colors.subtilte}
+                placeholderTextColor={theme.text}
                 placeholder="#000"
                 keyboardType="number-pad"
                 returnKeyType="send"
                 onSubmitEditing={() => handleSelectPokemon(pokedexNumber)}
               />
               <SubmitButton onPress={() => handleSelectPokemon(pokedexNumber)}>
-                <Ionicons name="md-search" size={28} color={Colors.background[3]} />
+                <Ionicons name="md-search" size={28} color={theme.background2} />
               </SubmitButton>
             </RowContent>
 

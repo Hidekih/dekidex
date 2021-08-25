@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
-import Colors from '../../styles/colors';
 
 export const Container = styled.View`
   position: relative;
   padding: 8px 16px;
-  margin: 0 12px 12px;
-  border-radius: 8px;
-  background: ${Colors.background[3]};
+  margin-top: 16px;
+  border-radius: 16px;
+  elevation: 6;
+  background: ${({ theme }) => theme.background2};
 `;
