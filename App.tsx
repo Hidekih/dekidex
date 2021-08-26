@@ -27,7 +27,7 @@ export default function App() {
   }
     
   return (
-    <ThemeProvider theme={theme} >
+    <ThemeProvider theme={dark} >
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar backgroundColor={theme.primary} style="light" />
         <Navigation />

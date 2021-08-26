@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import Font from 'expo-font';
-import SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function useCachedResources() {
   const [ isLoading, setLoading ] = useState(false);

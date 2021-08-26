@@ -8,28 +8,28 @@ type Colors = {
   secondary: string;
 };
 
-export const Container = styled.View<Colors>`
+export const Container = styled.View`
   elevation: 5;
   background: ${({ theme }) => theme.background2};
   border-radius: 16px;
   overflow: hidden;
-  border-width: 4px;
+  /* border-width: 4px;
   border-top-color: ${({ primary }) => primary};
   border-right-color: ${({ primary }) => primary};
   border-bottom-color: ${({ secondary }) => secondary};
-  border-left-color: ${({ secondary }) => secondary};
+  border-left-color: ${({ secondary }) => secondary}; */
 `
 
 export const HeaderButtons = styled.View`
-  height: 56px;
   flex-direction: row;
   align-items: flex-end;
-  padding: 8px 16px 0 16px;
+  padding: 16px 16px 0 16px;
 `;
 
 export const SpriteColorSection = styled.View`
   flex: 1;
   flex-direction: row;
+  
   height: 100%;
   background: ${({ theme }) => theme.tabBarBackground};
   border-radius: 12px;
@@ -37,7 +37,6 @@ export const SpriteColorSection = styled.View`
 
 export const SpriteGenderSection = styled.View`
   flex-direction: row;
-  height: 100%;
   margin-left: 16px;
   width: 112px;
   background: ${({ theme }) => theme.tabBarBackground};
@@ -45,6 +44,7 @@ export const SpriteGenderSection = styled.View`
 `;
 
 export const ChangeSpriteGenderButton = styled.TouchableOpacity`
+  height: 50px;
   align-items: center;
   justify-content: center;
   flex: 1;
@@ -66,7 +66,6 @@ export const GradientBackground = styled(LinearGradient)`
   right: 0;
   bottom: 0;
   left: 0;
-  
 `;
 
 export const PokeImage = styled(Image)`

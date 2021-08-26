@@ -32,9 +32,13 @@ export const HeaderTitle = styled.Text`
 
 export const EmpytContent = styled.View`
   flex: 1;
-  width: 100%;
   align-items: center;
   justify-content: center;
+  margin: -50px 16px 16px 16px;
+  border-width: 4px;
+  border-color: ${({ theme }) => theme.tabBarBackground};
+  background: ${({ theme }) => theme.background2};
+  border-radius: 12px;
 `;
 
 export const MessageBox = styled.View`
@@ -55,6 +59,7 @@ export const Button = styled.TouchableOpacity`
   height: 56px;
   margin-top: 24px;
   border-radius: 8px;
+  background: ${({ theme }) => theme.tabBarBackground};
 `;
 
 export const ButtonTitle = styled.Text`
@@ -143,5 +148,4 @@ export const RemoveButtonContainer = styled.View`
   width: 100px;
   height: 100px;
   border-radius: 12px;
-  background: ${({ theme }) => theme.background1};
 `;

@@ -40,7 +40,7 @@ export const RowContent = styled.View`
 `;
 
 export const DataTitle = styled.Text`
-  font-size: 18px;
+  font-size: 16px;
   color: ${({ theme }) => theme.title};
   font-weight: 700;
   align-items: center;
@@ -48,7 +48,7 @@ export const DataTitle = styled.Text`
 
 export const DataValue = styled.Text`
   flex: 1;
-  font-size: 16px;
+  font-size: 15px;
   color: ${({ theme }) => theme.text};
   font-weight: 400;
   text-align: center;

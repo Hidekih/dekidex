@@ -11,6 +11,7 @@ import {
   SpriteColorSection,
   SpriteGenderSection,
   ChangeSpriteGenderButton,
+  GradientBackground,
   PokemonAvatarContainer,
   PokeImage,
 } from './styles';
@@ -102,7 +103,11 @@ export function SpriteSection({ data }: SpriteSectionProps) {
   }
 
   return (
-    <Container primary={data.gradientColors[0]} secondary={data.gradientColors[1]}>
+    <Container>
+      <GradientBackground
+        start={{x: 0, y: 0}} end={{x: 1, y: 0}}
+        colors={data.gradientColors}
+      />
       <HeaderButtons>
         <SpriteColorSection>
           <ChangeSpriteColorButton 

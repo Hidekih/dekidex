@@ -105,13 +105,12 @@ export function Home() {
   };
 
   async function handleReFetch(distance: number)  {
-    console.log('Requested to load more: ' + distance);
     if (distance < 1 || isLoading || loadedAll) {
       return;
     }
 
     await fetchData(nextUri);
-  };
+  }
 
   const handleSelectPokemon = useCallback((url: string) => {
     navigate('Pokemon', { url });

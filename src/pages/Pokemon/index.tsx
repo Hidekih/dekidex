@@ -234,11 +234,13 @@ export function Pokemon() {
             </IconButtonContainer>
             <HeaderTitle>{pokemon.name}</HeaderTitle>
             <IconButtonContainer onPress={handleFavorited}>
-              { isFavorited ? (
-                <Ionicons name="md-heart-sharp" size={28} color={theme.shape} />
-              ) : (
-                <Ionicons name="md-heart-outline" size={28} color={theme.shape} />
-              )}
+              { 
+                isFavorited ? (
+                  <Ionicons name="md-heart-sharp" size={28} color={theme.shape} />
+                ) : (
+                  <Ionicons name="md-heart-outline" size={28} color={theme.shape} />
+                )
+              }
             </IconButtonContainer>
           </HeaderContent>
         </Header>
